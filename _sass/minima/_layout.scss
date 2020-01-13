@@ -282,3 +282,27 @@
 .post-bullets {
   color: black;
 }
+
+.word-cloud {
+  font-size: 120%;
+  font-weight: bold;
+  border: none;
+  
+  .site-category a {
+      color: #2fabbb;
+  }
+  
+  // .site-tag {
+  //     background-color: rgb(0, 170, 255);
+  //     padding: 5px;
+  //     text-align: center;
+  //     text-decoration: none;
+  //     display: inline-block;
+  //     margin: 4px 2px;
+  //     border-radius: 20px;
+  // }
+
+  .cloud-count {
+      color: gray;
+  }
+}
