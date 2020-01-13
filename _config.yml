@@ -21,3 +21,4 @@ github_username: diegoinacio
 theme: minima
 plugins:
   - jekyll-feed
+  - jemoji
