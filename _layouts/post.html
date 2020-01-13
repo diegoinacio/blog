@@ -6,9 +6,21 @@ layout: default
   <header class="post-header">
     <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
     <p class="post-meta">
-      <span>{{ page.date | date: "%B %-d, %Y" }}</span>
+      {{ page.date | date: "%B %-d, %Y" }}
       <span class="post-bullets"> • </span>
-      {% include read-time.html content=content %}
+      {% include read-time.html content=page.content %}
+      <!-- Show post categories -->
+      {% assign postCats = page.categories | sort %}
+      {% if postCats.size > 0 %}
+        <span class="post-bullets"> • </span>
+      {%- endif -%}
+      {% for category in postCats %}
+      <span class="post-category">
+          <a href="/category/{{ category | slugify }}">
+            [{{ category | replace: '-', ' ' }}]
+          </a>
+      </span>
+      {% endfor %}
     </p>
   </header>
 
