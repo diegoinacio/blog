@@ -253,3 +253,28 @@
     }
   }
 }
+
+////////////////////
+// Customizations //
+////////////////////
+
+.post-excerpt {
+  font-style: italic;
+  @include relative-font-size(1.0);
+}
+
+.reading-time {
+  color: #e97353;
+}
+
+.post-category {
+  @include relative-font-size(0.9);
+  
+  a {
+    color: #2fabbb;
+  }
+
+  a:hover {
+    color: black;
+  }
+}
