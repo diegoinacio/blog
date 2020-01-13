@@ -1,0 +1,7 @@
+<!-- Estimated reading time based on 180 words per minute -->
+<!-- according to http://en.wikipedia.org/wiki/Words_per_minute -->
+
+<span class="reading-time" title="Estimated read time">
+	{% assign words = include.content | strip_html | number_of_words %}
+	{{ words | divided_by: 180 | plus: 1 }} min read.
+</span>
