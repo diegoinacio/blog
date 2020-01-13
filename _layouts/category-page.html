@@ -49,12 +49,10 @@ layout: default
       <span class="site-category">
         <a href="/category/{{ category | first | slugify }}">
           {{ category[0] | replace:'-', ' ' }}
-        </a>
-        <span>
-          <div class="cloud-count">
+          <span class="cloud-count">
             [{{ category | last | size }}]
-          </div>
-        </span>
+          </span>
+        </a>
       </span>
     {% endif %}
   {% endfor %}
