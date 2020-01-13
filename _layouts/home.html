@@ -14,21 +14,34 @@ layout: default
     <ul class="post-list">
       {%- for post in site.posts -%}
       <li>
-        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-        <span class="post-meta">{{ post.date | date: date_format }}</span>
         <h3>
           <a class="post-link" href="{{ post.url | relative_url }}">
             {{ post.title | escape }}
           </a>
         </h3>
-        {%- if site.show_excerpts -%}
+        <div class="post-excerpt">
           {{ post.excerpt }}
-        {%- endif -%}
+        </div>
+        <span class="post-meta">
+          {{ post.date | date: "%B %-d, %Y" }}
+          <span class="post-bullets"> • </span>
+          {% include read-time.html content=post.content %}
+          <!-- Show post categories -->
+          {% assign postCats = post.categories | sort %}
+          {% if postCats.size > 0 %}
+            <span class="post-bullets"> • </span>
+          {%- endif -%}
+          {% for category in postCats %}
+          <span class="post-category">
+              <a href="/category/{{ category | slugify }}">
+                [{{ category | replace: '-', ' ' }}]
+              </a>
+          </span>
+          {% endfor %}
+        </span>
       </li>
       {%- endfor -%}
     </ul>
-
-    <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
   {%- endif -%}
 
 </div>
