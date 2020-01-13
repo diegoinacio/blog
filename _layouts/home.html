@@ -2,6 +2,25 @@
 layout: default
 ---
 
+<div class="word-cloud">
+  <h2>.categories.</h2>
+  {% assign siteCats = site.categories | sort %}
+  {% for category in siteCats %}
+    <span class="site-category">
+      <a href="/category/{{ category | first | slugify }}">
+        {{ category[0] | replace:'-', ' ' }}
+        <span class="cloud-count">
+          [{{ category | last | size }}]
+        </span>
+      </a>
+    </span>
+  {% endfor %}
+</div>
+
+<br>
+<hr style="border-top: gray;">
+<br>
+
 <div class="home">
   {%- if page.title -%}
     <h1 class="page-heading">{{ page.title }}</h1>
