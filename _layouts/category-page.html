@@ -1,0 +1,61 @@
+---
+layout: default
+---
+
+<h1>Category: {{ page.category }}</h1>
+<div class="home">
+  <ul class="post-list">
+    {% for post in site.categories[page.category] %}
+    <li>
+      <h3>
+        <a class="post-link" href="{{ post.url | relative_url }}">
+          {{ post.title | escape }}
+        </a>
+      </h3>
+      <div class="post-excerpt">
+        {{ post.excerpt }}
+      </div>
+      <span class="post-meta">
+        {{ post.date | date: "%B %-d, %Y" }}
+        <span class="post-bullets"> • </span>
+        {% include read-time.html content=post.content %}
+        <!-- Show post categories -->
+        {% assign postCats = post.categories | sort %}
+        {% if postCats.size > 0 %}
+          <span class="post-bullets"> • </span>
+        {%- endif -%}
+        {% for category in postCats %}
+        <span class="post-category">
+            <a href="/category/{{ category | slugify }}">
+              [{{ category | replace: '-', ' ' }}]
+            </a>
+        </span>
+        {% endfor %}
+      </span>
+    </li>
+    {%- endfor -%}
+  </ul>
+</div>
+
+<br>
+<hr style="border-top: gray;">
+<br>
+
+<div class="word-cloud">
+  <h2>Other Categories</h2>
+  {% assign siteCats = site.categories | sort %}
+  {% for category in siteCats %}
+    {% if category[0] != page.category %}
+      <span class="site-category">
+        <a href="/category/{{ category | first | slugify }}">
+          {{ category[0] | replace:'-', ' ' }}
+        </a>
+        <span>
+          <div class="cloud-count">
+            [{{ category | last | size }}]
+          </div>
+        </span>
+      </span>
+    {% endif %}
+  {% endfor %}
+</div>
