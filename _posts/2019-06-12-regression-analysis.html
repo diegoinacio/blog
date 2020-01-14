@@ -54,7 +54,7 @@ def correlation(X, Y):
     return cov/(sigma_X*sigma_Y)
 {% endhighlight %}
 
-<img src="/images/visualizations/regression_linear_correlation.png" alt="correlation"/>
+<img src="{{ site.baseurl }}{% link /images/visualizations/regression_linear_correlation.png %}" alt="correlation"/>
 
 <h3 id="linear-regression-simple">1. Simple Linear Regression</h3>
 
@@ -99,7 +99,7 @@ class linearRegression_simple(object):
         return self._m*x + self._b
 {% endhighlight %}
 
-<img src="/images/visualizations/regression_linear_pred.png" alt="simple linear regression"/>
+<img src="{{ site.baseurl }}{% link /images/visualizations/regression_linear_pred.png %}" alt="simple linear regression"/>
 
 <p>
     The residual is given by the <a href="https://en.wikipedia.org/wiki/Mean_squared_error">MSE</a> (or <em>mean squared error</em>), which is described by:
@@ -109,7 +109,7 @@ $$ \large
 MSE=\frac{1}{n} \sum_i^n (Y_i- \hat{Y}_i)^2
 $$
 
-<img src="/images/visualizations/regression_linear_residual.png" alt="residual"/>
+<img src="{{ site.baseurl }}{% link /images/visualizations/regression_linear_residual.png %}" alt="residual"/>
 
 <h3 id="linear-regression-multiple">2. Multiple Linear Regression</h3>
 
@@ -142,7 +142,7 @@ class linearRegression_multiple(object):
     The result of a three dimensional data system is a hyperplane, with one <em>dependent variable</em> and two <em>independent variable</em>, such as:
 </p>
 
-<img src="/images/visualizations/regression_linear_multiple_pred.png" alt="multiple linear regression"/>
+<img src="{{ site.baseurl }}{% link /images/visualizations/regression_linear_multiple_pred.png %}" alt="multiple linear regression"/>
 
 <h3 id="linear-regression-gradDesc">3. Gradient descent</h3>
 
@@ -190,7 +190,7 @@ class linearRegression_GD(object):
         return self._m*x + self._b
 {% endhighlight %}
 
-<img src="/images/visualizations/regression_linear_gradDesc.gif" alt="gradient descent regression"/>
+<img src="{{ site.baseurl }}{% link /images/visualizations/regression_linear_gradDesc.gif %}" alt="gradient descent regression"/>
 
 
 <h2 id="logistic-regression">2. Logistic Regression</h2>
@@ -263,7 +263,7 @@ class logisticRegression(object):
         return self._sigmoid(np.dot(x, self._theta.T)) > 0.5
 {% endhighlight %}
 
-<img src="/images/visualizations/regression_logistic_gradDesc.gif" alt="gradient descent logistic regression"/>
+<img src="{{ site.baseurl }}{% link /images/visualizations/regression_logistic_gradDesc.gif %}" alt="gradient descent logistic regression"/>
 
 <p>
     For the binary classification of a two-dimensional dataset, the line which describes the decision boundary is defined by:
@@ -279,7 +279,7 @@ $$ \large
     x_2=-\frac{\theta_0+\theta_1 x_1}{\theta_2}
 $$
 
-<img src="/images/visualizations/regression_logistic_pred.png" alt="logistic regression classification"/>
+<img src="{{ site.baseurl }}{% link /images/visualizations/regression_logistic_pred.png %}" alt="logistic regression classification"/>
 
 
 <h2 id="polynomial-regression">3. Polynomial Regression</h2>
@@ -298,7 +298,7 @@ $$
     we can see that it does not have a good linear solution.
 </p>
 
-<img src="/images/visualizations/regression_polynomial_linear.png" alt="polynomial regression linear"/>
+<img src="{{ site.baseurl }}{% link /images/visualizations/regression_polynomial_linear.png %}" alt="polynomial regression linear"/>
 
 <p>
     Thus, a good option would be to use the <a href="https://en.wikipedia.org/wiki/Polynomial_regression" target="_blank">polynomial regression</a>, which is a non-linear prediction model, defined by:
@@ -375,4 +375,4 @@ class polynomialRegression(object):
     Note that our class has an attribute called <em>degree</em> which is the maximum degree of our function $\large f(x)$. In our example it should be $\large m=3$.
 </p>
 
-<img src="/images/visualizations/regression_polynomial_pred.png" alt="polynomial regression"/>
+<img src="{{ site.baseurl }}{% link /images/visualizations/regression_polynomial_pred.png %}" alt="polynomial regression"/>

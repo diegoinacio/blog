@@ -17,11 +17,11 @@ Uma <em>métrica</em> sobre um conjunto $X$ qualquer pode ser entendida como uma
 <ul>
     <li><em>Ser positivamente definida</em>: A não negatividade é definida por $d(x,y) \leq 0$, para $x, y \in X$. Isso representa que a função de distância será sempre positiva ou $d \mapsto [0,\infty)$;</li>
     <li><em>Ser nula para pontos coincidentes</em>: O <a href="https://pt.wikipedia.org/wiki/Princ%C3%ADpio_da_identidade_dos_indiscern%C3%ADveis" target="_blank">princípio da identidade dos indiscerníveis</a> sustenta a ideia de que <em>x</em> e <em>y</em> são idênticos se compartilharem todas as suas propriedades. Analogamente à métrica, podemos afirmar que a função de distância será nula se $x, y \in X$ forem iguais, sendo $d(x,y) = 0 \Longleftrightarrow x = y$;</li>
-    <figure><img src="/images/content/metricasDist_condPositivo.gif" /></figure>
+    <figure><img src="{{ site.baseurl }}{% link /images/content/metricasDist_condPositivo.gif %}" /></figure>
     <li><em>Ser simétrica</em>: A <a href="https://pt.wikipedia.org/wiki/Função_simétrica" target="_blank">simetria</a> em uma função pode ser entendida pela propriedade de permanecer a mesma, independendo da ordem de seus argumentos. Dessa forma, podemos afirmar que $d(x,y) = d(y,x)$, para $x, y \in X$;</li>
-    <figure><img src="/images/content/metricasDist_condSimetria.gif" /></figure>
+    <figure><img src="{{ site.baseurl }}{% link /images/content/metricasDist_condSimetria.gif %}" /></figure>
     <li><em>Atender à inequação triangular</em>: A <a href="https://pt.wikipedia.org/wiki/Desigualdade_triangular" target="_blank">desigualdade triangular</a> é definida por $d(x,z) \leq d(x,y) + d(y,z)$, para $x, y, z \in X$. Isso quer dizer que, se tivermos 3 pontos quaisquer, nenhuma das distâncias entre eles deve ser maior que a soma das outras duas.</li>
-    <figure><img src="/images/content/metricasDist_condTriangulo.gif" /></figure>
+    <figure><img src="{{ site.baseurl }}{% link /images/content/metricasDist_condTriangulo.gif %}" /></figure>
 </ul>
 
 <h3>Norma e Espaço Lp</h3>
@@ -89,7 +89,7 @@ d_eucl = lambda x, y: np.sum((x - y)**2, axis=1)**0.5
 Exemplo de <em>distância euclidiana</em> no $\mathbb{R}^2$:
 
 <figure>
-    <img src="/images/visualizations/distancia_euclidiana.png" />
+    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_euclidiana.png %}" />
     <figcaption>
         <p style="text-align: center;color: #888888">
             Distância euclidiana entre pontos e coordenadas cartesianas, sendo <b>x</b> a origem.
@@ -132,7 +132,7 @@ d_manh = lambda x, y: np.sum(np.absolute(x - y), axis = 1)
 Exemplo de <em>distância de manhattan</em> no $\mathbb{R}^2$:
 
 <figure>
-    <img src="/images/visualizations/distancia_manhattan.png" />
+    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_manhattan.png %}" />
     <figcaption>
         <p style="text-align: center;color: #888888">
             Distância de manhattan entre pontos e coordenadas cartesianas, resultando em um padrão retilíneo. O ponto <b>x</b> é a origem.
@@ -174,7 +174,7 @@ d_cheb = lambda x, y: np.max(np.absolute(x - y), axis = 1)
 
 Exemplo de <em>distância de chebyshev</em> no $\mathbb{R}^2$:
 <figure>
-    <img src="/images/visualizations/distancia_chebyshev.png" />
+    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_chebyshev.png %}" />
     <figcaption>
         <p style="text-align: center;color: #888888">
             Distância de chebyshev entre pontos e coordenadas cartesianas, resultando em um padrão uniforme. O ponto <b>x</b> é a origem.
@@ -237,7 +237,7 @@ print(d_mink(x, y, 100))    # p = 100 Com p tendendo ao infinito, é aproximadam
 Exemplo de <em>distância de minkowski</em> no $\mathbb{R}^2$:
 
 <figure>
-    <img src="/images/visualizations/distancia_minkowskiA.png" />
+    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_minkowskiA.png %}" />
     <figcaption>
         <p style="text-align: center;color: #888888">
             Distância de minkowski entre pontos e coordenadas cartesianas, sendo <em>p = 0.5</em> e <b>x</b> sendo a origem.
@@ -245,7 +245,7 @@ Exemplo de <em>distância de minkowski</em> no $\mathbb{R}^2$:
     </figcaption>
 </figure>
 <figure>
-    <img src="/images/visualizations/distancia_minkowskiB.png" />
+    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_minkowskiB.png %}" />
     <figcaption>
         <p style="text-align: center;color: #888888">
             Distância de minkowski para diferentes valores de <b>p</b>.
@@ -277,7 +277,7 @@ def d_canb(x, y):
 Exemplo de <em>distância de canberra</em> no $\mathbb{R}^2$:
 
 <figure>
-    <img src="/images/visualizations/distancia_canberra.png" />
+    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_canberra.png %}" />
     <figcaption>
         <p style="text-align: center;color: #888888">
             Distância de canberra entre pontos e coordenadas cartesianas, sendo <b>x</b> um ponto qualquer que seja diferente de zero.
@@ -312,7 +312,7 @@ def d_coss(x, y):
 Exemplo de <em>distância do cosseno</em> no $\mathbb{R}^2$:
 
 <figure>
-    <img src="/images/visualizations/distancia_cosseno.png" />
+    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_cosseno.png %}" />
     <figcaption>
         <p style="text-align: center;color: #888888">
             Distância do cosseno entre pontos e coordenadas cartesianas, resultando em um padrão angular. O ponto x sendo diferente de zero.
@@ -348,7 +348,7 @@ Por exemplo, se <em>x = "cara"</em> e <em>y = "caro"</em>, então $d(x,y)=1$. Is
 Note que o mesmo conceito pode ser aplicado à dígitos em qualquer base. Recentemente escrevi um post sobre <a href="{{ site.baseurl }}{% link _posts/2018-06-22-representacao-ieee-754-para-numeros-reais.html %}" target="_blank">representação IEEE 754 para números reais</a> e aplicando essa representação em coordenadas no $\mathbb{R}^2$, temos o resultado da <em>distância de hamming</em> sendo:
 
 <figure>
-    <img src="/images/visualizations/distancia_hammingA.png" />
+    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_hammingA.png %}" />
     <figcaption>
         <p style="text-align: center;color: #888888">
             Distância de hamming entre pontos e coordenadas cartesianas, com valores convertidos para o padrão IEEE 754.
@@ -359,7 +359,7 @@ Note que o mesmo conceito pode ser aplicado à dígitos em qualquer base. Recent
 Aplicando o mesmo conceito em um trecho retirado do cordel <em>"A Chegada de Lampião no Inferno"</em>, de forma que <em>x = "Lampião"</em> e <em>y</em> é o conjunto com todas as palavras contidas no texto:
 
 <figure>
-    <img src="/images/visualizations/distancia_hammingB.png" />
+    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_hammingB.png %}" />
     <figcaption>
         <p style="text-align: center;color: #888888">
             Distância de hamming entre a palavra "Lampião" e todas as outras palavras do trecho da obra.

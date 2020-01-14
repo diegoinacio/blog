@@ -285,7 +285,7 @@ $$
 sendo a condição de parada quando $\lfloor\dotsb\lfloor\lfloor N/b \rfloor /b\rfloor\dotsb /b\rfloor = 0$. Para exemplificar, a conversão de $101_{10}$ para binário, fica:
 
 <figure>
-    <img src="/images/content/IEEE754_convInteiro.gif" />
+    <img src="{{ site.baseurl }}{% link /images/content/IEEE754_convInteiro.gif %}" />
     <figcaption>
         <p style="text-align: center;font-size: 75%;color: #888888">
             A divisão pela base <b>b</b> é realizada sucessivamente, até que o valor da divisão seja igual a zero. Os valores do resto são memorizados na ordem inversa. Ao final da sequência de restos, a ordem dos dígitos deverá ser invertida.
@@ -319,7 +319,7 @@ $$
 sendo que $\lfloor N \rfloor$ os mesmo que $N \mod 1 = N - \lfloor N \rfloor$. Para exemplificar, a conversão de $0.125_{10}$ para binário, fica:
 
 <figure>
-    <img src="/images/content/IEEE754_convFracA.gif" />
+    <img src="{{ site.baseurl }}{% link /images/content/IEEE754_convFracA.gif %}" />
     <figcaption>
         <p style="text-align: center;font-size: 75%;color: #888888">
             A mutiplicação pela base <b>b</b> é realizada sucessivamente, até que o valor da parte fracionária seja igual a zero. Os valores da parte inteira são extraídos e memorizados em sequência.
@@ -330,7 +330,7 @@ sendo que $\lfloor N \rfloor$ os mesmo que $N \mod 1 = N - \lfloor N \rfloor$. P
 É muito importante ressaltar que esta operação pode gerar uma série infinita de dígitos fracionários repetidos, da mesma forma que a divisão decimal de <b>1</b> por <b>3</b> gera uma <a href="https://pt.wikipedia.org/wiki/D%C3%ADzima_peri%C3%B3dica" target="_blank">dízima periódica</a> por exemplo. Isso ocorre quando a parte fracionária nunca assume o valor zero e entrar num loop infinito de valores. Podemos observar no exemplo a seguir, com a conversão de $0.3_{10}$ para binário:
 
 <figure>
-    <img src="/images/content/IEEE754_convFracB.gif" />
+    <img src="{{ site.baseurl }}{% link /images/content/IEEE754_convFracB.gif %}" />
     <figcaption>
         <p style="text-align: center;font-size: 75%;color: #888888">
             Note que a operação irá se repetir infinitamente do <b>.6</b> ao <b>.8</b>. A notação para tal repetição é utilizando um traço sobre o período, resultando em $.3_{10}=.0\overline{1001}_{2}$. Isso é o mesmo que $.3_{10}=(.0100110011001...)_{2}$.
@@ -379,7 +379,7 @@ print(conv_baseDecimal(conv_decimalBase(101.01, 8), 8))
 A representação <em>IEEE 754</em> para números reais possui uma "anatomia" básica. De uma forma geral, ela é dividia em 3 partes indispensáveis para determinar sua configuração. São elas: <em>Sinal</em>, <em>expoente</em> e <em>predicando</em> (ou mantissa).
 
 <figure>
-    <img src="/images/content/IEEE754_reprAnatomia_bits.png" />
+    <img src="{{ site.baseurl }}{% link /images/content/IEEE754_reprAnatomia_bits.png %}" />
     <figcaption>
         <p style="text-align: center;font-size: 75%;color: #888888">
             Anatomia básica da representação IEEE 754, sendo <b>s</b> o valor referente ao sinal, <b>q</b> o valor do expoente, <b>p</b> o valor do predicando, <b>n</b> a quantidade de dígitos da representação e <b>k</b> a quantidade de dígitos significativos. Note que a quantidade de dígitos do sinal é sempre igual a <b>1</b>.

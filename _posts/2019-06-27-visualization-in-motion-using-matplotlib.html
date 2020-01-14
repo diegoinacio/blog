@@ -55,19 +55,19 @@ for frame in range(NFRAMES):
 
 <table>
     <tr>
-        <td><img src='/images/visualizations/matplotlib_animation_colorShift.0000.png'></td>
-        <td><img src='/images/visualizations/matplotlib_animation_colorShift.0001.png'></td>
-        <td><img src='/images/visualizations/matplotlib_animation_colorShift.0002.png'></td>
+        <td><img src='{{ site.baseurl }}{% link /images/visualizations/matplotlib_animation_colorShift.0000.png %}'></td>
+        <td><img src='{{ site.baseurl }}{% link /images/visualizations/matplotlib_animation_colorShift.0001.png %}'></td>
+        <td><img src='{{ site.baseurl }}{% link /images/visualizations/matplotlib_animation_colorShift.0002.png %}'></td>
     </tr>
     <tr>
-        <td><img src='/images/visualizations/matplotlib_animation_colorShift.0003.png'></td>
-        <td><img src='/images/visualizations/matplotlib_animation_colorShift.0004.png'></td>
-        <td><img src='/images/visualizations/matplotlib_animation_colorShift.0005.png'></td>
+        <td><img src='{{ site.baseurl }}{% link /images/visualizations/matplotlib_animation_colorShift.0003.png %}'></td>
+        <td><img src='{{ site.baseurl }}{% link /images/visualizations/matplotlib_animation_colorShift.0004.png %}'></td>
+        <td><img src='{{ site.baseurl }}{% link /images/visualizations/matplotlib_animation_colorShift.0005.png %}'></td>
     </tr>
     <tr>
-        <td><img src='/images/visualizations/matplotlib_animation_colorShift.0006.png'></td>
-        <td><img src='/images/visualizations/matplotlib_animation_colorShift.0007.png'></td>
-        <td><img src='/images/visualizations/matplotlib_animation_colorShift.0008.png'></td>
+        <td><img src='{{ site.baseurl }}{% link /images/visualizations/matplotlib_animation_colorShift.0006.png %}'></td>
+        <td><img src='{{ site.baseurl }}{% link /images/visualizations/matplotlib_animation_colorShift.0007.png %}'></td>
+        <td><img src='{{ site.baseurl }}{% link /images/visualizations/matplotlib_animation_colorShift.0008.png %}'></td>
     </tr>
 </table>
 
@@ -123,7 +123,7 @@ anim.save('path/to/output/animated.gif', writer="imagemagick", extra_args="conve
     The result is an animated GIF such as the following example, which shows a <em>Reaction Diffusion System</em>.
 </p>
 
-<img src="/images/visualizations/matplotlib_animation_reactionDiffusion.gif" alt="reaction diffusion gif"/>
+<img src="{{ site.baseurl }}{% link /images/visualizations/matplotlib_animation_reactionDiffusion.gif %}" alt="reaction diffusion gif"/>
 
 
 <h2 id="exp-vid">3. Exporting videos</h2>

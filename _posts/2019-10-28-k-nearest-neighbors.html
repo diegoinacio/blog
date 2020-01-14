@@ -28,7 +28,7 @@ mathjax:    true
     As you can notice while reading the name of the algorithm, it is mainly supposed to classify or predict based on neighbor data samples. Thus, the parameter <b>k</b> defines the number of nearest neighbors which will be considered for both situation. If <b>k</b> is equal to 1 ($k=1$) then the object to be inferred will be labeled with the same class to its closest neighbor, given a vectorial space. If $k=n$ so the inference consider its n-closest neighbors, as you can see in the following image:
 </p>
 
-<img src="/images/visualizations/kNN_introduction.png" alt="introduction">
+<img src="{{ site.baseurl }}{% link /images/visualizations/kNN_introduction.png %}" alt="introduction">
 
 <p>
     Maybe you are thinking: "How do I know which data points are the closest to my object?".. The answer is <em>dissimilarity and distance measure</em>, given the $\mathbb{R}^n$ space. There is a bunch of methods to measure distances as you can see <a href="{{ site.baseurl }}{% link _posts/2018-08-27-metricas-de-distancias-e-dissimilaridade.html %}" target="_blank">here</a> but for the following examples lets consider only the <em>Euclidean Distance</em>, defined as:
@@ -73,7 +73,7 @@ class Distance(object):
     The result of the <em>classification</em> process of a <em>k-NN</em> model is the prediction of a categorical variable. The target object will be labeled based on the ranking of classes from its closest neighbors so the most frequent label will be chosen.
 </p>
 
-<img src="/images/visualizations/kNN_classificationA.gif" alt="classificationA">
+<img src="{{ site.baseurl }}{% link /images/visualizations/kNN_classificationA.gif %}" alt="classificationA">
 
 <p>
     The implementation of this algorithm is done as a class which inherits the Distance class, previously implemented.
@@ -108,7 +108,7 @@ class kNNClass(Distance):
     The method <em>fit</em> trains the model by associating each sample point <b>X</b> to its respective class <b>y</b>. Therefore, the method <em>pred</em> predicts the predicting class to each object <b>p</b> considering the most frequent class from its k-neighbors.
 </p>
 
-<img src="/images/visualizations/kNN_classificationB.png" alt="classificationB">
+<img src="{{ site.baseurl }}{% link /images/visualizations/kNN_classificationB.png %}" alt="classificationB">
 
 
 <h2 id="knn-predi">3. Prediction using k-NN</h2>
@@ -119,7 +119,7 @@ class kNNClass(Distance):
     Similarly to the classification algorithm, the <em>prediction</em> process of a <em>k-NN</em> model aims to define a result based on neighborhood but, in this case, we want to find non-categorical values. This process is realized by something similar to a <a href={{ site.baseurl }}{% link _posts/2019-06-12-regression-analysis.html %} target="_blank">regression</a> analysis, which the output is a mean value weighted by the proportional inverse of the distance from each neighbor. For example, given a ground truth function <b>Z</b> (left), we can extract some sample to be used as training data points (right).
 </p>
 
-<img src="/images/visualizations/kNN_regressionA.png" alt="regressionA">
+<img src="{{ site.baseurl }}{% link /images/visualizations/kNN_regressionA.png %}" alt="regressionA">
 
 <p>
     On the same way of the classification, the implementation of this algorithm is done as a class which inherits the Distance class.
@@ -154,4 +154,4 @@ class kNNRegr(Distance):
     The method <em>fit</em> trains the model by associating each sample of training point <b>X</b> to its respective dependent variable value <b>y</b>. However, the method <em>pred</em> predicts the value by realizing a distance-weighted mean of the respective values <b>v</b> of its neighbors. The final result is an interpolated value which approaches to the function <b>Z</b> depending on the parameter <b>k</b>.
 </p>
 
-<img src="/images/visualizations/kNN_regressionB.png" alt="regressionB">
+<img src="{{ site.baseurl }}{% link /images/visualizations/kNN_regressionB.png %}" alt="regressionB">
