@@ -7,7 +7,7 @@ layout: default
   {% assign siteCats = site.categories | sort %}
   {% for category in siteCats %}
     <span class="site-category">
-      <a href="/category/{{ category | first | slugify }}">
+      <a href="{{ 'category' | relative_url }}/{{ category[0] | slugify }}">
         {{ category[0] | replace:'-', ' ' }}
         <span class="cloud-count">
           [{{ category | last | size }}]
