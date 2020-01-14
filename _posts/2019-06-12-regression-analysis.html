@@ -1,0 +1,378 @@
+---
+layout:     post
+title:      Regression Analysis
+excerpt:    Analysis and implementation of some of the main Regression models from scratch.
+date:       2019-06-12
+categories: [Machine Learning, Algorithm]
+mathjax:    true
+---
+<p>
+    Regression analysis involves a set of techniques applied to <a href="https://en.wikipedia.org/wiki/Supervised_learning" target="_blank">supervised learning</a>, which proposes to infer the relationship between a <em>dependent variable</em> and one or more <em>independent variables</em>. There are so many methods and kinds of regression, which can be applied in different situations or for distinct purposes, but here we are going to address some well-known ones. They are:
+</p>
+
+<ul>
+    <li><a href="#linear-regression">1. Linear Regression</a><ul>
+        <li><a href="#linear-regression-simple">1.1. Simple Linear Regression</a></li>
+        <li><a href="#linear-regression-multiple">1.2. Multiple Linear Regression</a></li>
+        <li><a href="#linear-regression-gradDesc">1.3. Gradient descent</a></li>
+    </ul></li>
+    <li><a href="#logistic-regression">2. Logistic Regression</a></li>
+    <li><a href="#polynomial-regression">3. Polynomial Regression</a></li>
+</ul>
+
+<p>
+    The main goal of this post is to make a quick description and implementation, as clear and intuitive as possible. All models will be developed using only <em>Python</em> and <a href="http://www.numpy.org/" target="_blank">NumPy</a>, as well as no real dataset will be used (only data biasedly produced) for a better understanding and visualization of the results. Well, let's check it out.
+</p>
+
+
+<h2 id="linear-regression">1. Linear Regression</h2>
+
+<p><font color="888888">*[supervised, prediction]*</font></p>
+
+<p>
+    Linear regression can be understood as a statistical analysis process which infers the linear relationship between a dependent variable and one or more independent variables. One way to measure the degree of dependence between X and Y is by the correlation coefficient $\large \rho_ {XY}$, which is defined by:
+</p>
+
+$$ \large
+\rho_{XY}=\frac{cov(X,Y)}{\sigma_{X}\sigma_{Y}}=\frac{E[(X-\mu_{X})(Y-\mu_{Y})]}{\sigma_{X}\sigma_{Y}}
+$$
+
+where:
+
+<ul>
+    <li>$\large \mu$ is the expected value from a random variable;</li>
+    <li>$\large \sigma$ is the standard deviation from a random variable;</li>
+    <li>$\large E$ is the expected value operator;</li>
+    <li>$\large cov$ is the covariance.</li>
+</ul>
+
+{% highlight python %}
+def correlation(X, Y):
+    mu_X, mu_Y = X.mean(), Y.mean()
+    cov = ((X - mu_X)*(Y - mu_Y)).mean()
+    sigma_X, sigma_Y = X.std(), Y.std()
+    return cov/(sigma_X*sigma_Y)
+{% endhighlight %}
+
+<img src="/images/visualizations/regression_linear_correlation.png" alt="correlation"/>
+
+<h3 id="linear-regression-simple">1. Simple Linear Regression</h3>
+
+<p>
+    A <a href="https://en.wikipedia.org/wiki/Simple_linear_regression" target="_blank">simple linear regression</a> performs a treatment over two-dimensional sample points, which one represents the dependent variable <b>y</b> and the other one represents the independent variable <b>x</b>, analytically described by:
+</p>
+
+$$ \large
+    y_i=mx_i+b
+$$
+
+Where $m$ describes the <em>angular coefficient</em> (<e>or line slope</e>) and $b$ the <em>linear coefficient</em> (<em>or line y-intersept</em>). Both can be defined by:
+
+$$ \large
+    m=\frac{\sum_i^n (x_i-\overline{x})(y_i-\overline{y})}{\sum_i^n (x_i-\overline{x})^2}
+$$
+
+$$ \large
+    b=\overline{y}-m\overline{x}
+$$
+
+Where $\large \overline{y}$ and $\large \overline{x}$ are the mean values of $\large y$ and $\large x$, respectively.
+
+{% highlight python %}
+class linearRegression_simple(object):
+    def __init__(self):
+        # Init clas
+        self._m = 0
+        self._b = 0
+    
+    def fit(self, X, y):
+        # Train model
+        X_, y_ = X.mean(), y.mean()
+        num = ((X - X_)*(y - y_)).sum()
+        den = ((X - X_)**2).sum()
+        self._m = num/den
+        self._b = y_ - self._m*X_
+    
+    def pred(self, x):
+        # Predict
+        x = np.array(x)
+        return self._m*x + self._b
+{% endhighlight %}
+
+<img src="/images/visualizations/regression_linear_pred.png" alt="simple linear regression"/>
+
+<p>
+    The residual is given by the <a href="https://en.wikipedia.org/wiki/Mean_squared_error">MSE</a> (or <em>mean squared error</em>), which is described by:
+</p>
+
+$$ \large
+MSE=\frac{1}{n} \sum_i^n (Y_i- \hat{Y}_i)^2
+$$
+
+<img src="/images/visualizations/regression_linear_residual.png" alt="residual"/>
+
+<h3 id="linear-regression-multiple">2. Multiple Linear Regression</h3>
+
+<p>
+    A <em>multiple linear regression</em> performs a treatment over n-dimensional sample points, which one represents the dependent variable $\large y$ and other one or more represent the independent variables $\large x_n$, analytically described by:
+</p>
+
+$$ \large
+y=m_1x_1+m_2x_2+...+m_nx_n+b
+$$
+
+{% highlight python %}
+class linearRegression_multiple(object):
+    def __init__(self):
+        self._m = 0
+        self._b = 0
+    
+    def fit(self, X, y):
+        X_, y_ = X.mean(axis=0), y.mean(axis=0)
+        num = ((X - X_)*(y - y_)).sum(axis=0)
+        den = ((X - X_)**2).sum(axis = 0)
+        self._m = num/den
+        self._b = y_ - (self._m*X_).sum()
+    
+    def pred(self, x):
+        return (self._m*x).sum(axis=1) + self._b
+{% endhighlight %}
+
+<p>
+    The result of a three dimensional data system is a hyperplane, with one <em>dependent variable</em> and two <em>independent variable</em>, such as:
+</p>
+
+<img src="/images/visualizations/regression_linear_multiple_pred.png" alt="multiple linear regression"/>
+
+<h3 id="linear-regression-gradDesc">3. Gradient descent</h3>
+
+<p>
+    The use of gradient descent for the linear regression solution is given by the process in minimizing the errors of the angular coefficients <b>m</b> and scalar coefficient <b>b</b>, such that:
+</p>
+
+$$ \large
+    e_{m,b}=\frac{1}{n} \sum_i^n (y_i-(mx_i+b))^2
+$$
+
+<p>
+    To perform the gradient descent as a function of the error, it is necessary to calculate the gradient vector $\large \nabla$ of the function, described by:
+</p>
+
+$$ \large
+\nabla e_{m,b}=\Big\langle\frac{\partial e}{\partial m},\frac{\partial e}{\partial b}\Big\rangle
+$$
+
+Where:
+
+$$ \large
+\begin{aligned}
+    \frac{\partial e}{\partial m}&=\frac{2}{n} \sum_{i}^{n}-x_i(y_i-(mx_i+b)), \\
+    \frac{\partial e}{\partial b}&=\frac{2}{n} \sum_{i}^{n}-(y_i-(mx_i+b))
+\end{aligned}
+$$
+
+{% highlight python %}
+class linearRegression_GD(object):
+    def __init__(self, mo=0, bo=0, rate=0.001):
+        self._m = mo      # initial value for m
+        self._b = bo      # initial value for b
+        self.rate = rate  # iteration's rate
+        
+    def fit_step(self, X, y):
+        n = X.size
+        dm = (2/n)*np.sum(-x*(y - (self._m*x + self._b)))
+        db = (2/n)*np.sum(-(y - (self._m*x + self._b)))
+        self._m -= dm*self.rate
+        self._b -= db*self.rate
+        
+    def pred(self, x):
+        x = np.array(x)
+        return self._m*x + self._b
+{% endhighlight %}
+
+<img src="/images/visualizations/regression_linear_gradDesc.gif" alt="gradient descent regression"/>
+
+
+<h2 id="logistic-regression">2. Logistic Regression</h2>
+
+<p><font color="888888">*[supervised, classification]*</font></p>
+
+<p>
+    <a href="https://en.wikipedia.org/wiki/Logistic_regression" target="_blank">Logistic regression</a> is a statistical process similar to linear regression, which solves classification problems by means of a hypothesis over the discrete values $\large y_i$, represented by:
+</p>
+
+$$ \large
+h_{\theta}(x)=g(\theta^Tx)=\frac{e^{\theta^Tx}}{1+e^{\theta^Tx}}=\frac{1}{1+e^{-\theta^Tx}}
+$$
+so that:
+$$ \large
+\theta^Tx=
+\begin{bmatrix}
+    \theta_0 \\
+    \theta_1 \\
+    \vdots \\
+    \theta_i
+\end{bmatrix}
+\begin{bmatrix}
+    1 & x_{11} & \cdots & x_{1i} \\
+    1 & x_{21} & \cdots & x_{2i} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    1 & x_{n1} & \cdots & x_{ni}
+\end{bmatrix}
+$$
+
+where:
+
+<ul>
+    <li>$\large h_\theta(x)$ is the hypothesis;</li>
+    <li>$\large g(z)$ is the logistic function or <em>sigmoid</em>;</li>
+    <li>$\large \theta_i$ is the parameters (or <em>weights</em>).</li>
+</ul>
+
+<p>
+    As similar as linear regression, logistic regression can be adjusted by gradient descent so it is necessary to calculate the sigmoid function gradient, described by:
+</p>
+
+$$ \large
+    g'(z)=\frac{d}{dz}\frac{1}{1+e^{-z}}=\frac{e^{-z}}{(1+e^-z)^2}=g(z)(1-g(z))
+$$
+
+{% highlight python %}
+class logisticRegression(object):
+    def __init__(self, rate=0.001, iters=1024):
+        self._rate = rate
+        self._iters = iters
+        self._theta = None
+    
+    def _sigmoid(self, Z):
+        return 1/(1 + np.exp(-Z))
+    
+    def _dsigmoid(self, Z):
+        return self._sigmoid(Z)*(1 - self._sigmoid(Z))
+
+    def fit(self, X, y):
+        self._theta = np.ones((1, X.shape[-1]))
+        for i in range(self._iters):
+            thetaTx = np.dot(X, self._theta.T)
+            h = self._sigmoid(thetaTx)
+            delta = h - y.T
+            grad = np.dot(X.T, delta).T
+            self._theta -= grad*self._rate
+
+    def pred(self, x):
+        return self._sigmoid(np.dot(x, self._theta.T)) > 0.5
+{% endhighlight %}
+
+<img src="/images/visualizations/regression_logistic_gradDesc.gif" alt="gradient descent logistic regression"/>
+
+<p>
+    For the binary classification of a two-dimensional dataset, the line which describes the decision boundary is defined by:
+</p>
+
+$$ \large
+    \theta_0+\theta_1 x_1+\theta_2 x_2=0
+$$
+
+Considering $\large x_2$ as the vertical axis:
+
+$$ \large
+    x_2=-\frac{\theta_0+\theta_1 x_1}{\theta_2}
+$$
+
+<img src="/images/visualizations/regression_logistic_pred.png" alt="logistic regression classification"/>
+
+
+<h2 id="polynomial-regression">3. Polynomial Regression</h2>
+
+<p><font color="888888">*[supervised, prediction]*</font></p>
+
+<p>
+    When a dataset is not linearly related or linearly separable, linear regression or logistic regression do not provide the best fit solution. For example, given the function:
+</p>
+
+$$ \large
+    f(x)=x^3-3x^2+x+1+\epsilon
+$$
+
+<p>
+    we can see that it does not have a good linear solution.
+</p>
+
+<img src="/images/visualizations/regression_polynomial_linear.png" alt="polynomial regression linear"/>
+
+<p>
+    Thus, a good option would be to use the <a href="https://en.wikipedia.org/wiki/Polynomial_regression" target="_blank">polynomial regression</a>, which is a non-linear prediction model, defined by:
+</p>
+
+$$ \large
+\vec{y}=\mathbf{X}\vec{\mathbf{\beta}}+\vec{\epsilon}
+$$
+
+<p>
+    where $\large \mathbf{X}$ (or $\large \mathbf{V}$) is the Vandermonde's matrix of the independent variable, parametrised by the maximum degree $\large m$, a response vector $\large \vec{y}$, a parameter vector $\large \vec{\mathbf{\beta}}$ and a random error vector $\large \vec{\epsilon}$. In the form of a system of linear equations, we have:
+</p>
+
+$$ \large
+\begin{bmatrix}
+    y_1 \\
+    y_2 \\
+    y_3 \\
+    \vdots \\
+    y_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+    1 & x_1 & x_1^2 &\cdots & x_1^m \\
+    1 & x_2 & x_2^2 & \cdots & x_2^m \\
+    1 & x_3 & x_3^2 & \cdots & x_3^m \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    1 & x_n & x_n^2 & \cdots & x_n^m
+\end{bmatrix}
+\begin{bmatrix}
+    \beta_1 \\
+    \beta_2 \\
+    \beta_3 \\
+    \vdots \\
+    \beta_m
+\end{bmatrix}
++
+\begin{bmatrix}
+    \epsilon_1 \\
+    \epsilon_2 \\
+    \epsilon_3 \\
+    \vdots \\
+    \epsilon_n
+\end{bmatrix}
+$$
+
+<p>
+    By means of the Least Squares Method, the estimated coefficient vector is given by:
+</p>
+
+$$ \large
+\widehat{\vec{\mathbf{\beta}}}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\vec{y}
+$$
+
+{% highlight python %}
+class polynomialRegression(object):
+    def __init__(self, degree=1):
+        self._degree = degree
+        self._beta = None
+
+    def fit(self, X, y):
+        V = np.stack([X**i for i in range(self._degree + 1)], axis=0).T
+        VTV = np.dot(V.T, V)
+        VTV_i = np.linalg.inv(VTV)
+        Vi = np.dot(VTV_i, V.T)
+        self._beta = np.dot(Vi, y)
+
+    def pred(self, x):
+        V = np.stack([x**i for i in range(self._degree + 1)], axis=0).T
+        return np.dot(V, self._beta)
+{% endhighlight %}
+
+<p>
+    Note that our class has an attribute called <em>degree</em> which is the maximum degree of our function $\large f(x)$. In our example it should be $\large m=3$.
+</p>
+
+<img src="/images/visualizations/regression_polynomial_pred.png" alt="polynomial regression"/>

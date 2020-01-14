@@ -1,0 +1,157 @@
+---
+layout:     post
+title:      k-Nearest Neighbors
+excerpt:    Analysis and implementation of the k-nearest neighbors algorithm for classification and prediction.
+date:       2019-10-28
+categories: [Machine Learning, Algorithm]
+mathjax:    true
+---
+
+<p>
+    The <a href="https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm" target="_blank">k-nearest neighbors</a> algorithm or <b>k-NN</b> is an <a href="https://en.wikipedia.org/wiki/Instance-based_learning" target="_blank">instance-based learning</a> method which is used for both classification and prediction.
+</p>
+
+<ul>
+    <li><a href="#knn-intro">1. Introduction to k-NN</a></li>
+    <li><a href="#knn-class">2. Classification using k-NN</a></li>
+    <li><a href="#knn-predi">3. Prediction using k-NN</a></li>
+</ul>
+
+<p>
+    The main goal of this post is to make a quick description and implementation from scratch as clear and intuitive as possible. All models will be developed using only <em>Python</em> and <a href="http://www.numpy.org/" target="_blank">NumPy</a> and no real dataset will be used (only data biasedly produced) for a better understanding and visualization of the results. Well, let's check it out.
+</p>
+
+
+<h2 id="knn-intro">1. Introduction to k-NN</h2>
+
+<p>
+    As you can notice while reading the name of the algorithm, it is mainly supposed to classify or predict based on neighbor data samples. Thus, the parameter <b>k</b> defines the number of nearest neighbors which will be considered for both situation. If <b>k</b> is equal to 1 ($k=1$) then the object to be inferred will be labeled with the same class to its closest neighbor, given a vectorial space. If $k=n$ so the inference consider its n-closest neighbors, as you can see in the following image:
+</p>
+
+<img src="/images/visualizations/kNN_introduction.png" alt="introduction">
+
+<p>
+    Maybe you are thinking: "How do I know which data points are the closest to my object?".. The answer is <em>dissimilarity and distance measure</em>, given the $\mathbb{R}^n$ space. There is a bunch of methods to measure distances as you can see <a href="{{ site.baseurl }}{% link _posts/2018-08-27-metricas-de-distancias-e-dissimilaridade.html %}" target="_blank">here</a> but for the following examples lets consider only the <em>Euclidean Distance</em>, defined as:
+</p>
+
+<div>
+    $$ \large \displaystyle
+        d(p,q) \mapsto \|p-q\|_2 = \left[\sum_{i}^{n}(p_i-q_i)^2\right]^\frac{1}{2} = \sqrt{\sum_{i}^{n}(p_i-q_i)^2}
+    $$
+</div>
+
+{% highlight python %}
+ldist = ['euclidian', 'manhattan', 'chebyshev', 'canberra', 'cosine']
+
+class Distance(object):
+    def __init__(self, metric='euclidian'):
+        super(Distance, self).__init__()
+        if metric not in ldist:
+            raise ValueError('Metric does not exist! Choose between: {}'.format(ldist))
+        self._metric = metric
+    
+    @property
+    def metric(self):
+        return self._metric
+    
+    @metric.setter
+    def metric(self, m):
+        if m not in ldist:
+            raise ValueError('Metric does not exist! Choose between: {}'.format(ldist))
+        self._metric = m
+    
+    def distance(self, p, q):
+        return np.sum((p - q)**2, axis=1)**0.5
+{% endhighlight %}
+
+
+<h2 id="knn-class">2. Classification using k-NN</h2>
+
+<p><font color="888888">*[supervised, classification]*</font></p>
+
+<p>
+    The result of the <em>classification</em> process of a <em>k-NN</em> model is the prediction of a categorical variable. The target object will be labeled based on the ranking of classes from its closest neighbors so the most frequent label will be chosen.
+</p>
+
+<img src="/images/visualizations/kNN_classificationA.gif" alt="classificationA">
+
+<p>
+    The implementation of this algorithm is done as a class which inherits the Distance class, previously implemented.
+</p>
+
+{% highlight python %}
+class kNNClass(Distance):
+    def __init__(self, k=1):
+        super(kNNClass, self).__init__()
+        self._k = k
+        self._q = None
+        self._class = None
+    
+    def fit(self, X, y):
+        self._q = X
+        self._class = y
+    
+    def pred(self, P):
+        y, NNs = [], []
+        for i, p in enumerate(P):
+            dist = self.distance(p, self._q)
+            odist = np.argsort(dist)[:self._k]
+            fdist = np.ravel(self._class[odist])
+            hist = np.bincount(fdist)
+            index = np.argmax(hist)
+            y += [index]
+            NNs += [odist]
+        return np.array(y), np.array(NNs)
+{% endhighlight %}
+
+<p>
+    The method <em>fit</em> trains the model by associating each sample point <b>X</b> to its respective class <b>y</b>. Therefore, the method <em>pred</em> predicts the predicting class to each object <b>p</b> considering the most frequent class from its k-neighbors.
+</p>
+
+<img src="/images/visualizations/kNN_classificationB.png" alt="classificationB">
+
+
+<h2 id="knn-predi">3. Prediction using k-NN</h2>
+
+<p><font color="888888">*[supervised, prediction]*</font></p>
+
+<p>
+    Similarly to the classification algorithm, the <em>prediction</em> process of a <em>k-NN</em> model aims to define a result based on neighborhood but, in this case, we want to find non-categorical values. This process is realized by something similar to a <a href={{ site.baseurl }}{% link _posts/2019-06-12-regression-analysis.html %} target="_blank">regression</a> analysis, which the output is a mean value weighted by the proportional inverse of the distance from each neighbor. For example, given a ground truth function <b>Z</b> (left), we can extract some sample to be used as training data points (right).
+</p>
+
+<img src="/images/visualizations/kNN_regressionA.png" alt="regressionA">
+
+<p>
+    On the same way of the classification, the implementation of this algorithm is done as a class which inherits the Distance class.
+</p>
+
+{% highlight python %}
+class kNNRegr(Distance):
+    def __init__(self, k=1):
+        super(kNNRegr, self).__init__()
+        self._k = k
+        self._q = None
+        self._v = None
+    
+    def fit(self, X, y):
+        self._q = X
+        self._v = y
+        
+    def pred(self, P):
+        y, NNs = [], []
+        for i, p in enumerate(P):
+            dist = self.distance(p, self._q)
+            odist = np.argsort(dist)[:self._k]
+            fdist = np.ravel(self._v[odist])
+            ndist = dist[odist]
+            ndist /= np.sum(ndist)
+            y += [np.sum(fdist*np.flipud(ndist))]
+            NNs += [odist]
+        return np.array(y), np.array(NNs)
+{% endhighlight %}
+
+<p>
+    The method <em>fit</em> trains the model by associating each sample of training point <b>X</b> to its respective dependent variable value <b>y</b>. However, the method <em>pred</em> predicts the value by realizing a distance-weighted mean of the respective values <b>v</b> of its neighbors. The final result is an interpolated value which approaches to the function <b>Z</b> depending on the parameter <b>k</b>.
+</p>
+
+<img src="/images/visualizations/kNN_regressionB.png" alt="regressionB">
