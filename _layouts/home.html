@@ -52,7 +52,7 @@ layout: default
           {%- endif -%}
           {% for category in postCats %}
           <span class="post-category">
-              <a href="/category/{{ category | slugify }}">
+              <a href="{{ 'category' | relative_url }}/{{ category | slugify }}">
                 [{{ category | replace: '-', ' ' }}]
               </a>
           </span>
