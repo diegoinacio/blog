@@ -9,9 +9,10 @@
 # 'bundle exec jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: Diego Inácio
+title: Diego Inácio | my personal blog
+title_post: Diego Inácio's blog
 email: diegodci@gmail.com
-description: my personal blog
+description: Blog about science, mathematics and computing.
 url: http://diegoinacio.github.io/blog/
 
 # Social networks
