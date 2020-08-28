@@ -14,8 +14,6 @@
     <!-- ! Include custom meta tags -->
   {%- endcomment -%}
 
-  <meta name="test" content="{{ page.path }}">
-
   {% if page.path contains '_posts/' %}
     <title>{{ page.title }} | {{ site.title_post }}</title>
     <meta property="og:title" content="{{ page.title }} | {{ site.title_post }}">
@@ -29,14 +27,15 @@
     <meta property="og:description" content="Posts about {{ page.category }}.">
     <meta property="og:type" content="website" />
   {% else %}
-    <title>{{ site.title }} | </title>
+    <title>{{ site.title }}</title>
     <meta property="og:title" content="{{ site.title }}">
     <meta name="description" content="{{ site.description }}">
     <meta property="og:description" content="{{ site.description }}">
     <meta property="og:type" content="website" />
   {% endif %}
+  {%- assign site_url = site.url | replace: "/blog/","/blog" -%}
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.url }}">
-  <meta property="og:url" content="{{ page.url | replace:'index.html','' | prepend: site.url }}">
+  <meta property="og:url" content="{{ page.url | replace:'index.html','' | prepend: site_url }}">
   <meta property="og:site_name" content="Diego Inácio">
 
   <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
