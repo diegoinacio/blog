@@ -272,12 +272,16 @@
   @include relative-font-size(0.9);
   
   a {
-    color: #2fabbb;
+    color: $post-category;
   }
 
   a:hover {
     color: black;
   }
+}
+
+#post-category {
+  color: $post-category;
 }
 
 .post-bullets {
@@ -290,7 +294,7 @@
   border: none;
   
   .site-category a {
-      color: #2fabbb;
+      color: $post-category;
   }
 
   .site-category a:hover {
