@@ -34,7 +34,7 @@
     <meta property="og:type" content="website" />
   {% endif %}
   {%- assign site_url = site.url | replace: "/blog/","/blog" -%}
-  <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.url }}">
+  <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site_url }}">
   <meta property="og:url" content="{{ page.url | replace:'index.html','' | prepend: site_url }}">
   <meta property="og:site_name" content="Diego Inácio">
 
