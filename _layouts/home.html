@@ -8,10 +8,7 @@ layout: default
   {% for category in siteCats %}
     <span class="site-category">
       <a href="{{ 'category' | relative_url }}/{{ category[0] | slugify }}">
-        {{ category[0] | replace:'-', ' ' }}
-        <span class="cloud-count">
-          [{{ category | last | size }}]
-        </span>
+        {{ category[0] | replace:'-', '' }}<span class="cloud-count">[{{ category | last | size }}]</span>
       </a>
     </span>
   {% endfor %}
@@ -45,7 +42,7 @@ layout: default
           {{ post.date | date: "%B %-d, %Y" }}
           <span class="post-bullets"> • </span>
           {% include read-time.html content=post.content %}
-          <!-- Show post categories -->
+          <!-- ! Show post categories -->
           {% assign postCats = post.categories | sort %}
           {% if postCats.size > 0 %}
             <span class="post-bullets"> • </span>
