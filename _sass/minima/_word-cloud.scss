@@ -1,0 +1,28 @@
+/**
+ * Word Cloud
+ */
+.word-cloud {
+  font-size: 110%;
+  font-weight: bold;
+
+  .site-category {
+    padding: 0.5rem;
+
+    a {
+      color: $post-category;
+
+      .cloud-count {
+        transition: $transition-link color;
+        color: $grey-color;
+      }
+    }
+
+    a:hover {
+      color: $grey-color-dark;
+
+      .cloud-count {
+        color: $grey-color-light;
+      }
+    }
+  }
+}
