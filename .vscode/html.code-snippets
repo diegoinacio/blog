@@ -1,0 +1,17 @@
+{
+	"Post Front Matter": {
+		"scope": "html",
+		"prefix": "Include",
+		"body": [
+			"---",
+			"layout:     post",
+			"title:      ${1:Post Title}",
+			"excerpt:    ${2:Post excerpt ...}",
+			"date:       $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE"
+			"categories: [${3:Categories}]",
+			"image:      /images/headers/${4:image}.jpg"
+			"mathjax:    ${5|true,false|}",
+			"---",
+		]
+	}
+}
