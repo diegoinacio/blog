@@ -272,4 +272,51 @@
       @include relative-font-size(1.125);
     }
   }
+
+  // ! Content table selectors
+  .content-table {
+    font-weight: bold;
+
+    ul {
+      list-style-type: none;
+      counter-reset: list;
+
+      li a:before {
+        transition: $transition-link color;
+        color: $grey-color-light;
+        counter-increment: list;
+        content: counters(list, ".") ". ";
+      }
+
+      li a:hover::before {
+        color: $grey-color;
+      }
+    }
+  }
+
+  // ! Anchor content selectors
+  counter-reset: section;
+
+  h2.anchor-content {
+    counter-reset: subsection;
+
+    &::before {
+      color: $grey-color;
+      counter-increment: section;
+      content: counters(section, ".") ". ";
+    }
+  }
+
+  h3.anchor-content {
+    &::before {
+      color: $grey-color;
+      counter-increment: subsection;
+      content: counter(section) "." counter(subsection) " ";
+    }
+  }
+
+  // ! Reference table selectors
+  .references {
+    color: $grey-color;
+  }
 }
