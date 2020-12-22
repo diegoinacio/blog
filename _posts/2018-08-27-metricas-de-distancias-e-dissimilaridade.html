@@ -7,63 +7,83 @@ categories: [Linear Algebra]
 mathjax:    true
 ---
 
-A métrica de distância é uma ferramenta essencial para inúmeras áreas da matemática e computação, tais como: Geometria, probabilidade e estatística, teoria dos grafos, redes e agrupamentos (<em>clustering</em>), sistemas de recomendação, reconhecimento de padrões, visão computacional, computação gráfica, astronomia, biologia molecular, física e muitos outros âmbitos da ciência e tecnologia. Temos o conceito de distância muito bem estabelecido em nosso consciente como uma medida do espaço que separa dois objetos. Porém, talvez, esse entendimento não seja tão intuitivo, quando pensamos em similaridade entre os mesmos. Se considerarmos que dois objetos possuem <em>n</em> attributos diferenciaveis em comum, podemos entender que o conceito de <em>dissimilaridade</em> é uma forma generalizada da distância entre eles. Portanto, daqui em diante, trataremos tanto a <em>distância</em> quanto a <em>dissimilaridade</em> como a mesma coisa.
+<p>A métrica de distância é uma ferramenta essencial para inúmeras áreas da matemática e computação, tais como: Geometria, probabilidade e estatística, teoria dos grafos, redes e agrupamentos (<em>clustering</em>), sistemas de recomendação, reconhecimento de padrões, visão computacional, computação gráfica, astronomia, biologia molecular, física e muitos outros âmbitos da ciência e tecnologia. Temos o conceito de distância muito bem estabelecido em nosso consciente como uma medida do espaço que separa dois objetos. Porém, talvez, esse entendimento não seja tão intuitivo, quando pensamos em similaridade entre os mesmos. Se considerarmos que dois objetos possuem <em>n</em> attributos diferenciaveis em comum, podemos entender que o conceito de <em>dissimilaridade</em> é uma forma generalizada da distância entre eles. Portanto, daqui em diante, trataremos tanto a <em>distância</em> quanto a <em>dissimilaridade</em> como a mesma coisa.</p>
 
+<div class="content-table">
+  <ul>
+    <li><a href="#propriedades">Propriedades</a>
+      <ul>
+        <li><a href="#propriedades-norma">Norma e Espaço Lp</a></li>
+      </ul>
+    </li>
+    <li><a href="#distancias">Métricas de distância</a>
+      <ul>
+        <li><a href="#distancia-euclidiana">Distância Euclidiana</a></li>
+        <li><a href="#distancia-manhattan">Distância de Manhattan</a></li>
+        <li><a href="#distancia-chebyshev">Distância de Chebyshev</a></li>
+        <li><a href="#distancia-minkowski">Distância de Minkowski</a></li>
+        <li><a href="#distancia-canberra">Distância de Canberra</a></li>
+        <li><a href="#distancia-cosseno">Distância do Cosseno</a></li>
+        <li><a href="#distancia-hamming">Distância de Hamming</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
 
-<h2>Propriedades</h2>
+<h2 id="propriedades" class="anchor-content">Propriedades</h2>
 
-Uma <em>métrica</em> sobre um conjunto $X$ qualquer pode ser entendida como uma função $d : X \times X \mapsto [0,\infty)$, que deve satisfazer as seguintes condições:
+<p>Uma <em>métrica</em> sobre um conjunto $X$ qualquer pode ser entendida como uma função $d : X \times X \mapsto [0,\infty)$, que deve satisfazer as seguintes condições:</p>
 
 <ul>
-    <li><em>Ser positivamente definida</em>: A não negatividade é definida por $d(x,y) \leq 0$, para $x, y \in X$. Isso representa que a função de distância será sempre positiva ou $d \mapsto [0,\infty)$;</li>
-    <li><em>Ser nula para pontos coincidentes</em>: O <a href="https://pt.wikipedia.org/wiki/Princ%C3%ADpio_da_identidade_dos_indiscern%C3%ADveis" target="_blank">princípio da identidade dos indiscerníveis</a> sustenta a ideia de que <em>x</em> e <em>y</em> são idênticos se compartilharem todas as suas propriedades. Analogamente à métrica, podemos afirmar que a função de distância será nula se $x, y \in X$ forem iguais, sendo $d(x,y) = 0 \Longleftrightarrow x = y$;</li>
-    <figure><img src="{{ site.baseurl }}{% link /images/content/metricasDist_condPositivo.gif %}" /></figure>
-    <li><em>Ser simétrica</em>: A <a href="https://pt.wikipedia.org/wiki/Função_simétrica" target="_blank">simetria</a> em uma função pode ser entendida pela propriedade de permanecer a mesma, independendo da ordem de seus argumentos. Dessa forma, podemos afirmar que $d(x,y) = d(y,x)$, para $x, y \in X$;</li>
-    <figure><img src="{{ site.baseurl }}{% link /images/content/metricasDist_condSimetria.gif %}" /></figure>
-    <li><em>Atender à inequação triangular</em>: A <a href="https://pt.wikipedia.org/wiki/Desigualdade_triangular" target="_blank">desigualdade triangular</a> é definida por $d(x,z) \leq d(x,y) + d(y,z)$, para $x, y, z \in X$. Isso quer dizer que, se tivermos 3 pontos quaisquer, nenhuma das distâncias entre eles deve ser maior que a soma das outras duas.</li>
-    <figure><img src="{{ site.baseurl }}{% link /images/content/metricasDist_condTriangulo.gif %}" /></figure>
+  <li><em>Ser positivamente definida</em>: A não negatividade é definida por $d(x,y) \leq 0$, para $x, y \in X$. Isso representa que a função de distância será sempre positiva ou $d \mapsto [0,\infty)$;</li>
+  <li><em>Ser nula para pontos coincidentes</em>: O <a href="https://pt.wikipedia.org/wiki/Princ%C3%ADpio_da_identidade_dos_indiscern%C3%ADveis" target="_blank">princípio da identidade dos indiscerníveis</a> sustenta a ideia de que <em>x</em> e <em>y</em> são idênticos se compartilharem todas as suas propriedades. Analogamente à métrica, podemos afirmar que a função de distância será nula se $x, y \in X$ forem iguais, sendo $d(x,y) = 0 \Longleftrightarrow x = y$;</li>
+  <figure><img src="{{ site.baseurl }}{% link /images/content/metricasDist_condPositivo.gif %}" /></figure>
+  <li><em>Ser simétrica</em>: A <a href="https://pt.wikipedia.org/wiki/Função_simétrica" target="_blank">simetria</a> em uma função pode ser entendida pela propriedade de permanecer a mesma, independendo da ordem de seus argumentos. Dessa forma, podemos afirmar que $d(x,y) = d(y,x)$, para $x, y \in X$;</li>
+  <figure><img src="{{ site.baseurl }}{% link /images/content/metricasDist_condSimetria.gif %}" /></figure>
+  <li><em>Atender à inequação triangular</em>: A <a href="https://pt.wikipedia.org/wiki/Desigualdade_triangular" target="_blank">desigualdade triangular</a> é definida por $d(x,z) \leq d(x,y) + d(y,z)$, para $x, y, z \in X$. Isso quer dizer que, se tivermos 3 pontos quaisquer, nenhuma das distâncias entre eles deve ser maior que a soma das outras duas.</li>
+  <figure><img src="{{ site.baseurl }}{% link /images/content/metricasDist_condTriangulo.gif %}" /></figure>
 </ul>
 
-<h3>Norma e Espaço Lp</h3>
+<h3 id="propriedades-norma" class="anchor-content">Norma e Espaço Lp</h3>
 
-Em um <a href="https://pt.wikipedia.org/wiki/Espaço_vetorial" target="_blank">espaço vetorial</a> $V$ (<em>real</em> ou <em>complexo</em>), a <em>norma</em> é uma função $||.|| : V \rightarrow \mathbb{R}$ e que deve satisfazer as seguintes condições:
+<p>Em um <a href="https://pt.wikipedia.org/wiki/Espaço_vetorial" target="_blank">espaço vetorial</a> $V$ (<em>real</em> ou <em>complexo</em>), a <em>norma</em> é uma função $||.|| : V \rightarrow \mathbb{R}$ e que deve satisfazer as seguintes condições:</p>
 
 <ul>
-    <li><em>Não negatividade</em>: Associar ao vetor apenas um número real não negativo, de forma que $||x|| \geq 0$ para todo $x \in V$ e $||x|| = 0$ se e somente se $x = 0$;</li>
-    <li><em>Inequação triangular</em>: $||x + y|| \leq ||x|| + ||y||$, para qualquer $x, y \in V$;</li>
-    <li><em>Homogeneidade</em>: $||\lambda x|| = |\lambda| ||x||$, para qualquer $\lambda \in \mathbb{R}$ e $x \in V$.</li>
+  <li><em>Não negatividade</em>: Associar ao vetor apenas um número real não negativo, de forma que $||x|| \geq 0$ para todo $x \in V$ e $||x|| = 0$ se e somente se $x = 0$;</li>
+  <li><em>Inequação triangular</em>: $||x + y|| \leq ||x|| + ||y||$, para qualquer $x, y \in V$;</li>
+  <li><em>Homogeneidade</em>: $||\lambda x|| = |\lambda| ||x||$, para qualquer $\lambda \in \mathbb{R}$ e $x \in V$.</li>
 </ul>
 
-Uma <em>norma</em> $L_p$ no <a href="https://pt.wikipedia.org/wiki/Espa%C3%A7o_Lp" target="_blank">espaço Lp</a> é uma função mensurável, de forma que <b>p</b> é um número real $p \geq 1$. A mesma pode ser entendida por:
+<p>Uma <em>norma</em> $L_p$ no <a href="https://pt.wikipedia.org/wiki/Espa%C3%A7o_Lp" target="_blank">espaço Lp</a> é uma função mensurável, de forma que <b>p</b> é um número real $p \geq 1$. A mesma pode ser entendida por:</p>
 
 $$ \large \displaystyle
-    ||x||_p := \left(\sum_{i}^{n}|x_i|^p\right)^\frac{1}{p}
+  ||x||_p := \left(\sum_{i}^{n}|x_i|^p\right)^\frac{1}{p}
 $$
 
-Existem alguns <a href="https://en.wikipedia.org/wiki/Norm_(mathematics)#Examples" target="_blank">casos especiais</a> de <em>normas Lp</em>. Por exemplo, a <em>norma</em> $L_1$, para vetores unidimensionais, denota o <a href="https://pt.wikipedia.org/wiki/Valor_absoluto_(%C3%A1lgebra)" target="_blank">valor absoluto</a> dos mesmos, de forma que $||x||_1 = |x|$.
-Uma coisa que você já deve ter notado é que a <em>norma</em> sintetiza o comprimento ou magnitude do vetor. Mas quando falamos sobre métricas de distância, não estamos necessariamente nos referindo à um espaço vetorial. Queremos metrificar a dissimilaridade entre dois pontos <em>x</em> e <em>y</em>, por exemplo. Se considerarmos que o comprimento de um vetor é o mesmo que a distância entre o respectivo ponto e a origem, podemos concluir que a uma <em>norma</em> $L_p$ nos possibilita o cálculo de distância entre pontos por meio da diferenciação, de forma que:
+<p>Existem alguns <a href="https://en.wikipedia.org/wiki/Norm_(mathematics)#Examples" target="_blank">casos especiais</a> de <em>normas Lp</em>. Por exemplo, a <em>norma</em> $L_1$, para vetores unidimensionais, denota o <a href="https://pt.wikipedia.org/wiki/Valor_absoluto_(%C3%A1lgebra)" target="_blank">valor absoluto</a> dos mesmos, de forma que $||x||_1 = |x|$.</p>
+<p>Uma coisa que você já deve ter notado é que a <em>norma</em> sintetiza o comprimento ou magnitude do vetor. Mas quando falamos sobre métricas de distância, não estamos necessariamente nos referindo à um espaço vetorial. Queremos metrificar a dissimilaridade entre dois pontos <em>x</em> e <em>y</em>, por exemplo. Se considerarmos que o comprimento de um vetor é o mesmo que a distância entre o respectivo ponto e a origem, podemos concluir que a uma <em>norma</em> $L_p$ nos possibilita o cálculo de distância entre pontos por meio da diferenciação, de forma que:</p>
 
 $$ \large \displaystyle
-    ||x - y||_p := \left(\sum_{i}^{n}|x_i - y_i|^p\right)^\frac{1}{p}
+  ||x - y||_p := \left(\sum_{i}^{n}|x_i - y_i|^p\right)^\frac{1}{p}
 $$
 
 
-<h2>Métricas de distância</h2>
+<h2 id="distancias" class="anchor-content">Métricas de distância</h2>
 
-Sejam os pontos multidimensionais $x=(x_1,x_2, ... ,x_n)$ e $y=(y_1,y_2, ... ,y_n)$, existem muitas formas de calcular a dissimilaridade entre eles, conforme as condições e propriedades que vimos até agora. Seguem alguns exemplos e implementações simples em <em>Python</em> das mais populares funções de distância, utilizadas nos mais diversos algorítmos, dependendo da aplicação.
+<p>Sejam os pontos multidimensionais $x=(x_1,x_2, ... ,x_n)$ e $y=(y_1,y_2, ... ,y_n)$, existem muitas formas de calcular a dissimilaridade entre eles, conforme as condições e propriedades que vimos até agora. Seguem alguns exemplos e implementações simples em <em>Python</em> das mais populares funções de distância, utilizadas nos mais diversos algorítmos, dependendo da aplicação.</p>
 
-<h3>Distância Euclidiana</h3>
+<h3 id="distancia-euclidiana" class="anchor-content">Distância Euclidiana</h3>
 
-A <a href="https://pt.wikipedia.org/wiki/Dist%C3%A2ncia_euclidiana" target="_blank">distância euclidiana</a> é uma métrica de <em>norma</em> $L_2$ da diferença, que descreve puramente a distância em linha reta entre dois pontos no <a href="https://pt.wikipedia.org/wiki/Espa%C3%A7o_euclidiano" target="_blank">espaço euclidiano</a> e que, claramente, pode ser comprovada pelo <a href="https://pt.wikipedia.org/wiki/Teorema_de_Pit%C3%A1goras" target="_blank">teorema de pitágora</a>. Em outras palavras, é nossa métrica natural e intuitiva para o espaço físico. A mesma pode ser descrita por:
+<p>A <a href="https://pt.wikipedia.org/wiki/Dist%C3%A2ncia_euclidiana" target="_blank">distância euclidiana</a> é uma métrica de <em>norma</em> $L_2$ da diferença, que descreve puramente a distância em linha reta entre dois pontos no <a href="https://pt.wikipedia.org/wiki/Espa%C3%A7o_euclidiano" target="_blank">espaço euclidiano</a> e que, claramente, pode ser comprovada pelo <a href="https://pt.wikipedia.org/wiki/Teorema_de_Pit%C3%A1goras" target="_blank">teorema de pitágora</a>. Em outras palavras, é nossa métrica natural e intuitiva para o espaço físico. A mesma pode ser descrita por:</p>
 
 $$ \displaystyle
-    d(x,y) \mapsto \|x-y\|_2 = \left[\sum_{i}^{n}(x_i-y_i)^2\right]^\frac{1}{2} = \sqrt{\sum_{i}^{n}(x_i-y_i)^2}
+  d(x,y) \mapsto \|x-y\|_2 = \left[\sum_{i}^{n}(x_i-y_i)^2\right]^\frac{1}{2} = \sqrt{\sum_{i}^{n}(x_i-y_i)^2}
 $$
 
-Considerando dois pontos <em>x = [1, 5, 4]</em> e <em>y = [2, 8, 3]</em> (ambos devem ter o mesmo tamanho, no caso <b>3</b>), a <em>distância euclidiana</em> entre eles é:
+<p>Considerando dois pontos <em>x = [1, 5, 4]</em> e <em>y = [2, 8, 3]</em> (ambos devem ter o mesmo tamanho, no caso <b>3</b>), a <em>distância euclidiana</em> entre eles é:</p>
 
 $$ \displaystyle
-    d(x,y) = [(1 - 2)^2 + (5 - 8)^2 + (4 - 3)^2]^{\frac{1}{2}} = \sqrt{1 + 9 + 1} \approx 3.317
+  d(x,y) = [(1 - 2)^2 + (5 - 8)^2 + (4 - 3)^2]^{\frac{1}{2}} = \sqrt{1 + 9 + 1} \approx 3.317
 $$
 
 {% highlight python %}
@@ -78,7 +98,7 @@ print(d_eucl)
 3.3166247903554
 {% endhighlight %}
 
-Utilizando <em>arrays</em> da biblioteca <em>numpy</em>, a implementação da função da <em>distância euclidiana</em> entre um ponto <b>x</b> e um conjunto qualquer de pontos <b>y</b> pode ser entendida por:
+<p>Utilizando <em>arrays</em> da biblioteca <em>numpy</em>, a implementação da função da <em>distância euclidiana</em> entre um ponto <b>x</b> e um conjunto qualquer de pontos <b>y</b> pode ser entendida por:</p>
 
 {% highlight python %}
 import numpy as np
@@ -86,29 +106,29 @@ import numpy as np
 d_eucl = lambda x, y: np.sum((x - y)**2, axis=1)**0.5
 {% endhighlight %}
 
-Exemplo de <em>distância euclidiana</em> no $\mathbb{R}^2$:
+<p>Exemplo de <em>distância euclidiana</em> no $\mathbb{R}^2$:</p>
 
 <figure>
-    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_euclidiana.png %}" />
-    <figcaption>
-        <p style="text-align: center;color: #888888">
-            Distância euclidiana entre pontos e coordenadas cartesianas, sendo <b>x</b> a origem.
-        </p>
-    </figcaption>
+  <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_euclidiana.png %}" />
+  <figcaption>
+  <p style="text-align: center;color: #888888">
+  Distância euclidiana entre pontos e coordenadas cartesianas, sendo <b>x</b> a origem.
+  </p>
+  </figcaption>
 </figure>
 
-<h3>Distância de Manhattan</h3>
+<h3 id="distancia-manhattan" class="anchor-content">Distância de Manhattan</h3>
 
-A <a href="https://pt.wikipedia.org/wiki/Geometria_do_t%C3%A1xi" target="_blank">distância de manhattan</a>, também conhecida por <em>métrica do taxi</em>, é uma métrica de <em>norma</em> $L_1$ da diferença e de característica retilínea, descrita pela soma do valor absoluto de todas as diferenças. A mesma pode ser descrita por:
+<p>A <a href="https://pt.wikipedia.org/wiki/Geometria_do_t%C3%A1xi" target="_blank">distância de manhattan</a>, também conhecida por <em>métrica do taxi</em>, é uma métrica de <em>norma</em> $L_1$ da diferença e de característica retilínea, descrita pela soma do valor absoluto de todas as diferenças. A mesma pode ser descrita por:</p>
 
 $$ \large \displaystyle
-    d(x,y) \mapsto \|x-y\|_1 = \sum_{i}^{n}|x_i-y_i|
+  d(x,y) \mapsto \|x-y\|_1 = \sum_{i}^{n}|x_i-y_i|
 $$
 
-Considerando os pontos <em>x = [1, 5, 4]</em> e <em>y = [2, 8, 3]</em>, a <em>distância de manhattan</em> entre eles é:
+<p>Considerando os pontos <em>x = [1, 5, 4]</em> e <em>y = [2, 8, 3]</em>, a <em>distância de manhattan</em> entre eles é:</p>
 
 $$ \large \displaystyle
-    d(x,y) = |1 - 2| + |5 - 8| + |4 - 3| = 1 + 3 + 1 = 5
+  d(x,y) = |1 - 2| + |5 - 8| + |4 - 3| = 1 + 3 + 1 = 5
 $$
 
 {% highlight python %}
@@ -123,35 +143,35 @@ print(d_manh)
 5
 {% endhighlight %}
 
-A implementação da função em <em>numpy</em> da <em>distância de manhattan</em> entre um ponto <b>x</b> e um conjunto qualquer de pontos <b>y</b> pode ser entendida por:
+<p>A implementação da função em <em>numpy</em> da <em>distância de manhattan</em> entre um ponto <b>x</b> e um conjunto qualquer de pontos <b>y</b> pode ser entendida por:</p>
 
 {% highlight python %}
 d_manh = lambda x, y: np.sum(np.absolute(x - y), axis = 1)
 {% endhighlight %}
 
-Exemplo de <em>distância de manhattan</em> no $\mathbb{R}^2$:
+<p>Exemplo de <em>distância de manhattan</em> no $\mathbb{R}^2$:</p>
 
 <figure>
-    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_manhattan.png %}" />
-    <figcaption>
-        <p style="text-align: center;color: #888888">
-            Distância de manhattan entre pontos e coordenadas cartesianas, resultando em um padrão retilíneo. O ponto <b>x</b> é a origem.
-        </p>
-    </figcaption>
+  <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_manhattan.png %}" />
+  <figcaption>
+  <p style="text-align: center;color: #888888">
+  Distância de manhattan entre pontos e coordenadas cartesianas, resultando em um padrão retilíneo. O ponto <b>x</b> é a origem.
+  </p>
+  </figcaption>
 </figure>
 
-<h3>Distância de Chebyshev</h3>
+<h3 id="distancia-chebyshev" class="anchor-content">Distância de Chebyshev</h3>
 
-A <a href="https://en.wikipedia.org/wiki/Chebyshev_distance" target="_blank">distância de chebyshev</a> é uma métrica de <em>norma</em> $L_\infty$ da diferença e de característica uniforme, descrita pelo valor máximo entre todas as <em>n</em> diferenças absolutas. A mesma pode ser descrita por:
+<p>A <a href="https://en.wikipedia.org/wiki/Chebyshev_distance" target="_blank">distância de chebyshev</a> é uma métrica de <em>norma</em> $L_\infty$ da diferença e de característica uniforme, descrita pelo valor máximo entre todas as <em>n</em> diferenças absolutas. A mesma pode ser descrita por:</p>
 
 $$ \displaystyle
-    d(x,y) \mapsto \|x-y\|_\infty = \lim_{p\to\infty} \left(\sum_{i}^{n}|x_i-y_i|^p\right)^\frac{1}{p} = \overset{n}{\underset{i}{\max}}|x_i-y_i|
+  d(x,y) \mapsto \|x-y\|_\infty = \lim_{p\to\infty} \left(\sum_{i}^{n}|x_i-y_i|^p\right)^\frac{1}{p} = \overset{n}{\underset{i}{\max}}|x_i-y_i|
 $$
 
-Considerando os pontos <em>x = [1, 5, 4]</em> e <em>y = [2, 8, 3]</em>, a <em>distância de chebyshev</em> entre eles é:
+<p>Considerando os pontos <em>x = [1, 5, 4]</em> e <em>y = [2, 8, 3]</em>, a <em>distância de chebyshev</em> entre eles é:</p>
 
 $$ \large \displaystyle
-    d(x,y) = \max(|1 - 2|, |5 - 8|, |4 - 3|) = \max(1, 3, 1) = 3
+  d(x,y) = \max(|1 - 2|, |5 - 8|, |4 - 3|) = \max(1, 3, 1) = 3
 $$
 
 {% highlight python %}
@@ -166,7 +186,7 @@ print(d_cheb)
 3
 {% endhighlight %}
 
-A implementação da função em <em>numpy</em> da <em>distância de chebyshev</em> entre um ponto <b>x</b> e um conjunto qualquer de pontos <b>y</b> pode ser entendida por:
+<p>A implementação da função em <em>numpy</em> da <em>distância de chebyshev</em> entre um ponto <b>x</b> e um conjunto qualquer de pontos <b>y</b> pode ser entendida por:</p>
 
 {% highlight python %}
 d_cheb = lambda x, y: np.max(np.absolute(x - y), axis = 1)
@@ -174,26 +194,26 @@ d_cheb = lambda x, y: np.max(np.absolute(x - y), axis = 1)
 
 Exemplo de <em>distância de chebyshev</em> no $\mathbb{R}^2$:
 <figure>
-    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_chebyshev.png %}" />
-    <figcaption>
-        <p style="text-align: center;color: #888888">
-            Distância de chebyshev entre pontos e coordenadas cartesianas, resultando em um padrão uniforme. O ponto <b>x</b> é a origem.
-        </p>
-    </figcaption>
+  <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_chebyshev.png %}" />
+  <figcaption>
+  <p style="text-align: center;color: #888888">
+  Distância de chebyshev entre pontos e coordenadas cartesianas, resultando em um padrão uniforme. O ponto <b>x</b> é a origem.
+  </p>
+  </figcaption>
 </figure>
 
-<h3>Distância de Minkowski</h3>
+<h3 id="distancia-minkowski" class="anchor-content">Distância de Minkowski</h3>
 
-A <a href="https://en.wikipedia.org/wiki/Minkowski_distance" target="_blank">distância de minkowski</a> é uma métrica de <em>norma</em> $L_p$ da diferença e pode ser entendida como a generalização de todas que vimos até aqui, no caso: <em>Euclidiana</em>, <em>Manhattan</em> e <em>Chebyshev</em>. Sendo descrita como resultado da <a href="https://pt.wikipedia.org/wiki/Desigualdade_de_Minkowski" target="_blank">desigualdade de minkowski</a>, a ordem ou grau da distância entre os pontos é definida pelo parâmetro <b>p</b>. A mesma pode ser descrita por:
+<p>A <a href="https://en.wikipedia.org/wiki/Minkowski_distance" target="_blank">distância de minkowski</a> é uma métrica de <em>norma</em> $L_p$ da diferença e pode ser entendida como a generalização de todas que vimos até aqui, no caso: <em>Euclidiana</em>, <em>Manhattan</em> e <em>Chebyshev</em>. Sendo descrita como resultado da <a href="https://pt.wikipedia.org/wiki/Desigualdade_de_Minkowski" target="_blank">desigualdade de minkowski</a>, a ordem ou grau da distância entre os pontos é definida pelo parâmetro <b>p</b>. A mesma pode ser descrita por:</p>
 
 $$ \large \displaystyle
-    d(x,y) \mapsto \|x-y\|_p = \left(\sum_{i}^{n}|x_i-y_i|^p\right)^\frac{1}{p}
+  d(x,y) \mapsto \|x-y\|_p = \left(\sum_{i}^{n}|x_i-y_i|^p\right)^\frac{1}{p}
 $$
 
-Considerando <em>p = 3</em> e os pontos <em>x = [1, 5, 4]</em> e <em>y = [2, 8, 3]</em>, a <em>distância de minkowski</em> entre eles é:
+<p>Considerando <em>p = 3</em> e os pontos <em>x = [1, 5, 4]</em> e <em>y = [2, 8, 3]</em>, a <em>distância de minkowski</em> entre eles é:</p>
 
 $$ \displaystyle
-    d(x,y) = (|1 - 2|^3 + |5 - 8|^3 + |4 - 3|^3)^{\frac{1}{3}} = (1 + 27 + 1)^{\frac{1}{3}} \approx 3.072
+  d(x,y) = (|1 - 2|^3 + |5 - 8|^3 + |4 - 3|^3)^{\frac{1}{3}} = (1 + 27 + 1)^{\frac{1}{3}} \approx 3.072
 $$
 
 {% highlight python %}
@@ -209,20 +229,20 @@ print(d_mink)
 3.072316825685847
 {% endhighlight %}
 
-A implementação da função em <em>numpy</em> da <em>distância de minkowski</em> entre um ponto <b>x</b> e um conjunto qualquer de pontos <b>y</b> pode ser entendida por:
+<p>A implementação da função em <em>numpy</em> da <em>distância de minkowski</em> entre um ponto <b>x</b> e um conjunto qualquer de pontos <b>y</b> pode ser entendida por:</p>
 
 {% highlight python %}
 d_mink = lambda x, y, p: np.sum(np.absolute(x - y)**p, axis = 1)**(1/p)
 {% endhighlight %}
 
-Seguem alguns exemplos, para diferentes valores de <b>p</b>:
+<p>Seguem alguns exemplos, para diferentes valores de <b>p</b>:</p>
 
 {% highlight python %}
-print(d_mink(x, y, 0.5))    # p = 0.5
-print(d_mink(x, y, 1))      # p = 1 - Equivalente a distancia de manhattan
-print(d_mink(x, y, 2))      # p = 2 - Equivalente a distancia euclidiana
-print(d_mink(x, y, 5))      # p = 5
-print(d_mink(x, y, 100))    # p = 100 Com p tendendo ao infinito, é aproximadamente a distancia de Chebyshev
+print(d_mink(x, y, 0.5))     # p = 0.5
+print(d_mink(x, y, 1))       # p = 1 - Equivalente a distancia de manhattan
+print(d_mink(x, y, 2))       # p = 2 - Equivalente a distancia euclidiana
+print(d_mink(x, y, 5))       # p = 5
+print(d_mink(x, y, 100))     # p = 100 Com p tendendo ao infinito, é aproximadamente a distancia de Chebyshev
 {% endhighlight %}
 
 <b>Output:</b>
@@ -234,144 +254,145 @@ print(d_mink(x, y, 100))    # p = 100 Com p tendendo ao infinito, é aproximadam
 3.0
 {% endhighlight %}
 
-Exemplo de <em>distância de minkowski</em> no $\mathbb{R}^2$:
+<p>Exemplo de <em>distância de minkowski</em> no $\mathbb{R}^2$:</p>
 
 <figure>
-    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_minkowskiA.png %}" />
-    <figcaption>
-        <p style="text-align: center;color: #888888">
-            Distância de minkowski entre pontos e coordenadas cartesianas, sendo <em>p = 0.5</em> e <b>x</b> sendo a origem.
-        </p>
-    </figcaption>
+  <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_minkowskiA.png %}" />
+  <figcaption>
+  <p style="text-align: center;color: #888888">
+  Distância de minkowski entre pontos e coordenadas cartesianas, sendo <em>p = 0.5</em> e <b>x</b> sendo a origem.
+  </p>
+  </figcaption>
 </figure>
 <figure>
-    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_minkowskiB.png %}" />
-    <figcaption>
-        <p style="text-align: center;color: #888888">
-            Distância de minkowski para diferentes valores de <b>p</b>.
-        </p>
-    </figcaption>
+  <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_minkowskiB.png %}" />
+  <figcaption>
+  <p style="text-align: center;color: #888888">
+  Distância de minkowski para diferentes valores de <b>p</b>.
+  </p>
+  </figcaption>
 </figure>
 
-<h3>Distância de Canberra</h3>
+<h3 id="distancia-canberra" class="anchor-content">Distância de Canberra</h3>
 
-A <a href="https://en.wikipedia.org/wiki/Canberra_distance" target="_blank">distância de canberra</a> é uma métrica que pode ser entendida como uma forma ponderada da de <em>norma</em> $L_1$ e possui como característica uma grande sensibilidade para valores próximos à <em>zero</em>. A mesma pode ser descrita por:
+<p>A <a href="https://en.wikipedia.org/wiki/Canberra_distance" target="_blank">distância de canberra</a> é uma métrica que pode ser entendida como uma forma ponderada da de <em>norma</em> $L_1$ e possui como característica uma grande sensibilidade para valores próximos à <em>zero</em>. A mesma pode ser descrita por:</p>
 
 $$ \large \displaystyle
-    d(x,y) = \sum_{i}^{n}\frac{|x_i-y_i|}{|x_i|+|y_i|}
+  d(x,y) = \sum_{i}^{n}\frac{|x_i-y_i|}{|x_i|+|y_i|}
 $$
 
 <p style="text-align: center;color: #888888">
-    Note que se um dos pontos for muito próximo ou igual à origem [0, 0], o valor da distância sempre irá tender à 1. Isso explica a sensibilidade para valores próximos à zero.
+  Note que se um dos pontos for muito próximo ou igual à origem [0, 0], o valor da distância sempre irá tender à 1. Isso explica a sensibilidade para valores próximos à zero.
 </p>
 
-A implementação da função da <em>distância de canberra</em> entre um ponto <b>x</b> e um conjunto qualquer de pontos <b>y</b> pode ser entendida por:
+<p>A implementação da função da <em>distância de canberra</em> entre um ponto <b>x</b> e um conjunto qualquer de pontos <b>y</b> pode ser entendida por:</p>
 
 {% highlight python %}
 def d_canb(x, y):
-    num = np.absolute(x - y)
-    den = np.absolute(x) + np.absolute(y)
-    return np.sum(num/den, axis = 1)
+  num = np.absolute(x - y)
+  den = np.absolute(x) + np.absolute(y)
+  return np.sum(num/den, axis = 1)
 {% endhighlight %}
 
-Exemplo de <em>distância de canberra</em> no $\mathbb{R}^2$:
+<p>Exemplo de <em>distância de canberra</em> no $\mathbb{R}^2$:</p>
 
 <figure>
-    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_canberra.png %}" />
-    <figcaption>
-        <p style="text-align: center;color: #888888">
-            Distância de canberra entre pontos e coordenadas cartesianas, sendo <b>x</b> um ponto qualquer que seja diferente de zero.
-        </p>
-    </figcaption>
+  <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_canberra.png %}" />
+  <figcaption>
+  <p style="text-align: center;color: #888888">
+  Distância de canberra entre pontos e coordenadas cartesianas, sendo <b>x</b> um ponto qualquer que seja diferente de zero.
+  </p>
+  </figcaption>
 </figure>
 
-<h3>Distância do Cosseno</h3>
+<h3 id="distancia-cosseno" class="anchor-content">Distância do Cosseno</h3>
 
-A <em>distância do cosseno</em> ou <a href="https://en.wikipedia.org/wiki/Cosine_similarity" target="_blank">similaridade do cosseno</a> é uma métrica angular, derivada do <a href="https://pt.wikipedia.org/wiki/Produto_escalar" target="_blank">produto escalar</a> normalizado pelo produto das normas $L_2$ de cada ponto (ou seja, suas distâncias euclidianas em relação à origem). A mesma pode ser descrita por:
+<p>A <em>distância do cosseno</em> ou <a href="https://en.wikipedia.org/wiki/Cosine_similarity" target="_blank">similaridade do cosseno</a> é uma métrica angular, derivada do <a href="https://pt.wikipedia.org/wiki/Produto_escalar" target="_blank">produto escalar</a> normalizado pelo produto das normas $L_2$ de cada ponto (ou seja, suas distâncias euclidianas em relação à origem). A mesma pode ser descrita por:</p>
 
 $$ \large \displaystyle
-    d(x,y) \mapsto 1 - \frac{x \cdotp y}{\|x\|_2\|y\|_2} = 1 - \frac{\sum_{i}^{n}x_i y_i}{\sqrt{\sum_{i}^{n}x_i^2}\sqrt{\sum_{i}^{n}y_i^2}}
+  d(x,y) \mapsto 1 - \frac{x \cdotp y}{\|x\|_2\|y\|_2} = 1 - \frac{\sum_{i}^{n}x_i y_i}{\sqrt{\sum_{i}^{n}x_i^2}\sqrt{\sum_{i}^{n}y_i^2}}
 $$
 
 <p style="text-align: center;color: #888888">
-    Note que uma característica extremamente importante, assim como na <em>distância de canberra</em>, é que valores iguais a <em>zero</em> devem ser evitados. Caso contrário, <a href="https://media.giphy.com/media/3oKIPs1EVbbNZYq7EA/giphy.gif" target="_blank">já sabe!</a>
+  Note que uma característica extremamente importante, assim como na <em>distância de canberra</em>, é que valores iguais a <em>zero</em> devem ser evitados. Caso contrário, <a href="https://media.giphy.com/media/3oKIPs1EVbbNZYq7EA/giphy.gif" target="_blank">já sabe!</a>
 </p>
 
-A implementação da função da <em>distância do cosseno</em> entre um ponto <b>x</b> e um conjunto qualquer de pontos <b>y</b> pode ser entendida por:
+<p>A implementação da função da <em>distância do cosseno</em> entre um ponto <b>x</b> e um conjunto qualquer de pontos <b>y</b> pode ser entendida por:</p>
 
 {% highlight python %}
 def d_coss(x, y):
-    if x.ndim == 1:
-        x = x[np.newaxis]
-    num = np.sum(x*y, axis=1)
-    den = np.sum(x**2, axis = 1)**0.5
-    den *= np.sum(y**2, axis = 1)**0.5
-    return 1 - num/den
+  if x.ndim == 1:
+  x = x[np.newaxis]
+  num = np.sum(x*y, axis=1)
+  den = np.sum(x**2, axis = 1)**0.5
+  den *= np.sum(y**2, axis = 1)**0.5
+  return 1 - num/den
 {% endhighlight %}
 
-Exemplo de <em>distância do cosseno</em> no $\mathbb{R}^2$:
+<p>Exemplo de <em>distância do cosseno</em> no $\mathbb{R}^2$:</p>
 
 <figure>
-    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_cosseno.png %}" />
-    <figcaption>
-        <p style="text-align: center;color: #888888">
-            Distância do cosseno entre pontos e coordenadas cartesianas, resultando em um padrão angular. O ponto x sendo diferente de zero.
-        </p>
-    </figcaption>
+  <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_cosseno.png %}" />
+  <figcaption>
+  <p style="text-align: center;color: #888888">
+  Distância do cosseno entre pontos e coordenadas cartesianas, resultando em um padrão angular. O ponto x sendo diferente de zero.
+  </p>
+  </figcaption>
 </figure>
 
-<h3>Distância de Hamming</h3>
+<h3 id="distancia-hamming" class="anchor-content">Distância de Hamming</h3>
 
-A <a href="https://pt.wikipedia.org/wiki/Dist%C3%A2ncia_de_Hamming" target="_blank">distância de hamming</a> é uma métrica posicional, geralmente aplicada à strings ou qualquer tipo de dado indexável. Ela, basicamente, quantifica a diferença entre os índices. A mesma pode ser descrita por:
+<p>A <a href="https://pt.wikipedia.org/wiki/Dist%C3%A2ncia_de_Hamming" target="_blank">distância de hamming</a> é uma métrica posicional, geralmente aplicada à strings ou qualquer tipo de dado indexável. Ela, basicamente, quantifica a diferença entre os índices. A mesma pode ser descrita por:</p>
 
 $$ \large \displaystyle
-    d(x,y) = \sum_{i}^{n}w_i[x_i \neq y_i]
+  d(x,y) = \sum_{i}^{n}w_i[x_i \neq y_i]
 $$
 
-Note que $w_i$ é um valor de peso que será atribuído à operação, caso a condição $x_i \neq y_i$ seja satisfeita. Para título de exemplo, iremos sempre considerar $w_i = 1$. Sendo assim, a implementação da função da <em>distância de hamming</em> entre um objeto <b>x</b> e outro <b>y</b> pode ser entendida por:
+<p>Note que $w_i$ é um valor de peso que será atribuído à operação, caso a condição $x_i \neq y_i$ seja satisfeita. Para título de exemplo, iremos sempre considerar $w_i = 1$. Sendo assim, a implementação da função da <em>distância de hamming</em> entre um objeto <b>x</b> e outro <b>y</b> pode ser entendida por:</p>
 
 {% highlight python %}
 def d_hamm(x, y):
-    lmax = max(len(x), len(y))
-    x, y = x.rjust(lmax), y.rjust(lmax)
-    return sum([a != b for a, b in zip(x, y)])
+  lmax = max(len(x), len(y))
+  x, y = x.rjust(lmax), y.rjust(lmax)
+  return sum([a != b for a, b in zip(x, y)])
 {% endhighlight %}
 
-Por exemplo, se <em>x = "cara"</em> e <em>y = "caro"</em>, então $d(x,y)=1$. Isso ocorre porque a diferença entre <em>"car<b>a</b>"</em> e <em>"car<b>o</b>"</em> é de apenas de 1 caractere. Seguem mais alguns exemplos:
+<p>Por exemplo, se <em>x = "cara"</em> e <em>y = "caro"</em>, então $d(x,y)=1$. Isso ocorre porque a diferença entre <em>"car<b>a</b>"</em> e <em>"car<b>o</b>"</em> é de apenas de 1 caractere. Seguem mais alguns exemplos:</p>
 
 <ul>
-    <li>"cab<b>an</b>a" e "cab<b>eç</b>a" (d = 2)</li>
-    <li>"c<b>ava</b>lo" e "c<b>rio</b>lo" (d = 3)</li>
-    <li>1011<b>0101</b> e 1011<b>1010</b> (d = 4)</li>
+  <li>"cab<b>an</b>a" e "cab<b>eç</b>a" (d = 2)</li>
+  <li>"c<b>ava</b>lo" e "c<b>rio</b>lo" (d = 3)</li>
+  <li>1011<b>0101</b> e 1011<b>1010</b> (d = 4)</li>
 </ul>
 
-Note que o mesmo conceito pode ser aplicado à dígitos em qualquer base. Recentemente escrevi um post sobre <a href="{{ site.baseurl }}{% link _posts/2018-06-22-representacao-ieee-754-para-numeros-reais.html %}" target="_blank">representação IEEE 754 para números reais</a> e aplicando essa representação em coordenadas no $\mathbb{R}^2$, temos o resultado da <em>distância de hamming</em> sendo:
+<p>Note que o mesmo conceito pode ser aplicado à dígitos em qualquer base. Recentemente escrevi um post sobre <a href="{{ site.baseurl }}{% link _posts/2018-06-22-representacao-ieee-754-para-numeros-reais.html %}" target="_blank">representação IEEE 754 para números reais</a> e aplicando essa representação em coordenadas no $\mathbb{R}^2$, temos o resultado da <em>distância de hamming</em> sendo:</p>
 
 <figure>
-    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_hammingA.png %}" />
-    <figcaption>
-        <p style="text-align: center;color: #888888">
-            Distância de hamming entre pontos e coordenadas cartesianas, com valores convertidos para o padrão IEEE 754.
-        </p>
-    </figcaption>
+  <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_hammingA.png %}" />
+  <figcaption>
+  <p style="text-align: center;color: #888888">
+  Distância de hamming entre pontos e coordenadas cartesianas, com valores convertidos para o padrão IEEE 754.
+  </p>
+  </figcaption>
 </figure>
 
-Aplicando o mesmo conceito em um trecho retirado do cordel <em>"A Chegada de Lampião no Inferno"</em>, de forma que <em>x = "Lampião"</em> e <em>y</em> é o conjunto com todas as palavras contidas no texto:
+<p>Aplicando o mesmo conceito em um trecho retirado do cordel <em>"A Chegada de Lampião no Inferno"</em>, de forma que <em>x = "Lampião"</em> e <em>y</em> é o conjunto com todas as palavras contidas no texto:</p>
 
 <figure>
-    <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_hammingB.png %}" />
-    <figcaption>
-        <p style="text-align: center;color: #888888">
-            Distância de hamming entre a palavra "Lampião" e todas as outras palavras do trecho da obra.
-        </p>
-    </figcaption>
+  <img src="{{ site.baseurl }}{% link /images/visualizations/distancia_hammingB.png %}" />
+  <figcaption>
+  <p style="text-align: center;color: #888888">
+  Distância de hamming entre a palavra "Lampião" e todas as outras palavras do trecho da obra.
+  </p>
+  </figcaption>
 </figure>
 
+<div class="references">
+  <h2>Referências</h2>
 
-<h2>Referências</h2>
-
-<ol>
+  <ol>
     <li>DEZA, M. Marie; DEZA, Elena. <em>Encyclopedia of Distances</em>. Springer, 2009.</li>
     <li>MCCUNE, Bruce; GRACE, James. <em>Analysis of Ecological Communities. ch. 06.</em> Mjm Software Design, 2002.</li>
     <li>PACHECO, José. <em>A Chegada de Lampião no Inferno.</em> Memorial do Cordel, 2000.</li>
-</ol>
+  </ol>
+</div>
