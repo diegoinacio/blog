@@ -37,9 +37,11 @@ mathjax:    true
   Linear regression can be understood as a statistical analysis process which infers the linear relationship between a dependent variable and one or more independent variables. One way to measure the degree of dependence between X and Y is by the correlation coefficient $\large \rho_ {XY}$, which is defined by:
 </p>
 
-$$ \large
-\rho_{XY}=\frac{cov(X,Y)}{\sigma_{X}\sigma_{Y}}=\frac{E[(X-\mu_{X})(Y-\mu_{Y})]}{\sigma_{X}\sigma_{Y}}
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+  \rho_{XY}=\frac{cov(X,Y)}{\sigma_{X}\sigma_{Y}}=\frac{E[(X-\mu_{X})(Y-\mu_{Y})]}{\sigma_{X}\sigma_{Y}}
+  $$
+</div>
 
 where:
 
@@ -66,19 +68,25 @@ def correlation(X, Y):
   A <a href="https://en.wikipedia.org/wiki/Simple_linear_regression" target="_blank">simple linear regression</a> performs a treatment over two-dimensional sample points, which one represents the dependent variable <b>y</b> and the other one represents the independent variable <b>x</b>, analytically described by:
 </p>
 
-$$ \large
-  y_i=mx_i+b
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    y_i=mx_i+b
+  $$
+</div>
 
 Where $m$ describes the <em>angular coefficient</em> (<e>or line slope</e>) and $b$ the <em>linear coefficient</em> (<em>or line y-intersept</em>). Both can be defined by:
 
-$$ \large
-  m=\frac{\sum_i^n (x_i-\overline{x})(y_i-\overline{y})}{\sum_i^n (x_i-\overline{x})^2}
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    m=\frac{\sum_i^n (x_i-\overline{x})(y_i-\overline{y})}{\sum_i^n (x_i-\overline{x})^2}
+  $$
+</div>
 
-$$ \large
-  b=\overline{y}-m\overline{x}
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    b=\overline{y}-m\overline{x}
+  $$
+</div>
 
 Where $\large \overline{y}$ and $\large \overline{x}$ are the mean values of $\large y$ and $\large x$, respectively.
 
@@ -109,9 +117,11 @@ class linearRegression_simple(object):
   The residual is given by the <a href="https://en.wikipedia.org/wiki/Mean_squared_error">MSE</a> (or <em>mean squared error</em>), which is described by:
 </p>
 
-$$ \large
-MSE=\frac{1}{n} \sum_i^n (Y_i- \hat{Y}_i)^2
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    MSE=\frac{1}{n} \sum_i^n (Y_i- \hat{Y}_i)^2
+  $$
+</div>
 
 <img src="{{ site.baseurl }}{% link /images/visualizations/regression_linear_residual.png %}" alt="residual"/>
 
@@ -121,9 +131,11 @@ $$
   A <em>multiple linear regression</em> performs a treatment over n-dimensional sample points, which one represents the dependent variable $\large y$ and other one or more represent the independent variables $\large x_n$, analytically described by:
 </p>
 
-$$ \large
-y=m_1x_1+m_2x_2+...+m_nx_n+b
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    y=m_1x_1+m_2x_2+...+m_nx_n+b
+  $$
+</div>
 
 {% highlight python %}
 class linearRegression_multiple(object):
@@ -154,26 +166,32 @@ class linearRegression_multiple(object):
   The use of gradient descent for the linear regression solution is given by the process in minimizing the errors of the angular coefficients <b>m</b> and scalar coefficient <b>b</b>, such that:
 </p>
 
-$$ \large
-  e_{m,b}=\frac{1}{n} \sum_i^n (y_i-(mx_i+b))^2
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    e_{m,b}=\frac{1}{n} \sum_i^n (y_i-(mx_i+b))^2
+  $$
+</div>
 
 <p>
   To perform the gradient descent as a function of the error, it is necessary to calculate the gradient vector $\large \nabla$ of the function, described by:
 </p>
 
-$$ \large
-\nabla e_{m,b}=\Big\langle\frac{\partial e}{\partial m},\frac{\partial e}{\partial b}\Big\rangle
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    \nabla e_{m,b}=\Big\langle\frac{\partial e}{\partial m},\frac{\partial e}{\partial b}\Big\rangle
+  $$
+</div>
 
 Where:
 
-$$ \large
-\begin{aligned}
-  \frac{\partial e}{\partial m}&=\frac{2}{n} \sum_{i}^{n}-x_i(y_i-(mx_i+b)), \\
-  \frac{\partial e}{\partial b}&=\frac{2}{n} \sum_{i}^{n}-(y_i-(mx_i+b))
-\end{aligned}
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    \begin{aligned}
+      \frac{\partial e}{\partial m}&=\frac{2}{n} \sum_{i}^{n}-x_i(y_i-(mx_i+b)), \\
+      \frac{\partial e}{\partial b}&=\frac{2}{n} \sum_{i}^{n}-(y_i-(mx_i+b))
+    \end{aligned}
+  $$
+</div>
 
 {% highlight python %}
 class linearRegression_GD(object):
@@ -205,25 +223,31 @@ class linearRegression_GD(object):
   <a href="https://en.wikipedia.org/wiki/Logistic_regression" target="_blank">Logistic regression</a> is a statistical process similar to linear regression, which solves classification problems by means of a hypothesis over the discrete values $\large y_i$, represented by:
 </p>
 
-$$ \large
-h_{\theta}(x)=g(\theta^Tx)=\frac{e^{\theta^Tx}}{1+e^{\theta^Tx}}=\frac{1}{1+e^{-\theta^Tx}}
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    h_{\theta}(x)=g(\theta^Tx)=\frac{e^{\theta^Tx}}{1+e^{\theta^Tx}}=\frac{1}{1+e^{-\theta^Tx}}
+  $$
+</div>
+
 so that:
-$$ \large
-\theta^Tx=
-\begin{bmatrix}
-  \theta_0 \\
-  \theta_1 \\
-  \vdots \\
-  \theta_i
-\end{bmatrix}
-\begin{bmatrix}
-  1 & x_{11} & \cdots & x_{1i} \\
-  1 & x_{21} & \cdots & x_{2i} \\
-  \vdots & \vdots & \ddots & \vdots \\
-  1 & x_{n1} & \cdots & x_{ni}
-\end{bmatrix}
-$$
+
+<div class="mj-equation">
+  $$ \large \displaystyle
+    \theta^Tx=
+    \begin{bmatrix}
+      \theta_0 \\
+      \theta_1 \\
+      \vdots \\
+      \theta_i
+    \end{bmatrix}
+    \begin{bmatrix}
+      1 & x_{11} & \cdots & x_{1i} \\
+      1 & x_{21} & \cdots & x_{2i} \\
+      \vdots & \vdots & \ddots & \vdots \\
+      1 & x_{n1} & \cdots & x_{ni}
+    \end{bmatrix}
+  $$
+</div>
 
 where:
 
@@ -237,9 +261,11 @@ where:
   As similar as linear regression, logistic regression can be adjusted by gradient descent so it is necessary to calculate the sigmoid function gradient, described by:
 </p>
 
-$$ \large
-  g'(z)=\frac{d}{dz}\frac{1}{1+e^{-z}}=\frac{e^{-z}}{(1+e^-z)^2}=g(z)(1-g(z))
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    g'(z)=\frac{d}{dz}\frac{1}{1+e^{-z}}=\frac{e^{-z}}{(1+e^-z)^2}=g(z)(1-g(z))
+  $$
+</div>
 
 {% highlight python %}
 class logisticRegression(object):
@@ -273,15 +299,19 @@ class logisticRegression(object):
   For the binary classification of a two-dimensional dataset, the line which describes the decision boundary is defined by:
 </p>
 
-$$ \large
-  \theta_0+\theta_1 x_1+\theta_2 x_2=0
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    \theta_0+\theta_1 x_1+\theta_2 x_2=0
+  $$
+</div>
 
 Considering $\large x_2$ as the vertical axis:
 
-$$ \large
-  x_2=-\frac{\theta_0+\theta_1 x_1}{\theta_2}
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    x_2=-\frac{\theta_0+\theta_1 x_1}{\theta_2}
+  $$
+</div>
 
 <img src="{{ site.baseurl }}{% link /images/visualizations/regression_logistic_pred.png %}" alt="logistic regression classification"/>
 
@@ -294,9 +324,11 @@ $$
   When a dataset is not linearly related or linearly separable, linear regression or logistic regression do not provide the best fit solution. For example, given the function:
 </p>
 
-$$ \large
-  f(x)=x^3-3x^2+x+1+\epsilon
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    f(x)=x^3-3x^2+x+1+\epsilon
+  $$
+</div>
 
 <p>
   we can see that it does not have a good linear solution.
@@ -308,54 +340,60 @@ $$
   Thus, a good option would be to use the <a href="https://en.wikipedia.org/wiki/Polynomial_regression" target="_blank">polynomial regression</a>, which is a non-linear prediction model, defined by:
 </p>
 
-$$ \large
-\vec{y}=\mathbf{X}\vec{\mathbf{\beta}}+\vec{\epsilon}
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    \vec{y}=\mathbf{X}\vec{\mathbf{\beta}}+\vec{\epsilon}
+  $$
+</div>
 
 <p>
   where $\large \mathbf{X}$ (or $\large \mathbf{V}$) is the Vandermonde's matrix of the independent variable, parametrised by the maximum degree $\large m$, a response vector $\large \vec{y}$, a parameter vector $\large \vec{\mathbf{\beta}}$ and a random error vector $\large \vec{\epsilon}$. In the form of a system of linear equations, we have:
 </p>
 
-$$ \large
-\begin{bmatrix}
-  y_1 \\
-  y_2 \\
-  y_3 \\
-  \vdots \\
-  y_n
-\end{bmatrix}
-=
-\begin{bmatrix}
-  1 & x_1 & x_1^2 &\cdots & x_1^m \\
-  1 & x_2 & x_2^2 & \cdots & x_2^m \\
-  1 & x_3 & x_3^2 & \cdots & x_3^m \\
-  \vdots & \vdots & \vdots & \ddots & \vdots \\
-  1 & x_n & x_n^2 & \cdots & x_n^m
-\end{bmatrix}
-\begin{bmatrix}
-  \beta_1 \\
-  \beta_2 \\
-  \beta_3 \\
-  \vdots \\
-  \beta_m
-\end{bmatrix}
-+
-\begin{bmatrix}
-  \epsilon_1 \\
-  \epsilon_2 \\
-  \epsilon_3 \\
-  \vdots \\
-  \epsilon_n
-\end{bmatrix}
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    \begin{bmatrix}
+      y_1 \\
+      y_2 \\
+      y_3 \\
+      \vdots \\
+      y_n
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      1 & x_1 & x_1^2 &\cdots & x_1^m \\
+      1 & x_2 & x_2^2 & \cdots & x_2^m \\
+      1 & x_3 & x_3^2 & \cdots & x_3^m \\
+      \vdots & \vdots & \vdots & \ddots & \vdots \\
+      1 & x_n & x_n^2 & \cdots & x_n^m
+    \end{bmatrix}
+    \begin{bmatrix}
+      \beta_1 \\
+      \beta_2 \\
+      \beta_3 \\
+      \vdots \\
+      \beta_m
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+      \epsilon_1 \\
+      \epsilon_2 \\
+      \epsilon_3 \\
+      \vdots \\
+      \epsilon_n
+    \end{bmatrix}
+  $$
+</div>
 
 <p>
   By means of the Least Squares Method, the estimated coefficient vector is given by:
 </p>
 
-$$ \large
-\widehat{\vec{\mathbf{\beta}}}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\vec{y}
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    \widehat{\vec{\mathbf{\beta}}}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\vec{y}
+  $$
+</div>
 
 {% highlight python %}
 class polynomialRegression(object):

@@ -56,16 +56,20 @@ mathjax:    true
 
 <p>Uma <em>norma</em> $L_p$ no <a href="https://pt.wikipedia.org/wiki/Espa%C3%A7o_Lp" target="_blank">espaço Lp</a> é uma função mensurável, de forma que <b>p</b> é um número real $p \geq 1$. A mesma pode ser entendida por:</p>
 
-$$ \large \displaystyle
-  ||x||_p := \left(\sum_{i}^{n}|x_i|^p\right)^\frac{1}{p}
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    ||x||_p := \left(\sum_{i}^{n}|x_i|^p\right)^\frac{1}{p}
+  $$
+</div>
 
 <p>Existem alguns <a href="https://en.wikipedia.org/wiki/Norm_(mathematics)#Examples" target="_blank">casos especiais</a> de <em>normas Lp</em>. Por exemplo, a <em>norma</em> $L_1$, para vetores unidimensionais, denota o <a href="https://pt.wikipedia.org/wiki/Valor_absoluto_(%C3%A1lgebra)" target="_blank">valor absoluto</a> dos mesmos, de forma que $||x||_1 = |x|$.</p>
 <p>Uma coisa que você já deve ter notado é que a <em>norma</em> sintetiza o comprimento ou magnitude do vetor. Mas quando falamos sobre métricas de distância, não estamos necessariamente nos referindo à um espaço vetorial. Queremos metrificar a dissimilaridade entre dois pontos <em>x</em> e <em>y</em>, por exemplo. Se considerarmos que o comprimento de um vetor é o mesmo que a distância entre o respectivo ponto e a origem, podemos concluir que a uma <em>norma</em> $L_p$ nos possibilita o cálculo de distância entre pontos por meio da diferenciação, de forma que:</p>
 
-$$ \large \displaystyle
-  ||x - y||_p := \left(\sum_{i}^{n}|x_i - y_i|^p\right)^\frac{1}{p}
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    ||x - y||_p := \left(\sum_{i}^{n}|x_i - y_i|^p\right)^\frac{1}{p}
+  $$
+</div>
 
 
 <h2 id="distancias" class="anchor-content">Métricas de distância</h2>
@@ -76,15 +80,19 @@ $$
 
 <p>A <a href="https://pt.wikipedia.org/wiki/Dist%C3%A2ncia_euclidiana" target="_blank">distância euclidiana</a> é uma métrica de <em>norma</em> $L_2$ da diferença, que descreve puramente a distância em linha reta entre dois pontos no <a href="https://pt.wikipedia.org/wiki/Espa%C3%A7o_euclidiano" target="_blank">espaço euclidiano</a> e que, claramente, pode ser comprovada pelo <a href="https://pt.wikipedia.org/wiki/Teorema_de_Pit%C3%A1goras" target="_blank">teorema de pitágora</a>. Em outras palavras, é nossa métrica natural e intuitiva para o espaço físico. A mesma pode ser descrita por:</p>
 
-$$ \displaystyle
-  d(x,y) \mapsto \|x-y\|_2 = \left[\sum_{i}^{n}(x_i-y_i)^2\right]^\frac{1}{2} = \sqrt{\sum_{i}^{n}(x_i-y_i)^2}
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    d(x,y) \mapsto \|x-y\|_2 = \left[\sum_{i}^{n}(x_i-y_i)^2\right]^\frac{1}{2} = \sqrt{\sum_{i}^{n}(x_i-y_i)^2}
+  $$
+</div>
 
 <p>Considerando dois pontos <em>x = [1, 5, 4]</em> e <em>y = [2, 8, 3]</em> (ambos devem ter o mesmo tamanho, no caso <b>3</b>), a <em>distância euclidiana</em> entre eles é:</p>
 
-$$ \displaystyle
-  d(x,y) = [(1 - 2)^2 + (5 - 8)^2 + (4 - 3)^2]^{\frac{1}{2}} = \sqrt{1 + 9 + 1} \approx 3.317
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    d(x,y) = [(1 - 2)^2 + (5 - 8)^2 + (4 - 3)^2]^{\frac{1}{2}} = \sqrt{1 + 9 + 1} \approx 3.317
+  $$
+</div>
 
 {% highlight python %}
 x = [1, 5, 4]
@@ -121,15 +129,19 @@ d_eucl = lambda x, y: np.sum((x - y)**2, axis=1)**0.5
 
 <p>A <a href="https://pt.wikipedia.org/wiki/Geometria_do_t%C3%A1xi" target="_blank">distância de manhattan</a>, também conhecida por <em>métrica do taxi</em>, é uma métrica de <em>norma</em> $L_1$ da diferença e de característica retilínea, descrita pela soma do valor absoluto de todas as diferenças. A mesma pode ser descrita por:</p>
 
-$$ \large \displaystyle
-  d(x,y) \mapsto \|x-y\|_1 = \sum_{i}^{n}|x_i-y_i|
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    d(x,y) \mapsto \|x-y\|_1 = \sum_{i}^{n}|x_i-y_i|
+  $$
+</div>
 
 <p>Considerando os pontos <em>x = [1, 5, 4]</em> e <em>y = [2, 8, 3]</em>, a <em>distância de manhattan</em> entre eles é:</p>
 
-$$ \large \displaystyle
-  d(x,y) = |1 - 2| + |5 - 8| + |4 - 3| = 1 + 3 + 1 = 5
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    d(x,y) = |1 - 2| + |5 - 8| + |4 - 3| = 1 + 3 + 1 = 5
+  $$
+</div>
 
 {% highlight python %}
 x = [1, 5, 4]
@@ -164,15 +176,19 @@ d_manh = lambda x, y: np.sum(np.absolute(x - y), axis = 1)
 
 <p>A <a href="https://en.wikipedia.org/wiki/Chebyshev_distance" target="_blank">distância de chebyshev</a> é uma métrica de <em>norma</em> $L_\infty$ da diferença e de característica uniforme, descrita pelo valor máximo entre todas as <em>n</em> diferenças absolutas. A mesma pode ser descrita por:</p>
 
-$$ \displaystyle
-  d(x,y) \mapsto \|x-y\|_\infty = \lim_{p\to\infty} \left(\sum_{i}^{n}|x_i-y_i|^p\right)^\frac{1}{p} = \overset{n}{\underset{i}{\max}}|x_i-y_i|
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    d(x,y) \mapsto \|x-y\|_\infty = \lim_{p\to\infty} \left(\sum_{i}^{n}|x_i-y_i|^p\right)^\frac{1}{p} = \overset{n}{\underset{i}{\max}}|x_i-y_i|
+  $$
+</div>
 
 <p>Considerando os pontos <em>x = [1, 5, 4]</em> e <em>y = [2, 8, 3]</em>, a <em>distância de chebyshev</em> entre eles é:</p>
 
-$$ \large \displaystyle
-  d(x,y) = \max(|1 - 2|, |5 - 8|, |4 - 3|) = \max(1, 3, 1) = 3
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    d(x,y) = \max(|1 - 2|, |5 - 8|, |4 - 3|) = \max(1, 3, 1) = 3
+  $$
+</div>
 
 {% highlight python %}
 x = [1, 5, 4]
@@ -206,15 +222,19 @@ Exemplo de <em>distância de chebyshev</em> no $\mathbb{R}^2$:
 
 <p>A <a href="https://en.wikipedia.org/wiki/Minkowski_distance" target="_blank">distância de minkowski</a> é uma métrica de <em>norma</em> $L_p$ da diferença e pode ser entendida como a generalização de todas que vimos até aqui, no caso: <em>Euclidiana</em>, <em>Manhattan</em> e <em>Chebyshev</em>. Sendo descrita como resultado da <a href="https://pt.wikipedia.org/wiki/Desigualdade_de_Minkowski" target="_blank">desigualdade de minkowski</a>, a ordem ou grau da distância entre os pontos é definida pelo parâmetro <b>p</b>. A mesma pode ser descrita por:</p>
 
-$$ \large \displaystyle
-  d(x,y) \mapsto \|x-y\|_p = \left(\sum_{i}^{n}|x_i-y_i|^p\right)^\frac{1}{p}
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    d(x,y) \mapsto \|x-y\|_p = \left(\sum_{i}^{n}|x_i-y_i|^p\right)^\frac{1}{p}
+  $$
+</div>
 
 <p>Considerando <em>p = 3</em> e os pontos <em>x = [1, 5, 4]</em> e <em>y = [2, 8, 3]</em>, a <em>distância de minkowski</em> entre eles é:</p>
 
-$$ \displaystyle
-  d(x,y) = (|1 - 2|^3 + |5 - 8|^3 + |4 - 3|^3)^{\frac{1}{3}} = (1 + 27 + 1)^{\frac{1}{3}} \approx 3.072
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    d(x,y) = (|1 - 2|^3 + |5 - 8|^3 + |4 - 3|^3)^{\frac{1}{3}} = (1 + 27 + 1)^{\frac{1}{3}} \approx 3.072
+  $$
+</div>
 
 {% highlight python %}
 p = 3
@@ -277,9 +297,11 @@ print(d_mink(x, y, 100))     # p = 100 Com p tendendo ao infinito, é aproximada
 
 <p>A <a href="https://en.wikipedia.org/wiki/Canberra_distance" target="_blank">distância de canberra</a> é uma métrica que pode ser entendida como uma forma ponderada da de <em>norma</em> $L_1$ e possui como característica uma grande sensibilidade para valores próximos à <em>zero</em>. A mesma pode ser descrita por:</p>
 
-$$ \large \displaystyle
-  d(x,y) = \sum_{i}^{n}\frac{|x_i-y_i|}{|x_i|+|y_i|}
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    d(x,y) = \sum_{i}^{n}\frac{|x_i-y_i|}{|x_i|+|y_i|}
+  $$
+</div>
 
 <p style="text-align: center;color: #888888">
   Note que se um dos pontos for muito próximo ou igual à origem [0, 0], o valor da distância sempre irá tender à 1. Isso explica a sensibilidade para valores próximos à zero.
@@ -309,9 +331,11 @@ def d_canb(x, y):
 
 <p>A <em>distância do cosseno</em> ou <a href="https://en.wikipedia.org/wiki/Cosine_similarity" target="_blank">similaridade do cosseno</a> é uma métrica angular, derivada do <a href="https://pt.wikipedia.org/wiki/Produto_escalar" target="_blank">produto escalar</a> normalizado pelo produto das normas $L_2$ de cada ponto (ou seja, suas distâncias euclidianas em relação à origem). A mesma pode ser descrita por:</p>
 
-$$ \large \displaystyle
-  d(x,y) \mapsto 1 - \frac{x \cdotp y}{\|x\|_2\|y\|_2} = 1 - \frac{\sum_{i}^{n}x_i y_i}{\sqrt{\sum_{i}^{n}x_i^2}\sqrt{\sum_{i}^{n}y_i^2}}
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    d(x,y) \mapsto 1 - \frac{x \cdotp y}{\|x\|_2\|y\|_2} = 1 - \frac{\sum_{i}^{n}x_i y_i}{\sqrt{\sum_{i}^{n}x_i^2}\sqrt{\sum_{i}^{n}y_i^2}}
+  $$
+</div>
 
 <p style="text-align: center;color: #888888">
   Note que uma característica extremamente importante, assim como na <em>distância de canberra</em>, é que valores iguais a <em>zero</em> devem ser evitados. Caso contrário, <a href="https://media.giphy.com/media/3oKIPs1EVbbNZYq7EA/giphy.gif" target="_blank">já sabe!</a>
@@ -344,9 +368,11 @@ def d_coss(x, y):
 
 <p>A <a href="https://pt.wikipedia.org/wiki/Dist%C3%A2ncia_de_Hamming" target="_blank">distância de hamming</a> é uma métrica posicional, geralmente aplicada à strings ou qualquer tipo de dado indexável. Ela, basicamente, quantifica a diferença entre os índices. A mesma pode ser descrita por:</p>
 
-$$ \large \displaystyle
-  d(x,y) = \sum_{i}^{n}w_i[x_i \neq y_i]
-$$
+<div class="mj-equation">
+  $$ \large \displaystyle
+    d(x,y) = \sum_{i}^{n}w_i[x_i \neq y_i]
+  $$
+</div>
 
 <p>Note que $w_i$ é um valor de peso que será atribuído à operação, caso a condição $x_i \neq y_i$ seja satisfeita. Para título de exemplo, iremos sempre considerar $w_i = 1$. Sendo assim, a implementação da função da <em>distância de hamming</em> entre um objeto <b>x</b> e outro <b>y</b> pode ser entendida por:</p>
 
