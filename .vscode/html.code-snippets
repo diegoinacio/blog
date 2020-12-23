@@ -1,17 +1,64 @@
 {
-	"Post Front Matter": {
-		"scope": "html",
-		"prefix": "Include",
-		"body": [
-			"---",
-			"layout:     post",
-			"title:      ${1:Post Title}",
-			"excerpt:    ${2:Post excerpt ...}",
-			"date:       $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
-			"categories: [${3:Categories}]",
-			"image:      /images/headers/${4:image}.jpg",
-			"mathjax:    ${5|true,false|}",
-			"---",
-		]
-	}
+  "Post Front Matter": {
+    "scope": "html",
+    "prefix": "Include",
+    "body": [
+      "---",
+      "layout:     post",
+      "title:      ${1:Post Title}",
+      "excerpt:    ${2:Post excerpt ...}",
+      "date:       $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
+      "categories: [${3:Categories}]",
+      "image:      /images/headers/${4:image}.jpg",
+      "mathjax:    ${5|true,false|}",
+      "---",
+    ]
+  },
+  "Content Table": {
+    "scope": "html",
+    "prefix": "Include",
+    "body": [
+      "<div class=\"content-table\">",
+      "  <ul>",
+      "    $0",
+      "  </ul>",
+      "</div>",
+    ]
+  },
+  "New \"single\" item to Content Table": {
+    "scope": "html",
+    "prefix": "Include",
+    "body": [
+      "<li><a href=\"#${1:item-id}\">${2:Item Title}</a></li>",
+    ]
+  },
+  "New \"multiple\" item to Content Table": {
+    "scope": "html",
+    "prefix": "Include",
+    "body": [
+      "<li><a href=\"#${1:item-id}\">${2:Item Title}</a>",
+      "  <ul>",
+      "    $3",
+      "  </ul>",
+      "</li>",
+    ]
+  },
+  "New Anchor Content": {
+    "scope": "html",
+    "prefix": "Include",
+    "body": [
+      "<${1|h2,h3|} id=\"${2:item-id}\" class=\"anchor-content\">${3:Item Title}</$1>",
+    ]
+  },
+  "New Equation": {
+    "scope": "html",
+    "prefix": "Include",
+    "body": [
+      "<div class=\"mj-equation\">",
+      "  $$ \\large \\displaystyle",
+      "    $1",
+      "  $$",
+      "</div>",
+    ]
+  }
 }
