@@ -407,50 +407,52 @@ print(conv_baseDecimal(conv_decimalBase(101.01, 8), 8))
 
 <p>Antes de falarmos sobre cada uma das partes, é de grande importância comentar sobre a <em>precisão</em>. A precisão está ligada diretamente com a quantidade de <em>bits</em> que iremos utilizar pra representar algum valor. Isso irá interferir diretamente na quantidade de bits das partes relativas ao <em>expoente</em> e ao <em>predicando</em>. A quantidade de dígitos para o <em>sinal</em> sempre será <b>1</b>. Segue a lista das precisões:</p>
 
-<table>
-  <tr>
-    <th>nome</th>
-    <th>quantidade de bits (<b>n</b>)</th>
-    <th>bits significativos (<b>k</b>)</th>
-    <th>bits do espoente (<b>n-k-1</b>)</th>
-    <th>bits do sinal (<b>s</b>)</th>
-  </tr>
-  <tr>
-    <td>meia precisão</td>
-    <td>16</td>
-    <td>10</td>
-    <td>5</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td>precisão simples*</td>
-    <td>32</td>
-    <td>23</td>
-    <td>8</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td>precisão dupla</td>
-    <td>64</td>
-    <td>52</td>
-    <td>11</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td>precisão quádrupla</td>
-    <td>128</td>
-    <td>112</td>
-    <td>15</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td>precisão óctupla</td>
-    <td>256</td>
-    <td>236</td>
-    <td>19</td>
-    <td>1</td>
-  </tr>
-</table>
+<div class="table">
+  <table>
+    <tr>
+      <th>nome</th>
+      <th>quantidade de bits (<b>n</b>)</th>
+      <th>bits significativos (<b>k</b>)</th>
+      <th>bits do espoente (<b>n-k-1</b>)</th>
+      <th>bits do sinal (<b>s</b>)</th>
+    </tr>
+    <tr>
+      <td>meia precisão</td>
+      <td>16</td>
+      <td>10</td>
+      <td>5</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>precisão simples*</td>
+      <td>32</td>
+      <td>23</td>
+      <td>8</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>precisão dupla</td>
+      <td>64</td>
+      <td>52</td>
+      <td>11</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>precisão quádrupla</td>
+      <td>128</td>
+      <td>112</td>
+      <td>15</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>precisão óctupla</td>
+      <td>256</td>
+      <td>236</td>
+      <td>19</td>
+      <td>1</td>
+    </tr>
+  </table>
+</div>
 
 <p>Por padrão, iremos utilizar a <em>precisão simples</em>, com 32 bits. O primeiro passo é definirmos uma tabela para <b>k</b>, mapeado pelo valor de <b>n</b>. Tendo o valor de <b>k</b>, é possível definir o número de dígitos de <b>q</b>, variável a qual chameremos de <b>nq</b> ($n_q=n-k-1$).</p>
 
