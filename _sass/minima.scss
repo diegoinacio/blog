@@ -22,6 +22,8 @@ $grey-color: #828282 !default;
 $grey-color-light: lighten($grey-color, 40%) !default;
 $grey-color-dark: darken($grey-color, 25%) !default;
 
+$bg-color-code: lighten($grey-color-light, 5%) !important;
+
 $table-text-align: left !default;
 
 // ! Transition time
@@ -32,6 +34,9 @@ $content-width: 800px !default;
 
 $on-palm: 600px !default;
 $on-laptop: 800px !default;
+
+$block-border-color: lighten($grey-color-light, 5%) !important;
+$block-border-radius: 3px !important;
 
 // Use media queries like this:
 // @include media-query($on-palm) {
@@ -48,6 +53,21 @@ $on-laptop: 800px !default;
 
 @mixin relative-font-size($ratio) {
   font-size: $base-font-size * $ratio;
+}
+
+@mixin show-horizontal-scrollbar {
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+  }
+
+  &::-webkit-scrollbar:horizontal {
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $grey-color-light;
+    border-radius: 5px;
+  }
 }
 
 // Import partials.

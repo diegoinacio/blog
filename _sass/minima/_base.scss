@@ -142,9 +142,9 @@ blockquote {
 pre,
 code {
   @include relative-font-size(0.9375);
-  border: 1px solid $grey-color-light;
-  border-radius: 3px;
-  background-color: #eef;
+  @include show-horizontal-scrollbar;
+  border-radius: $block-border-radius;
+  background-color: $bg-color-code;
 }
 
 code {
@@ -237,4 +237,9 @@ table {
   td {
     border: 1px solid $grey-color-light;
   }
+}
+
+.table {
+  @include show-horizontal-scrollbar;
+  overflow-x: auto;
 }

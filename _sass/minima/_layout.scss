@@ -320,3 +320,16 @@
     color: $grey-color;
   }
 }
+
+/**
+ * MathJax
+ */
+
+.mj-equation {
+  @include show-horizontal-scrollbar;
+  overflow-x: auto;
+  border: 1px solid $block-border-color;
+  border-radius: $block-border-radius;
+  margin: $spacing-unit 0 $spacing-unit 0;
+  padding: $spacing-unit 0 $spacing-unit 0;
+}
