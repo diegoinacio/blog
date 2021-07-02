@@ -1,32 +1,32 @@
 ---
-layout:     post
-title:      Regression Analysis
-excerpt:    Analysis and implementation of some of the main Regression models from scratch.
-date:       2019-06-12
+layout: post
+title: Regression Analysis
+excerpt: Analysis and implementation of some of the main Regression models from scratch.
+date: 2019-06-12
 categories: [Machine Learning, Algorithm]
-mathjax:    true
+mathjax: true
 ---
 
 <p>
-  Regression analysis involves a set of techniques applied to <a href="https://en.wikipedia.org/wiki/Supervised_learning" target="_blank">supervised learning</a>, which proposes to infer the relationship between a <em>dependent variable</em> and one or more <em>independent variables</em>. There are so many methods and kinds of regression, which can be applied in different situations or for distinct purposes, but here we are going to address some well-known ones. They are:
+  Regression analysis involves a set of techniques applied to
+  <a href="https://en.wikipedia.org/wiki/Supervised_learning" target="_blank"
+    >supervised learning</a
+  >, which proposes to infer the relationship between a
+  <em>dependent variable</em> and one or more <em>independent variables</em>.
+  There are so many methods and kinds of regression, which can be applied in
+  different situations or for distinct purposes, but here we are going to
+  address some well-known ones. They are:
 </p>
 
-<div class="content-table">
-  <ul>
-    <li><a href="#linear-regression">Linear Regression</a>
-      <ul>
-        <li><a href="#linear-regression-simple">Simple Linear Regression</a></li>
-        <li><a href="#linear-regression-multiple">Multiple Linear Regression</a></li>
-        <li><a href="#linear-regression-gradDesc">Gradient descent</a></li>
-      </ul>
-    </li>
-    <li><a href="#logistic-regression">Logistic Regression</a></li>
-    <li><a href="#polynomial-regression">Polynomial Regression</a></li>
-  </ul>
-</div>
+{%- include content-table.html -%}
 
 <p>
-  The main goal of this post is to make a quick description and implementation, as clear and intuitive as possible. All models will be developed using only <em>Python</em> and <a href="http://www.numpy.org/" target="_blank">NumPy</a>, as well as no real dataset will be used (only data biasedly produced) for a better understanding and visualization of the results. Well, let's check it out.
+  The main goal of this post is to make a quick description and implementation,
+  as clear and intuitive as possible. All models will be developed using only
+  <em>Python</em> and <a href="http://www.numpy.org/" target="_blank">NumPy</a>,
+  as well as no real dataset will be used (only data biasedly produced) for a
+  better understanding and visualization of the results. Well, let's check it
+  out.
 </p>
 
 <h2 id="linear-regression" class="anchor-content">Linear Regression</h2>
@@ -34,7 +34,11 @@ mathjax:    true
 <p><font color="888888">*[supervised, prediction]*</font></p>
 
 <p>
-  Linear regression can be understood as a statistical analysis process which infers the linear relationship between a dependent variable and one or more independent variables. One way to measure the degree of dependence between X and Y is by the correlation coefficient $\large \rho_ {XY}$, which is defined by:
+  Linear regression can be understood as a statistical analysis process which
+  infers the linear relationship between a dependent variable and one or more
+  independent variables. One way to measure the degree of dependence between X
+  and Y is by the correlation coefficient $\large \rho_ {XY}$, which is defined
+  by:
 </p>
 
 <div class="mj-equation">
@@ -52,6 +56,7 @@ where:
   <li>$\large cov$ is the covariance.</li>
 </ul>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 def correlation(X, Y):
   mu_X, mu_Y = X.mean(), Y.mean()
@@ -60,36 +65,46 @@ def correlation(X, Y):
   return cov/(sigma_X*sigma_Y)
 {% endhighlight %}
 
-<img src="{{ site.baseurl }}{% link /images/visualizations/regression_linear_correlation.png %}" alt="correlation"/>
+<img
+  src="{{ site.baseurl }}{% link /images/visualizations/regression_linear_correlation.png %}"
+  alt="correlation"
+/>
 
-<h3 id="linear-regression-simple" class="anchor-content">Simple Linear Regression</h3>
+<h3 id="linear-regression-simple" class="anchor-content">
+  Simple Linear Regression
+</h3>
 
 <p>
-  A <a href="https://en.wikipedia.org/wiki/Simple_linear_regression" target="_blank">simple linear regression</a> performs a treatment over two-dimensional sample points, which one represents the dependent variable <b>y</b> and the other one represents the independent variable <b>x</b>, analytically described by:
+  A
+  <a
+    href="https://en.wikipedia.org/wiki/Simple_linear_regression"
+    target="_blank"
+    >simple linear regression</a
+  >
+  performs a treatment over two-dimensional sample points, which one represents
+  the dependent variable <b>y</b> and the other one represents the independent
+  variable <b>x</b>, analytically described by:
 </p>
 
-<div class="mj-equation">
-  $$ \large \displaystyle
-    y_i=mx_i+b
-  $$
-</div>
+<div class="mj-equation">$$ \large \displaystyle y_i=mx_i+b $$</div>
 
-Where $m$ describes the <em>angular coefficient</em> (<e>or line slope</e>) and $b$ the <em>linear coefficient</em> (<em>or line y-intersept</em>). Both can be defined by:
+Where $m$ describes the <em>angular coefficient</em> (<e>or line slope</e>) and
+$b$ the <em>linear coefficient</em> (<em>or line y-intersept</em>). Both can be
+defined by:
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    m=\frac{\sum_i^n (x_i-\overline{x})(y_i-\overline{y})}{\sum_i^n (x_i-\overline{x})^2}
-  $$
+  $$ \large \displaystyle m=\frac{\sum_i^n
+  (x_i-\overline{x})(y_i-\overline{y})}{\sum_i^n (x_i-\overline{x})^2} $$
 </div>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    b=\overline{y}-m\overline{x}
-  $$
+  $$ \large \displaystyle b=\overline{y}-m\overline{x} $$
 </div>
 
-Where $\large \overline{y}$ and $\large \overline{x}$ are the mean values of $\large y$ and $\large x$, respectively.
+Where $\large \overline{y}$ and $\large \overline{x}$ are the mean values of
+$\large y$ and $\large x$, respectively.
 
+<!-- prettier-ignore -->
 {% highlight python %}
 class linearRegression_simple(object):
   def __init__(self):
@@ -111,32 +126,42 @@ class linearRegression_simple(object):
     return self._m*x + self._b
 {% endhighlight %}
 
-<img src="{{ site.baseurl }}{% link /images/visualizations/regression_linear_pred.png %}" alt="simple linear regression"/>
+<img
+  src="{{ site.baseurl }}{% link /images/visualizations/regression_linear_pred.png %}"
+  alt="simple linear regression"
+/>
 
 <p>
-  The residual is given by the <a href="https://en.wikipedia.org/wiki/Mean_squared_error">MSE</a> (or <em>mean squared error</em>), which is described by:
+  The residual is given by the
+  <a href="https://en.wikipedia.org/wiki/Mean_squared_error">MSE</a> (or
+  <em>mean squared error</em>), which is described by:
 </p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    MSE=\frac{1}{n} \sum_i^n (Y_i- \hat{Y}_i)^2
-  $$
+  $$ \large \displaystyle MSE=\frac{1}{n} \sum_i^n (Y_i- \hat{Y}_i)^2 $$
 </div>
 
-<img src="{{ site.baseurl }}{% link /images/visualizations/regression_linear_residual.png %}" alt="residual"/>
+<img
+  src="{{ site.baseurl }}{% link /images/visualizations/regression_linear_residual.png %}"
+  alt="residual"
+/>
 
-<h3 id="linear-regression-multiple" class="anchor-content">Multiple Linear Regression</h3>
+<h3 id="linear-regression-multiple" class="anchor-content">
+  Multiple Linear Regression
+</h3>
 
 <p>
-  A <em>multiple linear regression</em> performs a treatment over n-dimensional sample points, which one represents the dependent variable $\large y$ and other one or more represent the independent variables $\large x_n$, analytically described by:
+  A <em>multiple linear regression</em> performs a treatment over n-dimensional
+  sample points, which one represents the dependent variable $\large y$ and
+  other one or more represent the independent variables $\large x_n$,
+  analytically described by:
 </p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    y=m_1x_1+m_2x_2+...+m_nx_n+b
-  $$
+  $$ \large \displaystyle y=m_1x_1+m_2x_2+...+m_nx_n+b $$
 </div>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 class linearRegression_multiple(object):
   def __init__(self):
@@ -155,44 +180,46 @@ class linearRegression_multiple(object):
 {% endhighlight %}
 
 <p>
-  The result of a three dimensional data system is a hyperplane, with one <em>dependent variable</em> and two <em>independent variable</em>, such as:
+  The result of a three dimensional data system is a hyperplane, with one
+  <em>dependent variable</em> and two <em>independent variable</em>, such as:
 </p>
 
-<img src="{{ site.baseurl }}{% link /images/visualizations/regression_linear_multiple_pred.png %}" alt="multiple linear regression"/>
+<img
+  src="{{ site.baseurl }}{% link /images/visualizations/regression_linear_multiple_pred.png %}"
+  alt="multiple linear regression"
+/>
 
 <h3 id="linear-regression-gradDesc" class="anchor-content">Gradient descent</h3>
 
 <p>
-  The use of gradient descent for the linear regression solution is given by the process in minimizing the errors of the angular coefficients <b>m</b> and scalar coefficient <b>b</b>, such that:
+  The use of gradient descent for the linear regression solution is given by the
+  process in minimizing the errors of the angular coefficients <b>m</b> and
+  scalar coefficient <b>b</b>, such that:
 </p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    e_{m,b}=\frac{1}{n} \sum_i^n (y_i-(mx_i+b))^2
-  $$
+  $$ \large \displaystyle e_{m,b}=\frac{1}{n} \sum_i^n (y_i-(mx_i+b))^2 $$
 </div>
 
 <p>
-  To perform the gradient descent as a function of the error, it is necessary to calculate the gradient vector $\large \nabla$ of the function, described by:
+  To perform the gradient descent as a function of the error, it is necessary to
+  calculate the gradient vector $\large \nabla$ of the function, described by:
 </p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    \nabla e_{m,b}=\Big\langle\frac{\partial e}{\partial m},\frac{\partial e}{\partial b}\Big\rangle
-  $$
+  $$ \large \displaystyle \nabla e_{m,b}=\Big\langle\frac{\partial e}{\partial
+  m},\frac{\partial e}{\partial b}\Big\rangle $$
 </div>
 
 Where:
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    \begin{aligned}
-      \frac{\partial e}{\partial m}&=\frac{2}{n} \sum_{i}^{n}-x_i(y_i-(mx_i+b)), \\
-      \frac{\partial e}{\partial b}&=\frac{2}{n} \sum_{i}^{n}-(y_i-(mx_i+b))
-    \end{aligned}
-  $$
+  $$ \large \displaystyle \begin{aligned} \frac{\partial e}{\partial
+  m}&=\frac{2}{n} \sum_{i}^{n}-x_i(y_i-(mx_i+b)), \\ \frac{\partial e}{\partial
+  b}&=\frac{2}{n} \sum_{i}^{n}-(y_i-(mx_i+b)) \end{aligned} $$
 </div>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 class linearRegression_GD(object):
   def __init__(self, mo=0, bo=0, rate=0.001):
@@ -212,41 +239,37 @@ class linearRegression_GD(object):
     return self._m*x + self._b
 {% endhighlight %}
 
-<img src="{{ site.baseurl }}{% link /images/visualizations/regression_linear_gradDesc.gif %}" alt="gradient descent regression"/>
-
+<img
+  src="{{ site.baseurl }}{% link /images/visualizations/regression_linear_gradDesc.gif %}"
+  alt="gradient descent regression"
+/>
 
 <h2 id="logistic-regression" class="anchor-content">Logistic Regression</h2>
 
 <p><font color="888888">*[supervised, classification]*</font></p>
 
 <p>
-  <a href="https://en.wikipedia.org/wiki/Logistic_regression" target="_blank">Logistic regression</a> is a statistical process similar to linear regression, which solves classification problems by means of a hypothesis over the discrete values $\large y_i$, represented by:
+  <a href="https://en.wikipedia.org/wiki/Logistic_regression" target="_blank"
+    >Logistic regression</a
+  >
+  is a statistical process similar to linear regression, which solves
+  classification problems by means of a hypothesis over the discrete values
+  $\large y_i$, represented by:
 </p>
 
 <div class="mj-equation">
   $$ \large \displaystyle
-    h_{\theta}(x)=g(\theta^Tx)=\frac{e^{\theta^Tx}}{1+e^{\theta^Tx}}=\frac{1}{1+e^{-\theta^Tx}}
+  h_{\theta}(x)=g(\theta^Tx)=\frac{e^{\theta^Tx}}{1+e^{\theta^Tx}}=\frac{1}{1+e^{-\theta^Tx}}
   $$
 </div>
 
 so that:
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    \theta^Tx=
-    \begin{bmatrix}
-      \theta_0 \\
-      \theta_1 \\
-      \vdots \\
-      \theta_i
-    \end{bmatrix}
-    \begin{bmatrix}
-      1 & x_{11} & \cdots & x_{1i} \\
-      1 & x_{21} & \cdots & x_{2i} \\
-      \vdots & \vdots & \ddots & \vdots \\
-      1 & x_{n1} & \cdots & x_{ni}
-    \end{bmatrix}
-  $$
+  $$ \large \displaystyle \theta^Tx= \begin{bmatrix} \theta_0 \\ \theta_1 \\
+  \vdots \\ \theta_i \end{bmatrix} \begin{bmatrix} 1 & x_{11} & \cdots & x_{1i}
+  \\ 1 & x_{21} & \cdots & x_{2i} \\ \vdots & \vdots & \ddots & \vdots \\ 1 &
+  x_{n1} & \cdots & x_{ni} \end{bmatrix} $$
 </div>
 
 where:
@@ -258,15 +281,17 @@ where:
 </ul>
 
 <p>
-  As similar as linear regression, logistic regression can be adjusted by gradient descent so it is necessary to calculate the sigmoid function gradient, described by:
+  As similar as linear regression, logistic regression can be adjusted by
+  gradient descent so it is necessary to calculate the sigmoid function
+  gradient, described by:
 </p>
 
 <div class="mj-equation">
   $$ \large \displaystyle
-    g'(z)=\frac{d}{dz}\frac{1}{1+e^{-z}}=\frac{e^{-z}}{(1+e^-z)^2}=g(z)(1-g(z))
-  $$
+  g'(z)=\frac{d}{dz}\frac{1}{1+e^{-z}}=\frac{e^{-z}}{(1+e^-z)^2}=g(z)(1-g(z)) $$
 </div>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 class logisticRegression(object):
   def __init__(self, rate=0.001, iters=1024):
@@ -293,108 +318,94 @@ class logisticRegression(object):
     return self._sigmoid(np.dot(x, self._theta.T)) > 0.5
 {% endhighlight %}
 
-<img src="{{ site.baseurl }}{% link /images/visualizations/regression_logistic_gradDesc.gif %}" alt="gradient descent logistic regression"/>
+<img
+  src="{{ site.baseurl }}{% link /images/visualizations/regression_logistic_gradDesc.gif %}"
+  alt="gradient descent logistic regression"
+/>
 
 <p>
-  For the binary classification of a two-dimensional dataset, the line which describes the decision boundary is defined by:
+  For the binary classification of a two-dimensional dataset, the line which
+  describes the decision boundary is defined by:
 </p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    \theta_0+\theta_1 x_1+\theta_2 x_2=0
-  $$
+  $$ \large \displaystyle \theta_0+\theta_1 x_1+\theta_2 x_2=0 $$
 </div>
 
 Considering $\large x_2$ as the vertical axis:
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    x_2=-\frac{\theta_0+\theta_1 x_1}{\theta_2}
-  $$
+  $$ \large \displaystyle x_2=-\frac{\theta_0+\theta_1 x_1}{\theta_2} $$
 </div>
 
-<img src="{{ site.baseurl }}{% link /images/visualizations/regression_logistic_pred.png %}" alt="logistic regression classification"/>
-
+<img
+  src="{{ site.baseurl }}{% link /images/visualizations/regression_logistic_pred.png %}"
+  alt="logistic regression classification"
+/>
 
 <h2 id="polynomial-regression" class="anchor-content">Polynomial Regression</h2>
 
 <p><font color="888888">*[supervised, prediction]*</font></p>
 
 <p>
-  When a dataset is not linearly related or linearly separable, linear regression or logistic regression do not provide the best fit solution. For example, given the function:
+  When a dataset is not linearly related or linearly separable, linear
+  regression or logistic regression do not provide the best fit solution. For
+  example, given the function:
 </p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    f(x)=x^3-3x^2+x+1+\epsilon
+  $$ \large \displaystyle f(x)=x^3-3x^2+x+1+\epsilon $$
+</div>
+
+<p>we can see that it does not have a good linear solution.</p>
+
+<img
+  src="{{ site.baseurl }}{% link /images/visualizations/regression_polynomial_linear.png %}"
+  alt="polynomial regression linear"
+/>
+
+<p>
+  Thus, a good option would be to use the
+  <a href="https://en.wikipedia.org/wiki/Polynomial_regression" target="_blank"
+    >polynomial regression</a
+  >, which is a non-linear prediction model, defined by:
+</p>
+
+<div class="mj-equation">
+  $$ \large \displaystyle \vec{y}=\mathbf{X}\vec{\mathbf{\beta}}+\vec{\epsilon}
   $$
 </div>
 
 <p>
-  we can see that it does not have a good linear solution.
+  where $\large \mathbf{X}$ (or $\large \mathbf{V}$) is the Vandermonde's matrix
+  of the independent variable, parametrised by the maximum degree $\large m$, a
+  response vector $\large \vec{y}$, a parameter vector $\large
+  \vec{\mathbf{\beta}}$ and a random error vector $\large \vec{\epsilon}$. In
+  the form of a system of linear equations, we have:
 </p>
 
-<img src="{{ site.baseurl }}{% link /images/visualizations/regression_polynomial_linear.png %}" alt="polynomial regression linear"/>
+<div class="mj-equation">
+  $$ \large \displaystyle \begin{bmatrix} y_1 \\ y_2 \\ y_3 \\ \vdots \\ y_n
+  \end{bmatrix} = \begin{bmatrix} 1 & x_1 & x_1^2 &\cdots & x_1^m \\ 1 & x_2 &
+  x_2^2 & \cdots & x_2^m \\ 1 & x_3 & x_3^2 & \cdots & x_3^m \\ \vdots & \vdots
+  & \vdots & \ddots & \vdots \\ 1 & x_n & x_n^2 & \cdots & x_n^m \end{bmatrix}
+  \begin{bmatrix} \beta_1 \\ \beta_2 \\ \beta_3 \\ \vdots \\ \beta_m
+  \end{bmatrix} + \begin{bmatrix} \epsilon_1 \\ \epsilon_2 \\ \epsilon_3 \\
+  \vdots \\ \epsilon_n \end{bmatrix} $$
+</div>
 
 <p>
-  Thus, a good option would be to use the <a href="https://en.wikipedia.org/wiki/Polynomial_regression" target="_blank">polynomial regression</a>, which is a non-linear prediction model, defined by:
+  By means of the Least Squares Method, the estimated coefficient vector is
+  given by:
 </p>
 
 <div class="mj-equation">
   $$ \large \displaystyle
-    \vec{y}=\mathbf{X}\vec{\mathbf{\beta}}+\vec{\epsilon}
+  \widehat{\vec{\mathbf{\beta}}}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\vec{y}
   $$
 </div>
 
-<p>
-  where $\large \mathbf{X}$ (or $\large \mathbf{V}$) is the Vandermonde's matrix of the independent variable, parametrised by the maximum degree $\large m$, a response vector $\large \vec{y}$, a parameter vector $\large \vec{\mathbf{\beta}}$ and a random error vector $\large \vec{\epsilon}$. In the form of a system of linear equations, we have:
-</p>
-
-<div class="mj-equation">
-  $$ \large \displaystyle
-    \begin{bmatrix}
-      y_1 \\
-      y_2 \\
-      y_3 \\
-      \vdots \\
-      y_n
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-      1 & x_1 & x_1^2 &\cdots & x_1^m \\
-      1 & x_2 & x_2^2 & \cdots & x_2^m \\
-      1 & x_3 & x_3^2 & \cdots & x_3^m \\
-      \vdots & \vdots & \vdots & \ddots & \vdots \\
-      1 & x_n & x_n^2 & \cdots & x_n^m
-    \end{bmatrix}
-    \begin{bmatrix}
-      \beta_1 \\
-      \beta_2 \\
-      \beta_3 \\
-      \vdots \\
-      \beta_m
-    \end{bmatrix}
-    +
-    \begin{bmatrix}
-      \epsilon_1 \\
-      \epsilon_2 \\
-      \epsilon_3 \\
-      \vdots \\
-      \epsilon_n
-    \end{bmatrix}
-  $$
-</div>
-
-<p>
-  By means of the Least Squares Method, the estimated coefficient vector is given by:
-</p>
-
-<div class="mj-equation">
-  $$ \large \displaystyle
-    \widehat{\vec{\mathbf{\beta}}}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\vec{y}
-  $$
-</div>
-
+<!-- prettier-ignore -->
 {% highlight python %}
 class polynomialRegression(object):
   def __init__(self, degree=1):
@@ -414,7 +425,12 @@ class polynomialRegression(object):
 {% endhighlight %}
 
 <p>
-  Note that our class has an attribute called <em>degree</em> which is the maximum degree of our function $\large f(x)$. In our example it should be $\large m=3$.
+  Note that our class has an attribute called <em>degree</em> which is the
+  maximum degree of our function $\large f(x)$. In our example it should be
+  $\large m=3$.
 </p>
 
-<img src="{{ site.baseurl }}{% link /images/visualizations/regression_polynomial_pred.png %}" alt="polynomial regression"/>
+<img
+  src="{{ site.baseurl }}{% link /images/visualizations/regression_polynomial_pred.png %}"
+  alt="polynomial regression"
+/>

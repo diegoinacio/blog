@@ -1,105 +1,208 @@
 ---
-layout:     post
-title:      Representação IEEE 754 para números reais
-excerpt:    Uma visão um pouco mais aprofundada da representação de números reais no padrão IEEE 754. [ptBR - IMPORTED FROM AN OLDER BLOG]
-date:       2018-06-22
+layout: post
+title: Representação IEEE 754 para números reais
+excerpt: Uma visão um pouco mais aprofundada da representação de números reais no padrão IEEE 754. [ptBR - IMPORTED FROM AN OLDER BLOG]
+date: 2018-06-22
 categories: [Numerical Analysis]
-mathjax:    true
+mathjax: true
 ---
 
-<p>O padrão <a href="https://pt.wikipedia.org/wiki/IEEE_754" target="_blank">IEEE 754</a> é um conjunto de normas técnicas que regem operações computacionais em ponto flutuante. Uma de suas abordagens é a padroniazação da representação de números reais na forma binária. Para realizar essa representação, algumas etapas devem ser seguidas e para entender cada uma delas, alguns tópicos devem ser abordados. São eles:</p>
+<p>
+  O padrão
+  <a href="https://pt.wikipedia.org/wiki/IEEE_754" target="_blank">IEEE 754</a>
+  é um conjunto de normas técnicas que regem operações computacionais em ponto
+  flutuante. Uma de suas abordagens é a padroniazação da representação de
+  números reais na forma binária. Para realizar essa representação, algumas
+  etapas devem ser seguidas e para entender cada uma delas, alguns tópicos devem
+  ser abordados. São eles:
+</p>
 
-<div class="content-table">
-  <ul>
-    <li><a href="#sistNum">Sistemas de numeração</a></li>
-    <li><a href="#convNum">Conversão de base numérica</a></li>
-    <li><a href="#ieee754">Padrão IEEE 754</a></li>
-  </ul>
-</div>
+{%- include content-table.html -%}
 
-<p>A conversão de qualquer estrutura de dado para forma binária é algo altamente recorrente em um sistema computacional. Apesar de o processo de representar um número real em binário seja algo que os computadores modernos já fazem internamente, vamos tentar abordar o processo de conversão, pois, além de ser interessante, pode ser útilizado em uma série de algorítmos.</p>
+<p>
+  A conversão de qualquer estrutura de dado para forma binária é algo altamente
+  recorrente em um sistema computacional. Apesar de o processo de representar um
+  número real em binário seja algo que os computadores modernos já fazem
+  internamente, vamos tentar abordar o processo de conversão, pois, além de ser
+  interessante, pode ser útilizado em uma série de algorítmos.
+</p>
 
 <h2 id="sistNum" class="anchor-content">Sistemas de numeração</h2>
 
-<p>Um <a href="https://pt.wikipedia.org/wiki/Sistema_de_numera%C3%A7%C3%A3o" target="_blank">sistema de numeração</a> basicamente, pode ser entendido como um conjunto de <em>dígitos</em> (<b>d</b>) ordenados, que representam um <em>número</em> (<b>N</b>). Todo sistema de numeração é regido por uma base (<b>b</b>), que essencialmente define a quantidade de símbolos que irão compor o sistema. Por exemplo, um sistema de numeração com base igual a <b>8</b>, terá <em>oito</em> possibilidades de dígitos a partir do <em>0</em>, no caso [01234567]. Em meios digitais, além do sistema <a href="https://pt.wikipedia.org/wiki/Sistema_de_numera%C3%A7%C3%A3o_decimal" target="_blank">decimal</a> (b=10; [0123456789]), que é o que utilizamos no nosso dia-a-dia, também se destacam o <a href="https://pt.wikipedia.org/wiki/Sistema_de_numera%C3%A7%C3%A3o_bin%C3%A1rio" target="_blank">binário</a> (b=2; [01]), o <a href="https://pt.wikipedia.org/wiki/Sistema_octal" target="_blank">octal</a> (b=8; [01234567]) e o <a href="https://pt.wikipedia.org/wiki/Sistema_de_numera%C3%A7%C3%A3o_hexadecimal" target="_blank">hexadecimal</a> (b=16; [0123456789ABCDEF]). Qualquer número pode possuir duas partes, uma <em>inteira</em> e outra <em>fracionária</em>. A parte inteira representa a quantidade de unidades e a fracionária a <em>fração</em> de uma unidade. O símbolo "<em>ponto</em>" (.) é responsável por realizar a separação dessas partes. No <em>Brasil</em>, de acordo com o <a href="http://www.inmetro.gov.br/inovacao/publicacoes/vim_2012.pdf" target="_blank">VIM2012</a>, o padrão utilizado para separação fracionária é a <em>vírgula</em> (,), mas utilizaremos o ponto para fazer referência às linguagens de programação.</p>
+<p>
+  Um
+  <a
+    href="https://pt.wikipedia.org/wiki/Sistema_de_numera%C3%A7%C3%A3o"
+    target="_blank"
+    >sistema de numeração</a
+  >
+  basicamente, pode ser entendido como um conjunto de
+  <em>dígitos</em> (<b>d</b>) ordenados, que representam um
+  <em>número</em> (<b>N</b>). Todo sistema de numeração é regido por uma base
+  (<b>b</b>), que essencialmente define a quantidade de símbolos que irão compor
+  o sistema. Por exemplo, um sistema de numeração com base igual a <b>8</b>,
+  terá <em>oito</em> possibilidades de dígitos a partir do <em>0</em>, no caso
+  [01234567]. Em meios digitais, além do sistema
+  <a
+    href="https://pt.wikipedia.org/wiki/Sistema_de_numera%C3%A7%C3%A3o_decimal"
+    target="_blank"
+    >decimal</a
+  >
+  (b=10; [0123456789]), que é o que utilizamos no nosso dia-a-dia, também se
+  destacam o
+  <a
+    href="https://pt.wikipedia.org/wiki/Sistema_de_numera%C3%A7%C3%A3o_bin%C3%A1rio"
+    target="_blank"
+    >binário</a
+  >
+  (b=2; [01]), o
+  <a href="https://pt.wikipedia.org/wiki/Sistema_octal" target="_blank"
+    >octal</a
+  >
+  (b=8; [01234567]) e o
+  <a
+    href="https://pt.wikipedia.org/wiki/Sistema_de_numera%C3%A7%C3%A3o_hexadecimal"
+    target="_blank"
+    >hexadecimal</a
+  >
+  (b=16; [0123456789ABCDEF]). Qualquer número pode possuir duas partes, uma
+  <em>inteira</em> e outra <em>fracionária</em>. A parte inteira representa a
+  quantidade de unidades e a fracionária a <em>fração</em> de uma unidade. O
+  símbolo "<em>ponto</em>" (.) é responsável por realizar a separação dessas
+  partes. No <em>Brasil</em>, de acordo com o
+  <a
+    href="http://www.inmetro.gov.br/inovacao/publicacoes/vim_2012.pdf"
+    target="_blank"
+    >VIM2012</a
+  >, o padrão utilizado para separação fracionária é a <em>vírgula</em> (,), mas
+  utilizaremos o ponto para fazer referência às linguagens de programação.
+</p>
 
 <h3>Notação posicional</h3>
 
-<p>A forma como é concebida a <em>aritmética</em>, está intimamente vinculada com a forma como os números são representados. A <a href="https://pt.wikipedia.org/wiki/Nota%C3%A7%C3%A3o_posicional" target="_blank">notação posicional</a>, por sua vez, sugere que a significância de cada dígito está relacionada com a posição do mesmo. Dígitos mais à esquerda são <em>mais significativos</em> que os mais à direita. Sendo assim, um número real positivo pode ser representado por:</p>
+<p>
+  A forma como é concebida a <em>aritmética</em>, está intimamente vinculada com
+  a forma como os números são representados. A
+  <a
+    href="https://pt.wikipedia.org/wiki/Nota%C3%A7%C3%A3o_posicional"
+    target="_blank"
+    >notação posicional</a
+  >, por sua vez, sugere que a significância de cada dígito está relacionada com
+  a posição do mesmo. Dígitos mais à esquerda são
+  <em>mais significativos</em> que os mais à direita. Sendo assim, um número
+  real positivo pode ser representado por:
+</p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    N=(d_{n-1}d_{n-2} \dotsb d_{1}d_{0}.d_{-1}d_{-2} \dotsb d_{-m+1}d_{-m})_{b}
-  $$
+  $$ \large \displaystyle N=(d_{n-1}d_{n-2} \dotsb d_{1}d_{0}.d_{-1}d_{-2}
+  \dotsb d_{-m+1}d_{-m})_{b} $$
 </div>
 
 <p>sendo:</p>
 
 <ul>
-  <li>"$.$" o ponto fracionário que separa a parte <em>inteira</em> da <em>fracionária</em>;</li>
+  <li>
+    "$.$" o ponto fracionário que separa a parte <em>inteira</em> da
+    <em>fracionária</em>;
+  </li>
   <li>$b$ o base do sistema numérico;</li>
-  <li>$n$ o número de dígitos da parte inteira, que estão à esquerda do ponto fracionário;</li>
-  <li>$m$ o número de dígitos da parte fracionária, que estão à direita do ponto fracionário;</li>
+  <li>
+    $n$ o número de dígitos da parte inteira, que estão à esquerda do ponto
+    fracionário;
+  </li>
+  <li>
+    $m$ o número de dígitos da parte fracionária, que estão à direita do ponto
+    fracionário;
+  </li>
   <li>$d_{k}$ o dígito inteiro de índice $k$, sendo $n-1 \geq k \geq 0$;</li>
-  <li>$d_{k}$ o dígito fracionário de índice $k$, sendo $-1 \geq k \geq -m$;</li>
+  <li>
+    $d_{k}$ o dígito fracionário de índice $k$, sendo $-1 \geq k \geq -m$;
+  </li>
   <li>$d_{n-1}$ o dígito mais significativo;</li>
   <li>$d_{-m}$ o dígito menos significativo.</li>
 </ul>
 
 <h3>Notação polinomial</h3>
 
-<p>Como foi visto, a <em>forma posicional</em> indica a significância de cada dígito, de acordo com sua posição. Mas o que isso siginifica na prática? Bom, cada posição denota um peso. Por exemplo, se quiséssemos sacar <b>$ 283</b> "<em>dinheiros</em>" de um caixa eletrônico que possui cédulas de <em>100</em>, <em>10</em> e <em>1</em>; considerando o mínimo de cédulas necessárias para realizarmos o saque, quais seriam elas? Bom, intuitivamente, podemos pensar que seriam <b>2</b> cédulas de <em>100</em>, <b>8</b> cédulas de <em>10</em> e <b>3</b> cédulas de <em>1</em>, certo? Isso seria:</p>
+<p>
+  Como foi visto, a <em>forma posicional</em> indica a significância de cada
+  dígito, de acordo com sua posição. Mas o que isso siginifica na prática? Bom,
+  cada posição denota um peso. Por exemplo, se quiséssemos sacar
+  <b>$ 283</b> "<em>dinheiros</em>" de um caixa eletrônico que possui cédulas de
+  <em>100</em>, <em>10</em> e <em>1</em>; considerando o mínimo de cédulas
+  necessárias para realizarmos o saque, quais seriam elas? Bom, intuitivamente,
+  podemos pensar que seriam <b>2</b> cédulas de <em>100</em>, <b>8</b> cédulas
+  de <em>10</em> e <b>3</b> cédulas de <em>1</em>, certo? Isso seria:
+</p>
 <div class="mj-equation">
-  $$ \large \displaystyle
-    2 \cdot 100 + 8 \cdot 10 + 3 \cdot 1 = 283
+  $$ \large \displaystyle 2 \cdot 100 + 8 \cdot 10 + 3 \cdot 1 = 283 $$
+</div>
+
+<p>
+  Considerando um sistema monetário como decimal (b=10), isso seria o mesmo que:
+</p>
+
+<div class="mj-equation">
+  $$ \large \displaystyle 2 \cdot 10^2 + 8 \cdot 10^1 + 3 \cdot 10^0 = 283_{10}
   $$
 </div>
 
-<p>Considerando um sistema monetário como decimal (b=10), isso seria o mesmo que:</p>
+<p>
+  Note que o valor pode ser dado por uma
+  <a href="https://en.wikipedia.org/wiki/Polynomial_expansion" target="_blank"
+    >expansão polinomial</a
+  >
+  com o valor do dígito multiplicado pela base com o grau igual ao seu índice
+  <em>k</em>. Sendo assim, podemos generalizar a <em>notação polinomial</em> na
+  forma expandida, considerando:
+</p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    2 \cdot 10^2 + 8 \cdot 10^1 + 3 \cdot 10^0 = 283_{10}
-  $$
-</div>
-
-<p>Note que o valor pode ser dado por uma <a href="https://en.wikipedia.org/wiki/Polynomial_expansion" target="_blank">expansão polinomial</a> com o valor do dígito multiplicado pela base com o grau igual ao seu índice <em>k</em>. Sendo assim, podemos generalizar a <em>notação polinomial</em> na forma expandida, considerando:</p>
-
-<div class="mj-equation">
-  $$ \large \displaystyle
-    N=d_{n-1} \cdot b^{n-1} + \dotsb + d_{0} \cdot b^{0} + d_{-1} \cdot b^{-1} + \dotsb + d_{-m} \cdot b^{-m}
-  $$
+  $$ \large \displaystyle N=d_{n-1} \cdot b^{n-1} + \dotsb + d_{0} \cdot b^{0} +
+  d_{-1} \cdot b^{-1} + \dotsb + d_{-m} \cdot b^{-m} $$
 </div>
 
 <p>De uma forma mais geral, podemos dizer que:</p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    N=\sum_{k=-m}^{n-1} d_{k} \cdot b^{k}
-  $$
+  $$ \large \displaystyle N=\sum_{k=-m}^{n-1} d_{k} \cdot b^{k} $$
 </div>
 
-<p>A forma expandida da notação polinomial, implicitamente, faz uma conversão de base <b>b</b> para a base decimal (b=10). Para exemplificar, seja o número real <b>101.01</b> em diferentes bases numéricas, iremos aplicar a expansão polinomial. Tendo isso:</p>
+<p>
+  A forma expandida da notação polinomial, implicitamente, faz uma conversão de
+  base <b>b</b> para a base decimal (b=10). Para exemplificar, seja o número
+  real <b>101.01</b> em diferentes bases numéricas, iremos aplicar a expansão
+  polinomial. Tendo isso:
+</p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    \begin{aligned}
-      \large 101.01_{2} & = 1 \cdot 2^2 + 0 \cdot 2^1 + 1 \cdot 2^0 + 0 \cdot 2^{-1} + 1 \cdot 2^{-2} = 5.25_{10} \\\\
-      \large 101.01_{8} & = 1 \cdot 8^2 + 0 \cdot 8^1 + 1 \cdot 8^0 + 0 \cdot 8^{-1} + 1 \cdot 8^{-2} = 65.016_{10} \\\\
-      \large 101.01_{10} & = 1 \cdot 10^2 + 0 \cdot 10^1 + 1 \cdot 10^0 + 0 \cdot 10^{-1} + 1 \cdot 10^{-2} = 101.01_{10} \\\\
-      \large 101.01_{16} & = 1 \cdot 16^2 + 0 \cdot 16^1 + 1 \cdot 16^0 + 0 \cdot 16^{-1} + 1 \cdot 16^{-2} = 257.004_{10}
-    \end{aligned}
-  $$
+  $$ \large \displaystyle \begin{aligned} \large 101.01_{2} & = 1 \cdot 2^2 + 0
+  \cdot 2^1 + 1 \cdot 2^0 + 0 \cdot 2^{-1} + 1 \cdot 2^{-2} = 5.25_{10} \\\\
+  \large 101.01_{8} & = 1 \cdot 8^2 + 0 \cdot 8^1 + 1 \cdot 8^0 + 0 \cdot 8^{-1}
+  + 1 \cdot 8^{-2} = 65.016_{10} \\\\ \large 101.01_{10} & = 1 \cdot 10^2 + 0
+  \cdot 10^1 + 1 \cdot 10^0 + 0 \cdot 10^{-1} + 1 \cdot 10^{-2} = 101.01_{10}
+  \\\\ \large 101.01_{16} & = 1 \cdot 16^2 + 0 \cdot 16^1 + 1 \cdot 16^0 + 0
+  \cdot 16^{-1} + 1 \cdot 16^{-2} = 257.004_{10} \end{aligned} $$
 </div>
 
 <h2 id="convNum" class="anchor-content">Conversão de base numérica</h2>
 
-<p>Pode-se dizer que, a representação de um número como uma série de potência expandida na base <em>b</em>, é o mesmo que convertê-lo para decimal. Números de bases diferentes, mas com a mesma representação em decimal, são considerados equivalentes. Por exemplo, $1101_{2}$, $0015_{8}$ e $000d_{16}$ são equivalentes, pois representam $13_{10}$.</p>
+<p>
+  Pode-se dizer que, a representação de um número como uma série de potência
+  expandida na base <em>b</em>, é o mesmo que convertê-lo para decimal. Números
+  de bases diferentes, mas com a mesma representação em decimal, são
+  considerados equivalentes. Por exemplo, $1101_{2}$, $0015_{8}$ e $000d_{16}$
+  são equivalentes, pois representam $13_{10}$.
+</p>
 
 <h3>Conversão para decimal</h3>
 
-<p>O <em>Python</em> já possui as funções nativas <b>int</b> e <b>long</b>, que realizam a conversão de qualquer base para decimal.</p>
+<p>
+  O <em>Python</em> já possui as funções nativas <b>int</b> e <b>long</b>, que
+  realizam a conversão de qualquer base para decimal.
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 print(int('101', 2))
 print(int('101', 8))
@@ -107,14 +210,20 @@ print(int('101', 16))
 {% endhighlight %}
 
 <b>Output:</b>
+<!-- prettier-ignore -->
 {% highlight python %}
 5
 65
 257
 {% endhighlight %}
 
-<p>Outra forma é por meio dos prefixos "0b" (ou "0B"), "0o" (ou "0O") e "0x" (ou "0X"), para números <em>binários</em>, <em>octais</em> e <em>hexadecimais</em>, respectivamente.</p>
+<p>
+  Outra forma é por meio dos prefixos "0b" (ou "0B"), "0o" (ou "0O") e "0x" (ou
+  "0X"), para números <em>binários</em>, <em>octais</em> e
+  <em>hexadecimais</em>, respectivamente.
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 print(0b101)
 print(0o101)
@@ -122,29 +231,50 @@ print(0x101)
 {% endhighlight %}
 
 <b>Output:</b>
+<!-- prettier-ignore -->
 {% highlight python %}
 5
 65
 257
 {% endhighlight %}
 
-<p>Ambas as formas funcionam, mas não para valores fracionários, infelizmente. Então vamos tentar implementar.</p>
+<p>
+  Ambas as formas funcionam, mas não para valores fracionários, infelizmente.
+  Então vamos tentar implementar.
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 def conv_baseDecimal(N, b):
   pass
 {% endhighlight %}
 
-<p>A primeira coisa a se ter em mente é que é de grande valia ter acesso aos dígitos de forma indexada e não é uma má ideia convertê-los para um tipo de objeto que nos possibilite isso. Converter para <em>string</em> é bastante conveniente, pois, além de cobrir valores em <em>hexadecimal</em> (que faz uso de caracteres), possibilita também a realização de uma série de procedimentos úteis. Então, por convenção, o valor de entrada <b>N</b> necessariamente será uma <em>string</em>. O primeiro procedimento que iremos fazer é criar um conjunto de símbolos <b>S</b>, com seus respectivos valores mapeados. Também iremos garantir que o algorítmo não seja sensível à caixa dos caracteres, que padronizaremos como maiúsculos.</p>
+<p>
+  A primeira coisa a se ter em mente é que é de grande valia ter acesso aos
+  dígitos de forma indexada e não é uma má ideia convertê-los para um tipo de
+  objeto que nos possibilite isso. Converter para <em>string</em> é bastante
+  conveniente, pois, além de cobrir valores em <em>hexadecimal</em> (que faz uso
+  de caracteres), possibilita também a realização de uma série de procedimentos
+  úteis. Então, por convenção, o valor de entrada <b>N</b> necessariamente será
+  uma <em>string</em>. O primeiro procedimento que iremos fazer é criar um
+  conjunto de símbolos <b>S</b>, com seus respectivos valores mapeados. Também
+  iremos garantir que o algorítmo não seja sensível à caixa dos caracteres, que
+  padronizaremos como maiúsculos.
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 def conv_baseDecimal(N, b):
   S = {e:i for i, e in enumerate('0123456789ABCDEF')}
   N = N.upper()
 {% endhighlight %}
 
-<p>O próximo passo é verificar se o valor <b>N</b> é inteiro ou fracionário, tal como extrair a quantidade de dígitos de cada parte.</p>
+<p>
+  O próximo passo é verificar se o valor <b>N</b> é inteiro ou fracionário, tal
+  como extrair a quantidade de dígitos de cada parte.
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 def conv_baseDecimal(N, b):
   ...
@@ -159,8 +289,14 @@ def conv_baseDecimal(N, b):
     raise ValueError('valor deve ter apenas uma parte fracionaria')
 {% endhighlight %}
 
-<p>É muito importante ressaltar que agora <b>N</b> deve ser indexado do <em>dígito menos significativo</em> para o <em>dígito mais significativo</em>. Fora isso, devemos verificar se existe algum dígito irregular (os dígitos devem ser $0 \leq d_k \leq b-1$).</p>
+<p>
+  É muito importante ressaltar que agora <b>N</b> deve ser indexado do
+  <em>dígito menos significativo</em> para o <em>dígito mais significativo</em>.
+  Fora isso, devemos verificar se existe algum dígito irregular (os dígitos
+  devem ser $0 \leq d_k \leq b-1$).
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 def conv_baseDecimal(N, b):
   ...
@@ -169,8 +305,11 @@ def conv_baseDecimal(N, b):
     raise ValueError('valor dos digitos deve ser menor que a base')
 {% endhighlight %}
 
-<p>Sendo assim, podemos efetuar a expansão e realizar a conversão para decimal.</p>
+<p>
+  Sendo assim, podemos efetuar a expansão e realizar a conversão para decimal.
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 def conv_baseDecimal(N, b):
   S = {e:i for i, e in enumerate('0123456789ABCDEF')}
@@ -192,6 +331,7 @@ def conv_baseDecimal(N, b):
 
 <p>Seguem alguns exemplos com o valor $101.01_b$:</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 print(conv_baseDecimal('101.01', 2))
 print(conv_baseDecimal('101.01', 8))
@@ -200,6 +340,7 @@ print(conv_baseDecimal('101.01', 16))
 {% endhighlight %}
 
 <b>Output:</b>
+<!-- prettier-ignore -->
 {% highlight python %}
 5.25
 65.015625
@@ -209,8 +350,15 @@ print(conv_baseDecimal('101.01', 16))
 
 <h3>Conversão para qualquer base</h3>
 
-<p>Você já deve ter notado que só vimos como converter de uma base <b>b</b> para decimal. Mas como converter de decimal para qualquer outra base? Bem, o <em>Python</em> possui as funções <b>bin</b>, <b>oct</b> e <b>hex</b>, que convertem para <em>binário</em>, <em>octal</em> e <em>hexadecimal</em>, respectivamente.</p>
+<p>
+  Você já deve ter notado que só vimos como converter de uma base <b>b</b> para
+  decimal. Mas como converter de decimal para qualquer outra base? Bem, o
+  <em>Python</em> possui as funções <b>bin</b>, <b>oct</b> e <b>hex</b>, que
+  convertem para <em>binário</em>, <em>octal</em> e <em>hexadecimal</em>,
+  respectivamente.
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 print(bin(101))
 print(oct(101))
@@ -218,100 +366,183 @@ print(hex(101))
 {% endhighlight %}
 
 <b>Output:</b>
+<!-- prettier-ignore -->
 {% highlight python %}
 '0b1100101'
 '0145'
 '0x65'
 {% endhighlight %}
 
-<em style="color: #888888">Note a presença de prefixos ("<b>0b</b>" e "<b>0x</b>") que indicam o tipo. O valor é representado após esses prefixos. No caso, $101_{10}$ é equivalente à $1100101_{2}$, $145_{8}$ e $65_{16}$.</em>
-<p>Uma outra forma de realizar a conversão é por meio da formatação de <em>strings</em>. Formatação de string é algo tão poderoso dentro do <em>Python</em>, que vale um post só pra falar sobre esse assunto. Mas, por ora, vamos apenas verificar como fica.</p>
+<em style="color: #888888"
+  >Note a presença de prefixos ("<b>0b</b>" e "<b>0x</b>") que indicam o tipo. O
+  valor é representado após esses prefixos. No caso, $101_{10}$ é equivalente à
+  $1100101_{2}$, $145_{8}$ e $65_{16}$.</em
+>
+<p>
+  Uma outra forma de realizar a conversão é por meio da formatação de
+  <em>strings</em>. Formatação de string é algo tão poderoso dentro do
+  <em>Python</em>, que vale um post só pra falar sobre esse assunto. Mas, por
+  ora, vamos apenas verificar como fica.
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 print('{:b}'.format(101))
 print('{:o}'.format(101))
 print('{:x}'.format(101))
 {% endhighlight %}
 <b>Output:</b>
+<!-- prettier-ignore -->
 {% highlight python %}
 '1100101'
 '145'
 '65'
 {% endhighlight %}
 
-<em style="color: #888888">Mesmo que você não esteja muito familiarizado com formatação de strings, é possível notar o uso dos mesmos prefixos "<b>b</b>", "<b>o</b>" e "<b>x</b>"</em>
-<p>Bom, como você já deve estar imaginando, esses métodos não funcionam para números fracionários. Então vamos tentar implementar isso também! Da mesma forma que na conversão para decimal, vamos criar um conjunto de símbolos <b>S</b>. Mas desta vez, mapeados por seus valores.</p>
+<em style="color: #888888"
+  >Mesmo que você não esteja muito familiarizado com formatação de strings, é
+  possível notar o uso dos mesmos prefixos "<b>b</b>", "<b>o</b>" e
+  "<b>x</b>"</em
+>
+<p>
+  Bom, como você já deve estar imaginando, esses métodos não funcionam para
+  números fracionários. Então vamos tentar implementar isso também! Da mesma
+  forma que na conversão para decimal, vamos criar um conjunto de símbolos
+  <b>S</b>. Mas desta vez, mapeados por seus valores.
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 def conv_decimalBase(N, b):
   S = {i:e for i, e in enumerate('0123456789ABCDEF')}
 {% endhighlight %}
 
-<p>Uma coisa muito importante daqui pra frente é o conceito de <a href="https://pt.wikipedia.org/wiki/Resto_da_divis%C3%A3o_inteira" target="_blank">resto da divisão inteira</a>. O resto pode ser entendido como o complemento do <em>quociente</em> inteiro. Por exemplo:</p>
+<p>
+  Uma coisa muito importante daqui pra frente é o conceito de
+  <a
+    href="https://pt.wikipedia.org/wiki/Resto_da_divis%C3%A3o_inteira"
+    target="_blank"
+    >resto da divisão inteira</a
+  >. O resto pode ser entendido como o complemento do
+  <em>quociente</em> inteiro. Por exemplo:
+</p>
 
 <ul>
-  <li><b>5</b> dividido por <b>2</b> é <b>2</b> e o resto é <b>1</b>, pois $2 \cdot 2 + 1 = 5$</li>
-  <li><b>8</b> dividido por <b>3</b> é <b>2</b> e o resto é <b>2</b>, pois $2 \cdot 3 + 2 = 8$</li>
-  <li><b>9</b> dividido por <b>3</b> é <b>3</b> e o resto é <b>0</b>, pois $3 \cdot 3 + 0 = 9$</li>
-  <li><b>13</b> dividido por <b>1</b> é <b>13</b> e o resto é <b>0</b>, pois $13 \cdot 1 + 0 = 13$</li>
+  <li>
+    <b>5</b> dividido por <b>2</b> é <b>2</b> e o resto é <b>1</b>, pois $2
+    \cdot 2 + 1 = 5$
+  </li>
+  <li>
+    <b>8</b> dividido por <b>3</b> é <b>2</b> e o resto é <b>2</b>, pois $2
+    \cdot 3 + 2 = 8$
+  </li>
+  <li>
+    <b>9</b> dividido por <b>3</b> é <b>3</b> e o resto é <b>0</b>, pois $3
+    \cdot 3 + 0 = 9$
+  </li>
+  <li>
+    <b>13</b> dividido por <b>1</b> é <b>13</b> e o resto é <b>0</b>, pois $13
+    \cdot 1 + 0 = 13$
+  </li>
 </ul>
 
-<p>Na computação, a <a href="https://pt.wikipedia.org/wiki/Opera%C3%A7%C3%A3o_m%C3%B3dulo" target="_blank">operação módulo</a> (ou <em>mod</em>) é responsável por encontrar o valor do <em>resto</em>. É importante ressaltar que este não é o mesmo <a href="https://pt.wikipedia.org/wiki/Fun%C3%A7%C3%A3o_modular" target="_blank">módulo</a> da matemática, que encontra o valor absoluto de um número. Utilizando os mesmos exemplos:</p>
+<p>
+  Na computação, a
+  <a
+    href="https://pt.wikipedia.org/wiki/Opera%C3%A7%C3%A3o_m%C3%B3dulo"
+    target="_blank"
+    >operação módulo</a
+  >
+  (ou <em>mod</em>) é responsável por encontrar o valor do <em>resto</em>. É
+  importante ressaltar que este não é o mesmo
+  <a
+    href="https://pt.wikipedia.org/wiki/Fun%C3%A7%C3%A3o_modular"
+    target="_blank"
+    >módulo</a
+  >
+  da matemática, que encontra o valor absoluto de um número. Utilizando os
+  mesmos exemplos:
+</p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    \begin{aligned}
-      5 & \mod 2 = 1 \\
-      8 & \mod 3 = 2 \\
-      9 & \mod 3 = 0 \\
-      13 & \mod 1 = 0
-    \end{aligned}
-  $$
+  $$ \large \displaystyle \begin{aligned} 5 & \mod 2 = 1 \\ 8 & \mod 3 = 2 \\ 9
+  & \mod 3 = 0 \\ 13 & \mod 1 = 0 \end{aligned} $$
 </div>
 
-<p>Sendo assim, o próximo procedimento a se realizar é separar a parte inteira da parte fracionária. Para a parte fracionária, basta obter o <em>resto</em> da divisão por <b>1</b>. De forma que:</p>
+<p>
+  Sendo assim, o próximo procedimento a se realizar é separar a parte inteira da
+  parte fracionária. Para a parte fracionária, basta obter o <em>resto</em> da
+  divisão por <b>1</b>. De forma que:
+</p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    N \mod 1 = N - \lfloor N \rfloor
-  $$
+  $$ \large \displaystyle N \mod 1 = N - \lfloor N \rfloor $$
 </div>
 
-<p>sendo $\lfloor . \rfloor$ a operação de arredondamento para o maior inteiro abaixo, mais conhecido como função <em>floor</em>.
-Em <em>Python></em> e em muitas outras linguagens, o operador que resulta no resto é o "%" (por exemplo: 5 % 2 = 1). Mas como precisaremos do valor da divisão também, utilizaremos a função <b>divmod</b>, que recebe como argumento o <em>dividendo</em> e o <em>divisor</em>, resultando em uma <em>tupla</em> com o valor da divisão e do resto. Sendo assim, vamos separar as partes inteira e fracionária.</p>
+<p>
+  sendo $\lfloor . \rfloor$ a operação de arredondamento para o maior inteiro
+  abaixo, mais conhecido como função <em>floor</em>. Em <em>Python></em> e em
+  muitas outras linguagens, o operador que resulta no resto é o "%" (por
+  exemplo: 5 % 2 = 1). Mas como precisaremos do valor da divisão também,
+  utilizaremos a função <b>divmod</b>, que recebe como argumento o
+  <em>dividendo</em> e o <em>divisor</em>, resultando em uma <em>tupla</em> com
+  o valor da divisão e do resto. Sendo assim, vamos separar as partes inteira e
+  fracionária.
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 def conv_decimalBase(N, b):
   S = {i:e for i, e in enumerate('0123456789ABCDEF')}
   i, f = divmod(N, 1)
 {% endhighlight %}
 
-<p>Para a conversão da parte <b>inteira</b>, utiliza-se o método da <em>divisão</em> pela base <b>b</b> (existe também o método da mutiplicação). A conversão será realizada por meio da memorização e senquenciamento dos <em>restos</em>. Sendo assim, podemos entender que:</p>
+<p>
+  Para a conversão da parte <b>inteira</b>, utiliza-se o método da
+  <em>divisão</em> pela base <b>b</b> (existe também o método da mutiplicação).
+  A conversão será realizada por meio da memorização e senquenciamento dos
+  <em>restos</em>. Sendo assim, podemos entender que:
+</p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    \begin{aligned}
-      d_0 = N & \mod b \\\\
-      d_1 = \left\lfloor\frac{N}{b}\right\rfloor & \mod b \\\\
-      d_2 = \left\lfloor\frac{\left\lfloor\frac{N}{b}\right\rfloor}{b}\right\rfloor & \mod b \\\\
-      ...
-    \end{aligned}
-  $$
+  $$ \large \displaystyle \begin{aligned} d_0 = N & \mod b \\\\ d_1 =
+  \left\lfloor\frac{N}{b}\right\rfloor & \mod b \\\\ d_2 =
+  \left\lfloor\frac{\left\lfloor\frac{N}{b}\right\rfloor}{b}\right\rfloor & \mod
+  b \\\\ ... \end{aligned} $$
 </div>
 
-<p>sendo a condição de parada quando $\lfloor\dotsb\lfloor\lfloor N/b \rfloor /b\rfloor\dotsb /b\rfloor = 0$. Para exemplificar, a conversão de $101_{10}$ para binário, fica:</p>
+<p>
+  sendo a condição de parada quando $\lfloor\dotsb\lfloor\lfloor N/b \rfloor
+  /b\rfloor\dotsb /b\rfloor = 0$. Para exemplificar, a conversão de $101_{10}$
+  para binário, fica:
+</p>
 
 <figure>
-  <img src="{{ site.baseurl }}{% link /images/content/IEEE754_convInteiro.gif %}" />
+  <img
+    src="{{ site.baseurl }}{% link /images/content/IEEE754_convInteiro.gif %}"
+  />
   <figcaption>
-    <p style="text-align: center;font-size: 75%;color: #888888">
-      A divisão pela base <b>b</b> é realizada sucessivamente, até que o valor da divisão seja igual a zero. Os valores do resto são memorizados na ordem inversa. Ao final da sequência de restos, a ordem dos dígitos deverá ser invertida.
+    <p style="text-align: center; font-size: 75%; color: #888888">
+      A divisão pela base <b>b</b> é realizada sucessivamente, até que o valor
+      da divisão seja igual a zero. Os valores do resto são memorizados na ordem
+      inversa. Ao final da sequência de restos, a ordem dos dígitos deverá ser
+      invertida.
     </p>
-    </figcaption>
+  </figcaption>
 </figure>
 
-<p>Antes de implementar a conversão da parte inteira, devemos criar uma <em>string</em> de saída. A conversão é realizada ao concatenar os valores de dígitos de <b>S</b>, com seus respectivos valores dos restos. Isso ocorrerá até que o inteiro, dividido pela base, seja igual a <em>zero</em>. Ao final do procedimento, a ordem dos dígitos estará invertida, como pudemos verificar na figura anterior. Portanto será necessario fazer uma reversão da string e ao final colocar o ponto fracionário, para deixar a saída pronta para concatenar os valores fracionários.</p>
+<p>
+  Antes de implementar a conversão da parte inteira, devemos criar uma
+  <em>string</em> de saída. A conversão é realizada ao concatenar os valores de
+  dígitos de <b>S</b>, com seus respectivos valores dos restos. Isso ocorrerá
+  até que o inteiro, dividido pela base, seja igual a <em>zero</em>. Ao final do
+  procedimento, a ordem dos dígitos estará invertida, como pudemos verificar na
+  figura anterior. Portanto será necessario fazer uma reversão da string e ao
+  final colocar o ponto fracionário, para deixar a saída pronta para concatenar
+  os valores fracionários.
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 def conv_decimalBase(N, b):
   ...
@@ -322,43 +553,73 @@ def conv_decimalBase(N, b):
   saida = saida[::-1] + '.'
 {% endhighlight %}
 
-<p>Para a conversão da parte <b>fracionária</b>, utiliza-se o método da <em>mutiplicação</em> pela base <b>b</b> (existe também o método da divisão). A conversão será realizada por meio da memorização e senquenciamento da parte inteira, que é separada da parte fracionária a cada operação. O procedimento se encerra quando o valor da parte fracionária for igual a zero. Sendo assim, podemos entender que:</p>
+<p>
+  Para a conversão da parte <b>fracionária</b>, utiliza-se o método da
+  <em>mutiplicação</em> pela base <b>b</b> (existe também o método da divisão).
+  A conversão será realizada por meio da memorização e senquenciamento da parte
+  inteira, que é separada da parte fracionária a cada operação. O procedimento
+  se encerra quando o valor da parte fracionária for igual a zero. Sendo assim,
+  podemos entender que:
+</p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    \begin{aligned}
-      d_{-1} & = \lfloor N \cdot b \rfloor \\\\
-      d_{-2} & = \lfloor \{N \cdot b\} \cdot b \rfloor \\\\
-      d_{-3} & = \lfloor \{\{N \cdot b\} \cdot b\} \cdot b \rfloor \\\\
-      ...
-    \end{aligned}
-  $$
+  $$ \large \displaystyle \begin{aligned} d_{-1} & = \lfloor N \cdot b \rfloor
+  \\\\ d_{-2} & = \lfloor \{N \cdot b\} \cdot b \rfloor \\\\ d_{-3} & = \lfloor
+  \{\{N \cdot b\} \cdot b\} \cdot b \rfloor \\\\ ... \end{aligned} $$
 </div>
 
-<p>sendo que $\lfloor N \rfloor$ os mesmo que $N \mod 1 = N - \lfloor N \rfloor$. Para exemplificar, a conversão de $0.125_{10}$ para binário, fica:</p>
+<p>
+  sendo que $\lfloor N \rfloor$ os mesmo que $N \mod 1 = N - \lfloor N \rfloor$.
+  Para exemplificar, a conversão de $0.125_{10}$ para binário, fica:
+</p>
 
 <figure>
-  <img src="{{ site.baseurl }}{% link /images/content/IEEE754_convFracA.gif %}" />
+  <img
+    src="{{ site.baseurl }}{% link /images/content/IEEE754_convFracA.gif %}"
+  />
   <figcaption>
-    <p style="text-align: center;font-size: 75%;color: #888888">
-        A mutiplicação pela base <b>b</b> é realizada sucessivamente, até que o valor da parte fracionária seja igual a zero. Os valores da parte inteira são extraídos e memorizados em sequência.
+    <p style="text-align: center; font-size: 75%; color: #888888">
+      A mutiplicação pela base <b>b</b> é realizada sucessivamente, até que o
+      valor da parte fracionária seja igual a zero. Os valores da parte inteira
+      são extraídos e memorizados em sequência.
     </p>
   </figcaption>
 </figure>
 
-<p>É muito importante ressaltar que esta operação pode gerar uma série infinita de dígitos fracionários repetidos, da mesma forma que a divisão decimal de <b>1</b> por <b>3</b> gera uma <a href="https://pt.wikipedia.org/wiki/D%C3%ADzima_peri%C3%B3dica" target="_blank">dízima periódica</a> por exemplo. Isso ocorre quando a parte fracionária nunca assume o valor zero e entrar num loop infinito de valores. Podemos observar no exemplo a seguir, com a conversão de $0.3_{10}$ para binário:</p>
+<p>
+  É muito importante ressaltar que esta operação pode gerar uma série infinita
+  de dígitos fracionários repetidos, da mesma forma que a divisão decimal de
+  <b>1</b> por <b>3</b> gera uma
+  <a
+    href="https://pt.wikipedia.org/wiki/D%C3%ADzima_peri%C3%B3dica"
+    target="_blank"
+    >dízima periódica</a
+  >
+  por exemplo. Isso ocorre quando a parte fracionária nunca assume o valor zero
+  e entrar num loop infinito de valores. Podemos observar no exemplo a seguir,
+  com a conversão de $0.3_{10}$ para binário:
+</p>
 
 <figure>
-  <img src="{{ site.baseurl }}{% link /images/content/IEEE754_convFracB.gif %}" />
+  <img
+    src="{{ site.baseurl }}{% link /images/content/IEEE754_convFracB.gif %}"
+  />
   <figcaption>
-    <p style="text-align: center;font-size: 75%;color: #888888">
-      Note que a operação irá se repetir infinitamente do <b>.6</b> ao <b>.8</b>. A notação para tal repetição é utilizando um traço sobre o período, resultando em $.3_{10}=.0\overline{1001}_{2}$. Isso é o mesmo que $.3_{10}=(.0100110011001...)_{2}$.
+    <p style="text-align: center; font-size: 75%; color: #888888">
+      Note que a operação irá se repetir infinitamente do <b>.6</b> ao
+      <b>.8</b>. A notação para tal repetição é utilizando um traço sobre o
+      período, resultando em $.3_{10}=.0\overline{1001}_{2}$. Isso é o mesmo que
+      $.3_{10}=(.0100110011001...)_{2}$.
     </p>
   </figcaption>
 </figure>
 
-<p>Para lidar com isso, iremos inserir um argumento de <em>precisão</em>, que irá limitar a quantidade de dígitos. Sendo assim, o algorítmo finalizado fica:</p>
+<p>
+  Para lidar com isso, iremos inserir um argumento de <em>precisão</em>, que irá
+  limitar a quantidade de dígitos. Sendo assim, o algorítmo finalizado fica:
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 def conv_decimalBase(N, b, prec=32):
   S = {i:e for i, e in enumerate('0123456789ABCDEF')}
@@ -377,6 +638,7 @@ def conv_decimalBase(N, b, prec=32):
 
 <p>Seguem alguns exemplos:</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 print(conv_decimalBase(101.01, 2))
 print(conv_decimalBase(101.01, 16))
@@ -385,6 +647,7 @@ print(conv_baseDecimal(conv_decimalBase(101.01, 8), 8))
 {% endhighlight %}
 
 <b>Output:</b>
+<!-- prettier-ignore -->
 {% highlight python %}
 1100101.0000001010001111010111000
 65.028F5C28F5C28F5C28F5C28F5C28F5
@@ -394,18 +657,36 @@ print(conv_baseDecimal(conv_decimalBase(101.01, 8), 8))
 
 <h2 id="ieee754" class="anchor-content">Padrão IEEE 754</h2>
 
-<p>A representação <em>IEEE 754</em> para números reais possui uma "anatomia" básica. De uma forma geral, ela é dividia em 3 partes indispensáveis para determinar sua configuração. São elas: <em>Sinal</em>, <em>expoente</em> e <em>predicando</em> (ou mantissa).</p>
+<p>
+  A representação <em>IEEE 754</em> para números reais possui uma "anatomia"
+  básica. De uma forma geral, ela é dividia em 3 partes indispensáveis para
+  determinar sua configuração. São elas: <em>Sinal</em>, <em>expoente</em> e
+  <em>predicando</em> (ou mantissa).
+</p>
 
 <figure>
-  <img src="{{ site.baseurl }}{% link /images/content/IEEE754_reprAnatomia_bits.png %}" />
+  <img
+    src="{{ site.baseurl }}{% link /images/content/IEEE754_reprAnatomia_bits.png %}"
+  />
   <figcaption>
-    <p style="text-align: center;font-size: 75%;color: #888888">
-      Anatomia básica da representação IEEE 754, sendo <b>s</b> o valor referente ao sinal, <b>q</b> o valor do expoente, <b>p</b> o valor do predicando, <b>n</b> a quantidade de dígitos da representação e <b>k</b> a quantidade de dígitos significativos. Note que a quantidade de dígitos do sinal é sempre igual a <b>1</b>.
+    <p style="text-align: center; font-size: 75%; color: #888888">
+      Anatomia básica da representação IEEE 754, sendo <b>s</b> o valor
+      referente ao sinal, <b>q</b> o valor do expoente, <b>p</b> o valor do
+      predicando, <b>n</b> a quantidade de dígitos da representação e <b>k</b> a
+      quantidade de dígitos significativos. Note que a quantidade de dígitos do
+      sinal é sempre igual a <b>1</b>.
     </p>
   </figcaption>
 </figure>
 
-<p>Antes de falarmos sobre cada uma das partes, é de grande importância comentar sobre a <em>precisão</em>. A precisão está ligada diretamente com a quantidade de <em>bits</em> que iremos utilizar pra representar algum valor. Isso irá interferir diretamente na quantidade de bits das partes relativas ao <em>expoente</em> e ao <em>predicando</em>. A quantidade de dígitos para o <em>sinal</em> sempre será <b>1</b>. Segue a lista das precisões:</p>
+<p>
+  Antes de falarmos sobre cada uma das partes, é de grande importância comentar
+  sobre a <em>precisão</em>. A precisão está ligada diretamente com a quantidade
+  de <em>bits</em> que iremos utilizar pra representar algum valor. Isso irá
+  interferir diretamente na quantidade de bits das partes relativas ao
+  <em>expoente</em> e ao <em>predicando</em>. A quantidade de dígitos para o
+  <em>sinal</em> sempre será <b>1</b>. Segue a lista das precisões:
+</p>
 
 <div class="table">
   <table>
@@ -454,8 +735,14 @@ print(conv_baseDecimal(conv_decimalBase(101.01, 8), 8))
   </table>
 </div>
 
-<p>Por padrão, iremos utilizar a <em>precisão simples</em>, com 32 bits. O primeiro passo é definirmos uma tabela para <b>k</b>, mapeado pelo valor de <b>n</b>. Tendo o valor de <b>k</b>, é possível definir o número de dígitos de <b>q</b>, variável a qual chameremos de <b>nq</b> ($n_q=n-k-1$).</p>
+<p>
+  Por padrão, iremos utilizar a <em>precisão simples</em>, com 32 bits. O
+  primeiro passo é definirmos uma tabela para <b>k</b>, mapeado pelo valor de
+  <b>n</b>. Tendo o valor de <b>k</b>, é possível definir o número de dígitos de
+  <b>q</b>, variável a qual chameremos de <b>nq</b> ($n_q=n-k-1$).
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 def ieee754_realBinario(N, n=32):
   k = {16: 10, 32: 23, 64: 52, 128: 112, 256: 236}
@@ -465,8 +752,17 @@ def ieee754_realBinario(N, n=32):
   nq = n - k - 1
 {% endhighlight %}
 
-<p>A primeira parte da representação que iremos abordar é o <b>sinal</b>. O sinal é representado pelo bit mais significativo e indica se o valor é <em>negativo</em> ou <em>positivo</em>. Para valores de <b>N</b> <em>negativos</em>, <b>s</b> assume o valor <b>1</b>. Para valores <em>positivos</em>, <b>s</b> é igual a zero. Tendo isso, podemos efeturar a conversão do valor absoluto de <b>N</b> para binário <b>Nb</b> (considera-se o valor absoluto, pois o valor do sinal já foi memorizado). Sendo assim:</p>
+<p>
+  A primeira parte da representação que iremos abordar é o <b>sinal</b>. O sinal
+  é representado pelo bit mais significativo e indica se o valor é
+  <em>negativo</em> ou <em>positivo</em>. Para valores de <b>N</b>
+  <em>negativos</em>, <b>s</b> assume o valor <b>1</b>. Para valores
+  <em>positivos</em>, <b>s</b> é igual a zero. Tendo isso, podemos efeturar a
+  conversão do valor absoluto de <b>N</b> para binário <b>Nb</b> (considera-se o
+  valor absoluto, pois o valor do sinal já foi memorizado). Sendo assim:
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 def ieee754_realBinario(N, n=32):
   ...
@@ -474,45 +770,65 @@ def ieee754_realBinario(N, n=32):
   Nb = conv_decimalBase(abs(N), 2, n)
 {% endhighlight %}
 
-<p>Antes de prosseguir com as partes do <em>expoente</em> e <em>predicando</em>, devemos descrever o valor de <b>Nb</b> em notação científica. A notação científica tem como principal objetivo representar um número com uso de uma potência <b>e</b> na base <b>b</b>. De forma que:</p>
+<p>
+  Antes de prosseguir com as partes do <em>expoente</em> e <em>predicando</em>,
+  devemos descrever o valor de <b>Nb</b> em notação científica. A notação
+  científica tem como principal objetivo representar um número com uso de uma
+  potência <b>e</b> na base <b>b</b>. De forma que:
+</p>
+
+<div class="mj-equation">$$ \large \displaystyle N \times b^e $$</div>
+
+<p>
+  como estamos trabalhando em binário, a base <b>b</b> será igual a <b>2</b>.
+  Sendo assim, para convencionar o número para notação científica, devemos
+  deslocar o ponto fracionário para a posição logo à direita do dígito mais
+  significativo, que seja diferente de <b>0</b>. Deslocamentos para a esquerda
+  incrementam o valor do expoente, assim como deslocamento para a direita
+  decrementam o mesmo. A posição atual do ponto fracionário é representada
+  sempre com o expoente sendo <b>0</b>, já que qualquer número elevado zero é
+  igual a <b>1</b>, e um é o elemento neutro na multiplicação. Para
+  exemplificar, seguem alguns exemplos:
+</p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    N \times b^e
-  $$
+  $$ \large \displaystyle \begin{aligned} (101.00 \times 2^0)_2 & = (1.01 \times
+  2^{+2})_2 \\\\ (0.0101 \times 2^0)_2 & = (1.01 \times 2^{-2})_2 \\\\ (001.01
+  \times 2^0)_2 & = (1.01 \times 2^{+0})_2 \\\\ (000.11 \times 2^0)_2 & = (1.10
+  \times 2^{-1})_2 \end{aligned} $$
 </div>
 
-<p>como estamos trabalhando em binário, a base <b>b</b> será igual a <b>2</b>. Sendo assim, para convencionar o número para notação científica, devemos deslocar o ponto fracionário para a posição logo à direita do dígito mais significativo, que seja diferente de <b>0</b>. Deslocamentos para a esquerda incrementam o valor do expoente, assim como deslocamento para a direita decrementam o mesmo. A posição atual do ponto fracionário é representada sempre com o expoente sendo <b>0</b>, já que qualquer número elevado zero é igual a <b>1</b>, e um é o elemento neutro na multiplicação. Para exemplificar, seguem alguns exemplos:</p>
+<p>
+  Antes de determinar o expoente <b>q</b>, é preciso localizar a posição do
+  primeiro dígito mais significativo diferente de zero. Em outras palavras,
+  achar o índice do primeiro dígito igual a <b>1</b>, da esquerda para a
+  direita. Além disso, deve-se localizar a posição do ponto fracionário. Ambas
+  as informações serão armazendas nas variáveis <b>a</b> e <b>b</b>. Tendo isso,
+  a potência <b>e</b> pode ser definida como:
+</p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    \begin{aligned}
-      (101.00 \times 2^0)_2 & = (1.01 \times 2^{+2})_2 \\\\
-      (0.0101 \times 2^0)_2 & = (1.01 \times 2^{-2})_2 \\\\
-      (001.01 \times 2^0)_2 & = (1.01 \times 2^{+0})_2 \\\\
-      (000.11 \times 2^0)_2 & = (1.10 \times 2^{-1})_2
-    \end{aligned}
-  $$
+  $$ \large \displaystyle e=\begin{cases}b-a, & a > b \\ b-a-1, & a <
+  b\end{cases} $$
 </div>
 
-<p>Antes de determinar o expoente <b>q</b>, é preciso localizar a posição do primeiro dígito mais significativo diferente de zero. Em outras palavras, achar o índice do primeiro dígito igual a <b>1</b>, da esquerda para a direita. Além disso, deve-se localizar a posição do ponto fracionário. Ambas as informações serão armazendas nas variáveis <b>a</b> e <b>b</b>. Tendo isso, a potência <b>e</b> pode ser definida como:</p>
+<p>
+  Tendo o valor da potência <b>e</b>, podemos convertê-la para binário. Para
+  isso é necessário somar o valor de <b>e</b> ao <em>viés</em> <b>v</b> (do
+  inglês <em>bias</em>), para cobrir valores positivos e negativos. O valor do
+  viés pode ser definido por:
+</p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    e=\begin{cases}b-a, & a > b \\ b-a-1, & a < b\end{cases}
-  $$
+  $$ \large \displaystyle \text{v}=\frac{2^{n_q}}{2}-1 $$
 </div>
 
-<p>Tendo o valor da potência <b>e</b>, podemos convertê-la para binário. Para isso é necessário somar o valor de <b>e</b> ao <em>viés</em> <b>v</b> (do inglês <em>bias</em>), para cobrir valores positivos e negativos. O valor do viés pode ser definido por:</p>
+<p>
+  sendo <b>nq</b> o número de dígitos da perte do expoente. Após a conversão,
+  devemos preencher os dígitos (caso precise) com <em>zeros</em> à esquerda.
+</p>
 
-<div class="mj-equation">
-  $$ \large \displaystyle
-    \text{v}=\frac{2^{n_q}}{2}-1
-  $$
-</div>
-
-<p>sendo <b>nq</b> o número de dígitos da perte do expoente. Após a conversão, devemos preencher os dígitos (caso precise) com <em>zeros</em> à esquerda.</p>
-
+<!-- prettier-ignore -->
 {% highlight python %}
 def ieee754_realBinario(N, n=32):
   ...
@@ -523,8 +839,16 @@ def ieee754_realBinario(N, n=32):
   q = q[:-1].rjust(nq, '0')
 {% endhighlight %}
 
-<p>A parte do predicando <b>p</b> é definida atribuindo todos os dígitos da parte fracionária, após a conversão para notação científica. De forma uma forma prática, podemos dizer que são todos os dígitos depois do dígito mais significativo e diferente de <em>0</em>, que definimos como <b>a</b>. Devemos preencher com <em>zeros</em> à direita, caso a parte fracionária não seja uma série infinita ou o número de dígitos seja menor do que <b>k</b>.</p>
+<p>
+  A parte do predicando <b>p</b> é definida atribuindo todos os dígitos da parte
+  fracionária, após a conversão para notação científica. De forma uma forma
+  prática, podemos dizer que são todos os dígitos depois do dígito mais
+  significativo e diferente de <em>0</em>, que definimos como <b>a</b>. Devemos
+  preencher com <em>zeros</em> à direita, caso a parte fracionária não seja uma
+  série infinita ou o número de dígitos seja menor do que <b>k</b>.
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 def ieee754_realBinario(N, n=32):
   ...
@@ -532,8 +856,27 @@ def ieee754_realBinario(N, n=32):
   p = Nb[a+1:a+k+1].ljust(k, '0')
 {% endhighlight %}
 
-<p>Antes de implementarmos essa parte, duas observações são muito importantes. A <em>primeira</em> é que o valor da parte inteira da notação científica sempre será igual a <b>1</b>, por se tratar binário. Esse valor não será memorizado e ficará implícito na representação. A <em>segunda</em> é sobre o <a href="https://en.wikipedia.org/wiki/IEEE_754#Rounding_rules" target="_blank">arredondamento</a> Quando temos uma parte fracionária como uma série infinita de dígitos ou uma quantidade de dígitos que excedem o valor de <b>k</b> (número de bits do predicando), devemos tratar esse valor por meio de arredondamento, o que poderá acarretar em uma ligeira alteração no resultado. Não vamos nos aprofundar em regras de arredondamento, mas iremos desprezar os bits excedentes, o que ira arredondar em direção ao zero. Sendo assim, para finalizar a implementação da representação <em>IEEE 754</em>, basta retornar a concatenação das 3 partes.</p>
+<p>
+  Antes de implementarmos essa parte, duas observações são muito importantes. A
+  <em>primeira</em> é que o valor da parte inteira da notação científica sempre
+  será igual a <b>1</b>, por se tratar binário. Esse valor não será memorizado e
+  ficará implícito na representação. A <em>segunda</em> é sobre o
+  <a
+    href="https://en.wikipedia.org/wiki/IEEE_754#Rounding_rules"
+    target="_blank"
+    >arredondamento</a
+  >
+  Quando temos uma parte fracionária como uma série infinita de dígitos ou uma
+  quantidade de dígitos que excedem o valor de <b>k</b> (número de bits do
+  predicando), devemos tratar esse valor por meio de arredondamento, o que
+  poderá acarretar em uma ligeira alteração no resultado. Não vamos nos
+  aprofundar em regras de arredondamento, mas iremos desprezar os bits
+  excedentes, o que ira arredondar em direção ao zero. Sendo assim, para
+  finalizar a implementação da representação <em>IEEE 754</em>, basta retornar a
+  concatenação das 3 partes.
+</p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 def ieee754_realBinario(N, n=32):
   k = {16: 10, 32: 23, 64: 52, 128: 112, 256: 236}
@@ -553,14 +896,17 @@ def ieee754_realBinario(N, n=32):
   return s + q + p
 {% endhighlight %}
 
-<p>A equivalência em decimal de uma representação <em>IEEE 754</em> tem exatamente a lógica inversa do que fizemos e deve obedecer a seguinte condição:</p>
+<p>
+  A equivalência em decimal de uma representação <em>IEEE 754</em> tem
+  exatamente a lógica inversa do que fizemos e deve obedecer a seguinte
+  condição:
+</p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    (-1)^{s} \times (1+p) \times 2^{e}
-  $$
+  $$ \large \displaystyle (-1)^{s} \times (1+p) \times 2^{e} $$
 </div>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 def ieee754_binarioReal(N):
   k = {16: 10, 32: 23, 64: 52, 128: 112, 256: 236}
@@ -578,26 +924,42 @@ def ieee754_binarioReal(N):
   return (-1)**s*(1 + p)*2**e
 {% endhighlight %}
 
-<p>Para finalizar este post, seguem alguns exemplos de representações simples, seguidas de suas respectivas equivalências em decimal.</p>
+<p>
+  Para finalizar este post, seguem alguns exemplos de representações simples,
+  seguidas de suas respectivas equivalências em decimal.
+</p>
 
 <div class="mj-equation">
-  $$ \large \displaystyle
-    \begin{aligned}
-      421.56_{10} & = 01000011110100101100011110101110_{2} = 421.559997559_{10} \\\\
-      -174.1_{10} & = 11000011001011100001100110011001_{2} = -174.099990845_{10} \\\\
-      13.579_{10} & = 01000001010110010100001110010101_{2} = 13.5789995193_{10}  \\\\
-      0.0005_{10} & = 00111010000001100010010011010000_{2} = 0.00051171798259_{10} \\\\
-      -1.100_{10} & = 10111111100011001100110011001100_{2} = -1.09999990463_{10}
-    \end{aligned}
-  $$
+  $$ \large \displaystyle \begin{aligned} 421.56_{10} & =
+  01000011110100101100011110101110_{2} = 421.559997559_{10} \\\\ -174.1_{10} & =
+  11000011001011100001100110011001_{2} = -174.099990845_{10} \\\\ 13.579_{10} &
+  = 01000001010110010100001110010101_{2} = 13.5789995193_{10} \\\\ 0.0005_{10} &
+  = 00111010000001100010010011010000_{2} = 0.00051171798259_{10} \\\\
+  -1.100_{10} & = 10111111100011001100110011001100_{2} = -1.09999990463_{10}
+  \end{aligned} $$
 </div>
 
 <div class="references">
   <h2>Referências</h2>
 
   <ol>
-    <li>NELSON, Victor P. et al. <em>Digital Logic Circuit Analysis and Design</em>. Pearson, 1995</li>
-    <li>MANO, M. Morris; CILETTI, Michael D. <em>Digital Design: With an Introduction to the Verilog HDL, 5.ed. Pearson, 2012.</em></li>
-    <li>KNUTH, Donald E. <em>The Art of Computer Programming, Volume 2. Addison-Wesley Professional, 1997.</em></li>
+    <li>
+      NELSON, Victor P. et al.
+      <em>Digital Logic Circuit Analysis and Design</em>. Pearson, 1995
+    </li>
+    <li>
+      MANO, M. Morris; CILETTI, Michael D.
+      <em
+        >Digital Design: With an Introduction to the Verilog HDL, 5.ed. Pearson,
+        2012.</em
+      >
+    </li>
+    <li>
+      KNUTH, Donald E.
+      <em
+        >The Art of Computer Programming, Volume 2. Addison-Wesley Professional,
+        1997.</em
+      >
+    </li>
   </ol>
 </div>

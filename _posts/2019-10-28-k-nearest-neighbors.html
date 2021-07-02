@@ -11,13 +11,7 @@ mathjax:    true
   The <a href="https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm" target="_blank">k-nearest neighbors</a> algorithm or <b>k-NN</b> is an <a href="https://en.wikipedia.org/wiki/Instance-based_learning" target="_blank">instance-based learning</a> method which is used for both classification and prediction.
 </p>
 
-<div class="content-table">
-  <ul>
-    <li><a href="#knn-intro">Introduction to k-NN</a></li>
-    <li><a href="#knn-class">Classification using k-NN</a></li>
-    <li><a href="#knn-predi">Prediction using k-NN</a></li>
-  </ul>
-</div>
+{%- include content-table.html -%}
 
 <p>
   The main goal of this post is to make a quick description and implementation from scratch as clear and intuitive as possible. All models will be developed using only <em>Python</em> and <a href="http://www.numpy.org/" target="_blank">NumPy</a> and no real dataset will be used (only data biasedly produced) for a better understanding and visualization of the results. Well, let's check it out.
@@ -42,6 +36,7 @@ mathjax:    true
   $$
 </div>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 ldist = ['euclidian', 'manhattan', 'chebyshev', 'canberra', 'cosine']
 
@@ -81,6 +76,7 @@ class Distance(object):
   The implementation of this algorithm is done as a class which inherits the Distance class, previously implemented.
 </p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 class kNNClass(Distance):
   def __init__(self, k=1):
@@ -127,6 +123,7 @@ class kNNClass(Distance):
   On the same way of the classification, the implementation of this algorithm is done as a class which inherits the Distance class.
 </p>
 
+<!-- prettier-ignore -->
 {% highlight python %}
 class kNNRegr(Distance):
   def __init__(self, k=1):
