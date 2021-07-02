@@ -14,35 +14,6 @@
       "---",
     ]
   },
-  "Content Table": {
-    "scope": "html",
-    "prefix": "Include",
-    "body": [
-      "<div class=\"content-table\">",
-      "  <ul>",
-      "    $0",
-      "  </ul>",
-      "</div>",
-    ]
-  },
-  "New \"single\" item to Content Table": {
-    "scope": "html",
-    "prefix": "Include",
-    "body": [
-      "<li><a href=\"#${1:item-id}\">${2:Item Title}</a></li>",
-    ]
-  },
-  "New \"multiple\" item to Content Table": {
-    "scope": "html",
-    "prefix": "Include",
-    "body": [
-      "<li><a href=\"#${1:item-id}\">${2:Item Title}</a>",
-      "  <ul>",
-      "    $3",
-      "  </ul>",
-      "</li>",
-    ]
-  },
   "New Anchor Content": {
     "scope": "html",
     "prefix": "Include",
@@ -59,6 +30,16 @@
       "    $1",
       "  $$",
       "</div>",
+    ]
+  },
+  "New Code Block": {
+    "scope": "html",
+    "prefix": "Include",
+    "body": [
+      "<!-- prettier-ignore -->",
+      "{% highlight ${1|python,javascript|} %}",
+      "  $2",
+      "{% endhighlight %}",
     ]
   }
 }
