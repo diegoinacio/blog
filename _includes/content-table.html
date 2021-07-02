@@ -1,0 +1,30 @@
+<div class="content-table"></div>
+
+<script>
+  window.addEventListener("load", () => {
+    const div = document.querySelector(".content-table");
+
+    const Hs = document.querySelectorAll(".anchor-content");
+
+    const UL = [document.createElement("ul")];
+    div.appendChild(UL[0]);
+
+    for (const [i, e] of Hs.entries()) {
+      const level = parseInt(e.tagName.match(/\d/)[0]);
+      const next = Hs[i + 1] || e;
+      const level_ = parseInt(next.tagName.match(/\d/)[0]);
+
+      const li = document.createElement("li");
+      li.innerHTML = `<a href="#${e.id}">${e.innerText}</a>`;
+      UL.slice(-1)[0].appendChild(li);
+
+      if (level_ > level) {
+        const ul = document.createElement("ul");
+        li.appendChild(ul);
+        UL.push(ul);
+      } else if (level_ < level) {
+        UL.pop();
+      }
+    }
+  });
+</script>
